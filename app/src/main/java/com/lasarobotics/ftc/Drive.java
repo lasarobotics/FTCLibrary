@@ -50,8 +50,8 @@ public class Drive {
      * @param rightBack The motor on the back right
      */
     public static void mecanumArcadeFieldOriented(double y,double x, double c, double gyroheading,DcMotor leftFront,DcMotor rightFront,DcMotor leftBack, DcMotor rightBack){
-        double cosA = java.lang.Math.cos(java.lang.Math.toRadians(Util.normalizeGyro(gyroheading)));
-        double sinA = java.lang.Math.sin(java.lang.Math.toRadians(Util.normalizeGyro(gyroheading)));
+        double cosA = Math.cos(Math.toRadians(Util.normalizeGyro(gyroheading)));
+        double sinA = Math.sin(Math.toRadians(Util.normalizeGyro(gyroheading)));
         double xOut = x * cosA - y * sinA;
         double yOut = x * sinA + y * cosA;
         mecanumArcade(yOut,xOut,c,leftFront,rightFront,leftBack,rightBack);
