@@ -13,8 +13,8 @@ public class Drive {
      * @param rightValue Right motor target value
      */
     public static void tank(DcMotor left, DcMotor right, double leftValue,double rightValue ){
-        left.setPower((leftValue/127)*100);
-        right.setPower((rightValue/127)*100);
+        left.setPower(leftValue*100);
+        right.setPower(rightValue*100);
     }
 
     /**
