@@ -72,10 +72,26 @@ public class Drive {
         mecanumArcade(yOut, xOut, c, leftFront, rightFront, leftBack, rightBack);
     }
 
-    //This is very crude and I have no idea if it works
+    /**
+     *
+     *
+     * CAUTION - NO UNIT TEST
+     * @param y The y-axis of the controller, forward/rev
+     * @param x The x-axis of the controller, strafe
+     * @param rot The spin axis of the controller
+     * @param gyroheading The current normalized gyro heading (between 0 and 360)
+     * @param leftFront The motor on the front left
+     * @param rightFront The motor on the front right
+     * @param leftBack The motor on the back left
+     * @param rightBack The motor on the back right
+     * @param lf The servo on the front left
+     * @param rf The servo on the front right
+     * @param lb The servo on the back left
+     * @param rb The servo on the back right
+     */
     public static void swerve(double y, double x, double rot, double gyroheading, DcMotor leftFront, DcMotor rightFront,DcMotor leftBack, DcMotor rightBack, Servo lf, Servo rf, Servo lb, Servo rb){
-        double cosA = Math.cos(Math.toRadians(Util.normalizeGyro(gyroheading)));
-        double sinA = Math.sin(Math.toRadians(Util.normalizeGyro(gyroheading)));
+        double cosA = Math.cos(Math.toRadians(MathUtil.normalizeGyro(gyroheading)));
+        double sinA = Math.sin(Math.toRadians(MathUtil.normalizeGyro(gyroheading)));
         double xOut = x * cosA - y * sinA;
         double yOut = x * sinA + y * cosA;
 
