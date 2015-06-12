@@ -1,9 +1,9 @@
 package com.lasarobotics.ftc.controller;
 
 /**
- * Created by Ehsan on 6/9/2015.
+ * A button on a controller
  */
-
-public class Button {
+public abstract class Button {
     public ButtonState state;
+    public abstract Boolean isPressed();
 }

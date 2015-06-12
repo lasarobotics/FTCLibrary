@@ -1,12 +1,12 @@
 package com.lasarobotics.ftc.controller;
 
 /**
- * Created by Ehsan on 6/10/2015.
+ * The state of the button
  */
 public enum ButtonState
 {
     NOT_PRESSED,
     PRESSED,
-    HELD,
-    BUMPED
+    RELEASED,
+    HELD
 }
