@@ -1,9 +1,9 @@
-package com.lasarobotics.ftc;
+package com.lasarobotics.ftc.utils;
 
 /**
  *  Mathematical and Precision Utilities
  */
-public class Util {
+public class MathUtil {
     /**
      * Double equality epsilon
      */

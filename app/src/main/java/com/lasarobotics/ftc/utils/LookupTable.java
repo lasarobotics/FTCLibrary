@@ -1,4 +1,4 @@
-package com.lasarobotics.ftc;
+package com.lasarobotics.ftc.utils;
 
 import java.util.Hashtable;
 
