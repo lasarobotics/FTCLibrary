@@ -1,4 +1,4 @@
-package com.lasarobotics.ftc.utils;
+package com.lasarobotics.ftc.util;
 
 /**
  * Distance Units for Encoder Counts to Distance conversion

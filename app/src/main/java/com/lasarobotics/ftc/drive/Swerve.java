@@ -1,6 +1,6 @@
 package com.lasarobotics.ftc.drive;
 
-import com.lasarobotics.ftc.utils.MathUtil;
+import com.lasarobotics.ftc.sensor.Gyroscope;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -31,8 +31,8 @@ public class Swerve {
                               DcMotor leftFront, DcMotor rightFront,DcMotor leftBack, DcMotor rightBack,
                               Servo lf, Servo rf, Servo lb, Servo rb){
         //Makes commands field-centric
-        double cosA = Math.cos(Math.toRadians(MathUtil.normalizeGyro(gyroheading)));
-        double sinA = Math.sin(Math.toRadians(MathUtil.normalizeGyro(gyroheading)));
+        double cosA = Math.cos(Math.toRadians(Gyroscope.normalize(gyroheading)));
+        double sinA = Math.sin(Math.toRadians(Gyroscope.normalize(gyroheading)));
         double xOut = x * cosA - y * sinA;
         double yOut = x * sinA + y * cosA;
 

@@ -1,6 +1,6 @@
 package com.lasarobotics.ftc.controller;
 
-import com.lasarobotics.ftc.utils.MathUtil;
+import com.lasarobotics.ftc.util.MathUtil;
 
 /**
  * A button with weight

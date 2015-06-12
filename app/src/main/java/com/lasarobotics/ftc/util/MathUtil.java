@@ -1,4 +1,4 @@
-package com.lasarobotics.ftc.utils;
+package com.lasarobotics.ftc.util;
 
 /**
  *  Mathematical and Precision Utilities
@@ -72,14 +72,15 @@ public class MathUtil {
     }
 
     /**
-     * Normalize Gyroscope bounds to within 0 and 360
-     * @param gyro The current Gyroscope value
-     * @return The normalized Gyroscope value, between 0 and 360.
+     * Tests if a number is between the bounds, inclusive.
+     *
+     * @param min If less than min, returns false
+     * @param max If greater than max, returns false
+     * @param value Value to test
+     * @return Returns true if value is between (inclusive) min and max, false otherwise.
      */
-    public static double normalizeGyro(double gyro) {
-        if (gyro < 0){
-            return (360 + gyro) % 360;
-        }
-        return gyro % 360;
+    public static boolean inBounds(double min, double max, double value) {
+        return (value > max) ? false : (value < min) ? false : true;
     }
+
 }

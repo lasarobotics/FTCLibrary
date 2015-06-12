@@ -1,19 +1,18 @@
-package com.lasarobotics.ftc.utils;
+package com.lasarobotics.ftc.util;
 
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Ehsan on 6/11/2015.
  */
-public class Timer {
+public class Timers {
     private HashMap<String,Long> store;
     private long precision;
-    public Timer(){
+    public Timers(){
         precision = 5L;
     }
-    public Timer(long precision){
+    public Timers(long precision){
         this.precision = precision;
     }
     public void startClock(String name){
@@ -24,7 +23,7 @@ public class Timer {
             store.put(name,System.nanoTime());
         }
         else{
-            throw new IllegalArgumentException("Timer" + name + " does not exist.");
+            throw new IllegalArgumentException("Timers" + name + " does not exist.");
         }
     }
 
@@ -39,7 +38,7 @@ public class Timer {
            return TimeUnit.MILLISECONDS.convert(Math.abs(System.nanoTime()-start),TimeUnit.NANOSECONDS);
         }
         else{
-            throw new IllegalArgumentException("Timer" + name + " does not exist.");
+            throw new IllegalArgumentException("Timers" + name + " does not exist.");
         }
     }
 
@@ -56,7 +55,7 @@ public class Timer {
             return timeUnit.convert(nanoDiff,TimeUnit.NANOSECONDS);
         }
         else{
-            throw new IllegalArgumentException("Timer" + name + " does not exist.");
+            throw new IllegalArgumentException("Timers" + name + " does not exist.");
         }
     }
 
@@ -67,7 +66,7 @@ public class Timer {
             return milliDiff < precision;
         }
         else{
-            throw new IllegalArgumentException("Timer" + name + " does not exist.");
+            throw new IllegalArgumentException("Timers" + name + " does not exist.");
         }
     }
 

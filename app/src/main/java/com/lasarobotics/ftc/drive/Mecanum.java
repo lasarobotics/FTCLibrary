@@ -1,6 +1,6 @@
 package com.lasarobotics.ftc.drive;
 
-import com.lasarobotics.ftc.utils.MathUtil;
+import com.lasarobotics.ftc.sensor.Gyroscope;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.util.Arrays;
@@ -53,8 +53,8 @@ public final class Mecanum {
      * @param rightBack The motor on the back right
      */
     public static void Arcade_FieldOriented(double y,double x, double c, double gyroheading,DcMotor leftFront,DcMotor rightFront,DcMotor leftBack, DcMotor rightBack){
-        double cosA = Math.cos(Math.toRadians(MathUtil.normalizeGyro(gyroheading)));
-        double sinA = Math.sin(Math.toRadians(MathUtil.normalizeGyro(gyroheading)));
+        double cosA = Math.cos(Math.toRadians(Gyroscope.normalize(gyroheading)));
+        double sinA = Math.sin(Math.toRadians(Gyroscope.normalize(gyroheading)));
         double xOut = x * cosA - y * sinA;
         double yOut = x * sinA + y * cosA;
         Arcade(yOut, xOut, c, leftFront, rightFront, leftBack, rightBack);
