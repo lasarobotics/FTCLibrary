@@ -25,6 +25,12 @@ public class Controller {
     public ButtonFloat left_trigger;
     public ButtonFloat right_trigger;
 
+    //Joysticks don't have any events
+    public float left_stick_x;
+    public float left_stick_y;
+    public float right_stick_x;
+    public float right_stick_y;
+
     public void update(Gamepad g){
         handleUpdate(dpad_up,g.dpad_up);
         handleUpdate(dpad_down,g.dpad_down);
@@ -41,6 +47,11 @@ public class Controller {
         handleUpdate(right_bumper,g.right_bumper);
         handleUpdate(left_trigger,(g.left_trigger) > ButtonFloat.getThreshold());
         handleUpdate(right_trigger,(g.right_trigger) > ButtonFloat.getThreshold());
+
+        left_stick_x = g.left_stick_x;
+        left_stick_y = g.left_stick_y;
+        right_stick_x = g.right_stick_x;
+        right_stick_y = g.right_stick_y;
     }
 
     private void handleUpdate(Button b, boolean updatedstatus) {
