@@ -16,7 +16,7 @@ public class Gyroscope {
     private double velPrevious = 0.0D;
     private double velCurr = 0.0D;
     private double dt = 0.0D;
-    private double offset = 0;
+    private double offset = 0; //the offset for the GYROSCOPE RATE
     private double heading = 0;
     private Timers timers;
     private final String clockName = "gyro";
@@ -58,23 +58,29 @@ public class Gyroscope {
 
 
     /**
-     * Gets the gyroscope rotation in degrees
-     * @return The offset gyroscope rotation in degrees
+     * Gets the gyroscope rotation rate in degrees per second
+     * @return The offset gyroscope rotation in degrees per second
      */
-    public double getRotation()
+    public double getRate()
     {
         return gyroSensor.getRotation() - offset;
     }
 
     /**
      * Gets the gyroscope heading in degrees, between 0 and 360
-     * @param normalize Whether to normailze the heading to between 0 and 360 degrees
-     * @return The gyro heading
+     * @return The gyro heading, between 0 and 360s
      */
-    public double getHeading(boolean normalize)
+    public double getHeading()
     {
-        if(normalize)
-            return normalize(heading);
+        return normalize(heading);
+    }
+
+    /**
+     * Gets the gyroscope rotation in degrees
+     * @return The gyroscope rotation in degrees
+     */
+    public double getRotation()
+    {
         return heading;
     }
 
@@ -105,8 +111,8 @@ public class Gyroscope {
     }
 
     /**
-     * Gets the gyroscope offset.
-     * @return The offset, in degrees.
+     * Gets the gyroscope offset, in degrees per second.
+     * @return The offset, in degrees per second.
      */
     public double getOffset()
     {
@@ -124,6 +130,6 @@ public class Gyroscope {
     @Override
     public String toString() {
         return String.format("Gyroscope - rotation: %3.1f deg, rate: %3.1f deg/s, offset: %3.1f deg, over %1.4f sec\n" +
-                             this.getHeading(), this.getRotation(), offset, this.getTimeDifference());
+                             this.getHeading(), this.getRate(), this.getOffset(), this.getTimeDifference());
     }
 }
