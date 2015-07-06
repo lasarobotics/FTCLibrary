@@ -11,7 +11,7 @@ public class ButtonFloat extends Button {
 
     public static void setThreshold(double threshold)
     {
-        threshold = MathUtil.coerce(0.0D, 1.0D, (double)threshold);
+        threshold = MathUtil.coerce(0.0D, 1.0D, threshold);
     }
     public static double getThreshold() { return threshold; }
 
