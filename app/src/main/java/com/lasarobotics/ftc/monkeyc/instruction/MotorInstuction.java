@@ -12,6 +12,7 @@ public class MotorInstuction implements Instruction {
 
     public MotorInstuction(String name, double power) {
         this.power = power;
+        this.name = name;
     }
 
     public void execute(HardwareMap map){
