@@ -1,9 +1,13 @@
 package com.lasarobotics.ftc.monkeyc;
 
+import com.google.gson.Gson;
+import com.lasarobotics.ftc.monkeyc.instruction.Instruction;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
@@ -12,45 +16,18 @@ import java.util.ArrayList;
  */
 public class MonkeyWrite {
 
-    File file;
-
-    //Write monkey data from MonkeyC to a file
-    MonkeyWrite(File file)
-    {
-        this.file = file;
-    }
-
-    void write(byte[] instruction)
-    {
-        writeFile(file, instruction);
-    }
-
     //TODO static File[] getList();
     //TODO static File[] getList(Directory dir);
 
     //TODO static byte[] getData();
 
-    static void writeFile(File file, ArrayList<byte[]> instructions)
+    public static void writeFile(String filename, ArrayList<Instruction> instructions)
     {
         try {
-            FileOutputStream stream = new FileOutputStream(file);
-            for (byte[] bytes : instructions)
-                stream.write(bytes);
-            stream.flush();
-            stream.close();
-        } catch (IOException e)
-        {
-            return;
-        }
-    }
-
-    static void writeFile(File file, byte[] instruction)
-    {
-        try {
-            FileOutputStream stream = new FileOutputStream(file);
-            stream.write(instruction);
-            stream.flush();
-            stream.close();
+            PrintWriter p = new PrintWriter(new File(filename));
+            Gson g = new Gson();
+            p.write(g.toJson(instructions));
+            p.close();
         } catch (IOException e)
         {
             return;

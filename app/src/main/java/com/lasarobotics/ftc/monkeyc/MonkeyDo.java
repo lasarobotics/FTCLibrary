@@ -1,5 +1,6 @@
 package com.lasarobotics.ftc.monkeyc;
 
+import com.lasarobotics.ftc.monkeyc.instruction.Instruction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -22,35 +23,9 @@ public class MonkeyDo {
         this.mode = mode;
     }
 
-    void run(ArrayList<byte[]> instructions)
+    public void run(ArrayList<Instruction> instructions)
     {
-        for(byte[] instruction : instructions)
-            run(instruction);
-    }
-
-    public void run(byte[] instruction) throws InvalidParameterException
-    {
-        ByteBuffer buffer = ByteBuffer.wrap(instruction);
-
-        //find the action to correspond to the ID
-        byte id = buffer.get();
-        Command.Actions action = null;
-        for (Command.Actions a : Command.Actions.values()) {
-            if (a.getByte() == id) {
-                action = a;
-                break;
-            }
-        }
-        if (action == null)
-            throw new InvalidParameterException("Could not find the proper Action for the instruction id.");
-
-        //get the details for the action
-
-
-        //store temporary instruction buffer
-        this.instruction = buffer.asReadOnlyBuffer();
-
-        //run instruction
-
+        for(Instruction i : instructions)
+            i.execute(map);
     }
 }
