@@ -1,42 +1,67 @@
 package com.lasarobotics.ftc.monkeyc;
 
-import com.lasarobotics.ftc.monkeyc.instruction.Instruction;
+import com.lasarobotics.ftc.monkeyc.command.Command;
 
-import org.apache.http.util.ByteArrayBuffer;
-
-import java.io.File;
 import java.util.ArrayList;
 
 /**
  * The MonkeyC (MonkeySee) library that handles recording and storing driver controls
  * These controls can be inserted during runtime (when the robot is moving)
- * or can be created prior to a match.  MonkeyDo can then execute these instructions.
+ * or can be created prior to a match.  MonkeyDo can then execute these commands.
  */
 public class MonkeyC {
-    ArrayList<Instruction> instructions;
+    ArrayList<Command> commands;
+    MonkeyDo _doPointer = null;
 
     //Create a standalone MonkeyC instance without piping to any output
     public MonkeyC()
     {
-        this.instructions = new ArrayList<Instruction>();
+        this.commands = new ArrayList<Command>();
+        this._doPointer = null;
     }
 
-    public MonkeyC(ArrayList<Instruction> instructions) {
-        this.instructions = instructions;
-    }
-
-    public void add(Instruction i)
+    //Pipe MonkeyC to a MonkeyDo class and run commands directly
+    public MonkeyC(MonkeyDo othermonkey)
     {
-        instructions.add(i);
+        this.commands = new ArrayList<Command>();
+        this._doPointer = othermonkey;
+    }
+
+    public void add(Command instruction)
+    {
+        //Write to the instruction array for writing to disk later
+        commands.add(instruction);
+
+        if (_doPointer != null)
+        {
+            //Perform the actions immediately
+            _doPointer.run(instruction);
+        }
+    }
+
+    public void add(Command[] instructions)
+    {
+        for (Command instruction : instructions)
+            add(instruction);
+    }
+
+    public void add(ArrayList<Command> instructions)
+    {
+        for (Command instruction : instructions)
+            add(instruction);
+    }
+
+    public MonkeyC(ArrayList<Command> commands) {
+        this.commands = commands;
     }
 
     public void clear()
     {
-        instructions.clear();
+        commands.clear();
     }
 
     public void write(String filename)
     {
-        MonkeyWrite.writeFile(filename, instructions);
+        MonkeyWrite.writeFile(filename, commands);
     }
 }
