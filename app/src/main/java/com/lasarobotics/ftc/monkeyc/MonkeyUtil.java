@@ -141,7 +141,7 @@ public class MonkeyUtil {
 
                 @Override
                 public JsonElement serialize(ButtonToggle arg0, Type arg1, JsonSerializationContext arg2) {
-                    // TODO Auto-generated method stub
+                    // TODO Compress this to key-value pairs ONLY
                     JsonObject obj = new JsonObject();
                     if (arg0 != null && arg0.state != null){
                         obj.add("state",new JsonPrimitive(arg0.state.getValue()));
@@ -157,7 +157,7 @@ public class MonkeyUtil {
 
                 @Override
                 public JsonElement serialize(ButtonFloat arg0, Type arg1, JsonSerializationContext arg2) {
-                    // TODO Auto-generated method stub
+                    // TODO Compress this to key-value pairs ONLY
                     JsonObject obj = new JsonObject();
                     if (arg0 != null && arg0.state != null){
                         obj.add("state",new JsonPrimitive(arg0.state.getValue()));
