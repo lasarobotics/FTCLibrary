@@ -15,16 +15,14 @@ import java.util.ArrayList;
  * or can be created prior to a match.  MonkeyDo can then execute these commands.
  */
 public class MonkeyC {
-    ArrayList<MonkeyData> commands1;
-    ArrayList<MonkeyData> commands2;
+    ArrayList<MonkeyData> commands;
     Controller previous1 = new Controller();
     Controller previous2 = new Controller();
     Timers t;
 
     public MonkeyC()
     {
-        this.commands1 = new ArrayList<MonkeyData>();
-        this.commands2 = new ArrayList<MonkeyData>();
+        this.commands = new ArrayList<MonkeyData>();
         t = new Timers();
         t.startClock("global");
     }
@@ -53,7 +51,7 @@ public class MonkeyC {
         this.previous2 = local2;
 
         //Write to the instruction array for writing to disk later
-        commands1.add(data);
+        commands.add(data);
     }
 
     public void add(Gamepad instruction, Gamepad instruction2)
@@ -66,12 +64,11 @@ public class MonkeyC {
 
     public void clear()
     {
-        commands1.clear();
-        commands2.clear();
+        commands.clear();
     }
 
     public void write(String filename,Context context)
     {
-        MonkeyUtil.writeFile(filename, commands1, context);
+        MonkeyUtil.writeFile(filename, commands, context);
     }
 }
