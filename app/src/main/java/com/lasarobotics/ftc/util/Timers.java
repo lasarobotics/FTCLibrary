@@ -7,14 +7,14 @@ import java.util.concurrent.TimeUnit;
  * Implements advanced timers with events and precision manipulation.
  */
 public class Timers {
-    private Hashtable<String,Long> store;
-    private int precision;
+    private Hashtable<String,Long> store = new Hashtable<String,Long>();
+    private int defaultprecision;
 
     /**
      * Instantiates the timer class with the default millisecond precision.
      */
     public Timers(){
-        precision = 5;
+        defaultprecision = 5;
     }
 
     /**
@@ -22,7 +22,7 @@ public class Timers {
      * @param precision Precision of the clock, in milliseconds.
      */
     public Timers(int precision){
-        this.precision = precision;
+        this.defaultprecision = precision;
     }
 
     /**
@@ -87,7 +87,24 @@ public class Timers {
     public boolean isAtTargetMillis(String name, long target){
         if (store.containsKey(name)){
             Long start = store.get(name);
-            long milliDiff = TimeUnit.MILLISECONDS.convert(Math.abs(target - Math.abs(System.nanoTime()-start)),TimeUnit.NANOSECONDS);
+            long milliDiff = TimeUnit.MILLISECONDS.convert(Math.abs(target - getClockValue(name)), TimeUnit.NANOSECONDS);
+            return milliDiff < defaultprecision;
+        }
+        else{
+            throw new IllegalArgumentException("Timer " + name + " does not exist.");
+        }
+    }
+    /**
+     * Returns whether the clock is at the specified amount of milliseconds
+     * @param name The clock name
+     * @param target The target time in milliseconds
+     * @param precision How much target and clock value can differ by
+     * @return True if at the target (+- precision), false otherwise
+     */
+    public boolean isAtTargetMillis(String name, long target,long precision){
+        if (store.containsKey(name)){
+            Long start = store.get(name);
+            long milliDiff = TimeUnit.MILLISECONDS.convert(Math.abs(target - getClockValue(name)),TimeUnit.NANOSECONDS);
             return milliDiff < precision;
         }
         else{
@@ -95,13 +112,12 @@ public class Timers {
         }
     }
 
-
     /**
      * Gets the precision in milliseconds
      * @return Precision in milliseconds
      */
     public long getPrecision() {
-        return precision;
+        return defaultprecision;
     }
 
     /**
@@ -109,6 +125,6 @@ public class Timers {
      * @param precision The precision of the clock, in milliseconds.
      */
     public void setPrecision(int precision) {
-        this.precision = precision;
+        this.defaultprecision = precision;
     }
 }

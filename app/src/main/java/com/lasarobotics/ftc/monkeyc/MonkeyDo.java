@@ -1,10 +1,14 @@
 package com.lasarobotics.ftc.monkeyc;
 
-import com.lasarobotics.ftc.monkeyc.command.Command;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+/**
+ * Created by Ehsan on 7/8/2015.
+ */
 
-import java.nio.ByteBuffer;
+import android.content.Context;
+
+import com.lasarobotics.ftc.controller.Controller;
+import com.lasarobotics.ftc.util.Timers;
+import com.qualcomm.robotcore.robocol.Command;
 import java.util.ArrayList;
 
 /**
@@ -12,23 +16,27 @@ import java.util.ArrayList;
  */
 public class MonkeyDo {
 
-    HardwareMap map;
-    OpMode mode;
-
-    public MonkeyDo(HardwareMap map, OpMode mode)
+    ArrayList<MonkeyData> commands;
+    public Timers t;
+    public MonkeyDo(String filename,Context context)
     {
-        this.map = map;
-        this.mode = mode;
+        commands = MonkeyUtil.readFile(filename,context);
+        t = new Timers();
+        t.startClock("global");
     }
 
-    public void run(Command command)
+    public MonkeyData getNextCommand()
     {
-        command.execute(map, mode);
-    }
-
-    public void run(ArrayList<Command> commands)
-    {
-        for(Command i : commands)
-            run(i);
+        for( int i = 0; i < commands.size();i++){
+            if (i+1 == commands.size()){
+                return null;
+            }
+            MonkeyData next = commands.get(i+1);
+            MonkeyData current = commands.get(i);
+            if (next.time >= t.getClockValue("global") &&  t.getClockValue("global") >= current.time){
+                return current;
+            }
+        }
+        return null;
     }
 }

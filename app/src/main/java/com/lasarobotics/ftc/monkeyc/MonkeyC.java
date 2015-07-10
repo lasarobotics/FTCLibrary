@@ -1,6 +1,11 @@
 package com.lasarobotics.ftc.monkeyc;
 
-import com.lasarobotics.ftc.monkeyc.command.Command;
+import android.content.Context;
+import android.util.Log;
+
+import com.lasarobotics.ftc.controller.Controller;
+import com.lasarobotics.ftc.util.Timers;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.util.ArrayList;
 
@@ -10,58 +15,44 @@ import java.util.ArrayList;
  * or can be created prior to a match.  MonkeyDo can then execute these commands.
  */
 public class MonkeyC {
-    ArrayList<Command> commands;
-    MonkeyDo _doPointer = null;
-
+    ArrayList<MonkeyData> commands;
+    Timers t;
     //Create a standalone MonkeyC instance without piping to any output
     public MonkeyC()
     {
-        this.commands = new ArrayList<Command>();
-        this._doPointer = null;
+        this.commands = new ArrayList<MonkeyData>();
+        t = new Timers();
+        t.startClock("global");
     }
-
-    //Pipe MonkeyC to a MonkeyDo class and run commands directly
-    public MonkeyC(MonkeyDo othermonkey)
+    public void add(Controller instruction,Controller instruction2)
     {
-        this.commands = new ArrayList<Command>();
-        this._doPointer = othermonkey;
-    }
+        //Make copy of controller
+        Controller local = new Controller(instruction);
+        Controller local2 = new Controller(instruction2);
+        float time = t.getClockValue("global");
+        MonkeyData temp = new MonkeyData(local,local2,time);
 
-    public void add(Command instruction)
-    {
         //Write to the instruction array for writing to disk later
-        commands.add(instruction);
-
-        if (_doPointer != null)
-        {
-            //Perform the actions immediately
-            _doPointer.run(instruction);
-        }
+        commands.add(temp);
     }
-
-    public void add(Command[] instructions)
+    public void add(Gamepad instruction,Gamepad instruction2)
     {
-        for (Command instruction : instructions)
-            add(instruction);
-    }
+        //Make copy of controller
+        Controller local = new Controller(instruction);
+        Controller local2 = new Controller(instruction2);
+        float time = t.getClockValue("global");
+        MonkeyData temp = new MonkeyData(local,local2,time);
 
-    public void add(ArrayList<Command> instructions)
-    {
-        for (Command instruction : instructions)
-            add(instruction);
+        //Write to the instruction array for writing to disk later
+        commands.add(temp);
     }
-
-    public MonkeyC(ArrayList<Command> commands) {
-        this.commands = commands;
-    }
-
     public void clear()
     {
         commands.clear();
     }
 
-    public void write(String filename)
+    public void write(String filename,Context context)
     {
-        MonkeyWrite.writeFile(filename, commands);
+        MonkeyUtil.writeFile(filename,commands, context);
     }
 }
