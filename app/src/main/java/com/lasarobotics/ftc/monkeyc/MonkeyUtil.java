@@ -2,7 +2,6 @@ package com.lasarobotics.ftc.monkeyc;
 
 import android.content.Context;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -14,23 +13,16 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 import com.lasarobotics.ftc.controller.ButtonFloat;
-import com.lasarobotics.ftc.controller.ButtonState;
 import com.lasarobotics.ftc.controller.ButtonToggle;
 import com.lasarobotics.ftc.controller.Controller;
-import com.qualcomm.robotcore.robocol.Command;
-
-import junit.framework.Test;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,6 +35,80 @@ public class MonkeyUtil {
     //TODO static File[] getList(Directory dir);
 
     //TODO static byte[] getData();
+
+    private static MonkeyDelta<Boolean>[] getButtonDeltas(Controller current, Controller previous)
+    {
+        //Get values
+        Hashtable<String, Boolean> button_current = current.getAllButtonValues();
+        Hashtable<String, Boolean> button_previous = previous.getAllButtonValues();
+
+        //Create delta array
+        ArrayList<MonkeyDelta<Boolean>> deltas = new ArrayList<>();
+
+        //Test if anything was changed
+        boolean changed = false;
+
+        //Compare buttons
+        for (int i=0; i<button_current.size(); i++)
+        {
+            String key = button_current.keys().nextElement();
+            Boolean cur = button_current.get(key);
+            Boolean prev = button_previous.get(key);
+            if (cur != prev)
+            {
+                changed = true;
+                deltas.add(new MonkeyDelta<Boolean>(key, cur));
+            }
+        }
+
+        if (!changed)
+            return null;
+
+        //Get array
+        MonkeyDelta<Boolean>[] arr = new MonkeyDelta[] { };
+        return deltas.toArray(arr);
+    }
+
+    private static MonkeyDelta<Float>[] getJoystickDeltas(Controller current, Controller previous)
+    {
+        //Get values
+        Hashtable<String, Float> joystick_current = current.getAllJoystickValues();
+        Hashtable<String, Float> joystick_previous = previous.getAllJoystickValues();
+
+        //Create delta array
+        ArrayList<MonkeyDelta<Float>> deltas = new ArrayList<>();
+
+        //Test if anything was changed
+        boolean changed = false;
+
+        //Compare joysticks
+        for (int i=0; i<joystick_current.size(); i++)
+        {
+            String key = joystick_current.keys().nextElement();
+            Float cur = joystick_current.get(key);
+            Float prev = joystick_previous.get(key);
+            if (cur != prev)
+            {
+                changed = true;
+                deltas.add(new MonkeyDelta<Float>(key, cur));
+            }
+        }
+
+        if (!changed)
+            return null;
+
+        //Get array
+        MonkeyDelta<Float>[] arr = new MonkeyDelta[] { };
+        return deltas.toArray(arr);
+    }
+
+    static MonkeyData createDeltas(Controller current1, Controller previous1, Controller current2, Controller previous2, long time)
+    {
+        return new MonkeyData(getButtonDeltas(current1, previous1), getJoystickDeltas(current1, previous1),
+                              getButtonDeltas(current2, previous2), getJoystickDeltas(current2, previous2), time);
+    }
+
+    //static Controller[] deserializeDeltas(Controller[] controller)
 
     public static void writeFile(String filename, ArrayList<MonkeyData> commands,Context context)
     {

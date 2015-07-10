@@ -2,6 +2,9 @@ package com.lasarobotics.ftc.controller;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import java.lang.reflect.Field;
+import java.util.Hashtable;
+
 /**
  * Implements a functional controller with an event API
  */
@@ -95,6 +98,8 @@ public class Controller {
                 b.state = ButtonState.NOT_PRESSED;
         }
     }
+
+    //TODO make an abstract button class so we don't have two duplicate methods
     private void handleUpdate(ButtonFloat b, boolean updatedstatus) {
         if (updatedstatus){
             if(b.state == ButtonState.NOT_PRESSED || b.state == ButtonState.RELEASED)
@@ -107,6 +112,83 @@ public class Controller {
                 b.state = ButtonState.RELEASED;
             if (b.state == ButtonState.RELEASED)
                 b.state = ButtonState.NOT_PRESSED;
+        }
+    }
+
+    public Hashtable<String, Boolean> getAllButtonValues()
+    {
+        Hashtable<String,Boolean> table = new Hashtable<>();
+        table.put("du", dpad_up.isPressed());
+        table.put("dd", dpad_down.isPressed());
+        table.put("dl", dpad_left.isPressed());
+        table.put("dr", dpad_right.isPressed());
+        table.put("a", a.isPressed());
+        table.put("b", b.isPressed());
+        table.put("x", x.isPressed());
+        table.put("y", y.isPressed());
+        table.put("guide", guide.isPressed());
+        table.put("start", start.isPressed());
+        table.put("back", back.isPressed());
+        table.put("bl", left_bumper.isPressed());
+        table.put("br", right_bumper.isPressed());
+        table.put("tl", left_trigger.isPressed());
+        table.put("tr", right_trigger.isPressed());
+        return table;
+    }
+    public Hashtable<String, Float> getAllJoystickValues()
+    {
+        Hashtable<String,Float> table = new Hashtable<>();
+        table.put("lx", left_stick_x);
+        table.put("ly", left_stick_y);
+        table.put("rx", right_stick_x);
+        table.put("ry", right_stick_y);
+        return table;
+    }
+
+    public void setState(String id, int value)
+    {
+        switch(id)
+        {
+            case "du":
+                handleUpdate(dpad_up, value == 1); break;
+            case "dd":
+                handleUpdate(dpad_down, value == 1); break;
+            case "dl":
+                handleUpdate(dpad_left, value == 1); break;
+            case "dr":
+                handleUpdate(dpad_right, value == 1); break;
+            case "a":
+                handleUpdate(a, value == 1); break;
+            case "b":
+                handleUpdate(b, value == 1); break;
+            case "x":
+                handleUpdate(x, value == 1); break;
+            case "y":
+                handleUpdate(y, value == 1); break;
+            case "guide":
+                handleUpdate(guide, value == 1); break;
+            case "start":
+                handleUpdate(start, value == 1); break;
+            case "back":
+                handleUpdate(back, value == 1); break;
+            case "bl":
+                handleUpdate(left_bumper, value == 1); break;
+            case "br":
+                handleUpdate(right_bumper, value == 1); break;
+            case "tl":
+                handleUpdate(left_trigger, value == 1); break;
+            case "tr":
+                handleUpdate(right_trigger, value == 1); break;
+            case "lx":
+                left_stick_x = (float)value; break;
+            case "ly":
+                left_stick_y = (float)value; break;
+            case "rx":
+                right_stick_x = (float)value; break;
+            case "ry":
+                right_stick_y = (float)value; break;
+            default:
+                return;
         }
     }
 }

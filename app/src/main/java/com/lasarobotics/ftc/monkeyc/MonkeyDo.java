@@ -1,14 +1,9 @@
 package com.lasarobotics.ftc.monkeyc;
 
-/**
- * Created by Ehsan on 7/8/2015.
- */
-
 import android.content.Context;
 
-import com.lasarobotics.ftc.controller.Controller;
 import com.lasarobotics.ftc.util.Timers;
-import com.qualcomm.robotcore.robocol.Command;
+
 import java.util.ArrayList;
 
 /**
