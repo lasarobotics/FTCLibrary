@@ -13,8 +13,13 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 import com.lasarobotics.ftc.controller.ButtonFloat;
+import com.lasarobotics.ftc.controller.ButtonState;
 import com.lasarobotics.ftc.controller.ButtonToggle;
 import com.lasarobotics.ftc.controller.Controller;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,7 +28,9 @@ import java.io.FileWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -36,99 +43,61 @@ public class MonkeyUtil {
 
     //TODO static byte[] getData();
 
-    private static MonkeyDelta<Boolean>[] getButtonDeltas(Controller current, Controller previous)
-    {
-        //Get values
-        Hashtable<String, Boolean> button_current = current.getAllButtonValues();
-        Hashtable<String, Boolean> button_previous = previous.getAllButtonValues();
-
-        //Create delta array
-        ArrayList<MonkeyDelta<Boolean>> deltas = new ArrayList<>();
-
+    private static JSONObject getDeltas(Controller current, Controller previous) throws JSONException {
+        Gson g = getGson();
+        JSONObject currentjson = new JSONObject(g.toJson(current));
+        JSONObject previousjson = new JSONObject(g.toJson(previous));
+        JSONObject out = new JSONObject();
         //Test if anything was changed
         boolean changed = false;
+        Iterator<?> keys = previousjson.keys();
+        while (keys.hasNext()) {
 
-        //Compare buttons
-        for (int i=0; i<button_current.size(); i++)
-        {
-            String key = button_current.keys().nextElement();
-            Boolean cur = button_current.get(key);
-            Boolean prev = button_previous.get(key);
-            if (cur != prev)
-            {
+            String key = (String) keys.next();
+            String cur = currentjson.get(key).toString();
+            String prev = previousjson.get(key).toString();
+            if (!cur.equals(prev)) {
                 changed = true;
-                deltas.add(new MonkeyDelta<Boolean>(key, cur));
+                try {
+                    out.put(key, new JSONObject(cur));
+                } catch (Exception e) {
+                    out.put(key, cur);
+                }
             }
         }
 
         if (!changed)
             return null;
-
-        //Get array
-        MonkeyDelta<Boolean>[] arr = new MonkeyDelta[] { };
-        return deltas.toArray(arr);
+        return out;
     }
 
-    private static MonkeyDelta<Float>[] getJoystickDeltas(Controller current, Controller previous)
-    {
-        //Get values
-        Hashtable<String, Float> joystick_current = current.getAllJoystickValues();
-        Hashtable<String, Float> joystick_previous = previous.getAllJoystickValues();
-
-        //Create delta array
-        ArrayList<MonkeyDelta<Float>> deltas = new ArrayList<>();
-
-        //Test if anything was changed
-        boolean changed = false;
-
-        //Compare joysticks
-        for (int i=0; i<joystick_current.size(); i++)
-        {
-            String key = joystick_current.keys().nextElement();
-            Float cur = joystick_current.get(key);
-            Float prev = joystick_previous.get(key);
-            if (cur != prev)
-            {
-                changed = true;
-                deltas.add(new MonkeyDelta<Float>(key, cur));
-            }
+    public static MonkeyData createDeltas(Controller current1, Controller previous1, Controller current2, Controller previous2, long time) {
+        try {
+            return new MonkeyData(getDeltas(current1, previous1), getDeltas(current2, previous2), time);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-        if (!changed)
-            return null;
-
-        //Get array
-        MonkeyDelta<Float>[] arr = new MonkeyDelta[] { };
-        return deltas.toArray(arr);
-    }
-
-    static MonkeyData createDeltas(Controller current1, Controller previous1, Controller current2, Controller previous2, long time)
-    {
-        return new MonkeyData(getButtonDeltas(current1, previous1), getJoystickDeltas(current1, previous1),
-                              getButtonDeltas(current2, previous2), getJoystickDeltas(current2, previous2), time);
+        return null;
     }
 
     //static Controller[] deserializeDeltas(Controller[] controller)
 
-    public static void writeFile(String filename, ArrayList<MonkeyData> commands,Context context)
-    {
+    public static void writeFile(String filename, ArrayList<MonkeyData> commands, Context context) {
         try {
-            Type listOfTestObject = new TypeToken<List<MonkeyData>>(){}.getType();
-            Type buttontoggle = (new TypeToken<ButtonToggle>(){}).getType();
-            Type buttonfloat = (new TypeToken<ButtonFloat>(){}).getType();
+            Type listOfTestObject = new TypeToken<List<MonkeyData>>() {
+            }.getType();
 
             File dir = new File(FILE_DIR);
             File file = new File(FILE_DIR, filename);
-            Log.d("ftc",file.getAbsolutePath() + "");
+            Log.d("ftc", file.getAbsolutePath() + "");
 
-            if (!dir.exists()){
+            if (!dir.exists()) {
                 dir.mkdirs();
             }
             // if file doesnt exists, then create it
             if (!file.exists()) {
                 file.createNewFile();
-            }
-            else {
+            } else {
                 int i = 0;
                 while (file.exists()) {
                     file = new File(FILE_DIR, filename + "." + i);
@@ -136,63 +105,69 @@ public class MonkeyUtil {
                 }
                 file.createNewFile();
             }
-            GsonBuilder gb = new GsonBuilder();
-            gb.registerTypeAdapter(buttontoggle, new JsonSerializer<ButtonToggle>(){
-
-                @Override
-                public JsonElement serialize(ButtonToggle arg0, Type arg1, JsonSerializationContext arg2) {
-                    // TODO Compress this to key-value pairs ONLY
-                    JsonObject obj = new JsonObject();
-                    if (arg0 != null && arg0.state != null){
-                        obj.add("state",new JsonPrimitive(arg0.state.getValue()));
-                    }
-                    else{
-                        obj.add("state",new JsonPrimitive(-1));
-                    }
-                    return obj;
-                }
-
-            });
-            gb.registerTypeAdapter(buttonfloat, new JsonSerializer<ButtonFloat>(){
-
-                @Override
-                public JsonElement serialize(ButtonFloat arg0, Type arg1, JsonSerializationContext arg2) {
-                    // TODO Compress this to key-value pairs ONLY
-                    JsonObject obj = new JsonObject();
-                    if (arg0 != null && arg0.state != null){
-                        obj.add("state",new JsonPrimitive(arg0.state.getValue()));
-                    }
-                    else{
-                        obj.add("state",new JsonPrimitive(-1));
-                    }
-                    obj.add("value",new JsonPrimitive(arg0.value));
-                    return obj;
-                }
-
-            });
-            Gson g = gb.create();
+            Gson g = getGson();
             String out = g.toJson(commands, listOfTestObject);
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(out);
             bw.close();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static ArrayList<MonkeyData> readFile(String filename,Context context) {
+    private static Gson getGson() {
+        Type buttontoggle = (new TypeToken<ButtonToggle>() {
+        }).getType();
+        Type buttonfloat = (new TypeToken<ButtonFloat>() {
+        }).getType();
+        GsonBuilder gb = new GsonBuilder();
+        gb.registerTypeAdapter(buttontoggle, new JsonSerializer<ButtonToggle>() {
+
+            @Override
+            public JsonElement serialize(ButtonToggle arg0, Type arg1, JsonSerializationContext arg2) {
+                // TODO Compress this to key-value pairs ONLY
+                JsonObject obj = new JsonObject();
+                if (arg0 != null && arg0.state != null) {
+                    obj.add("state", new JsonPrimitive(arg0.state.getValue()));
+                } else {
+                    obj.add("state", new JsonPrimitive(-1));
+                }
+                return obj;
+            }
+
+        });
+        gb.registerTypeAdapter(buttonfloat, new JsonSerializer<ButtonFloat>() {
+
+            @Override
+            public JsonElement serialize(ButtonFloat arg0, Type arg1, JsonSerializationContext arg2) {
+                // TODO Compress this to key-value pairs ONLY
+                JsonObject obj = new JsonObject();
+                if (arg0 != null && arg0.state != null) {
+                    obj.add("state", new JsonPrimitive(arg0.state.getValue()));
+                } else {
+                    obj.add("state", new JsonPrimitive(-1));
+                }
+                obj.add("value", new JsonPrimitive(arg0.value));
+                return obj;
+            }
+
+        });
+        return gb.create();
+    }
+
+    public static ArrayList<MonkeyData> readFile(String filename, Context context) {
         File file = new File(FILE_DIR, filename);
         String out = "";
         ArrayList<MonkeyData> commands = new ArrayList<MonkeyData>();
         try {
             Scanner s = new Scanner(file);
-            while (s.hasNextLine()){
+            while (s.hasNextLine()) {
                 out += s.nextLine();
             }
-            Type listOfTestObject = new TypeToken<List<MonkeyData>>(){}.getType();
-            commands = new Gson().fromJson(out,listOfTestObject);
+            Type listOfTestObject = new TypeToken<List<MonkeyData>>() {
+            }.getType();
+            commands = new Gson().fromJson(out, listOfTestObject);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

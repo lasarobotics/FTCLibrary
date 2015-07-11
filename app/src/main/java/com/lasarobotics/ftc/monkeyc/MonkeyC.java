@@ -3,6 +3,7 @@ package com.lasarobotics.ftc.monkeyc;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.lasarobotics.ftc.controller.ButtonState;
 import com.lasarobotics.ftc.controller.Controller;
 import com.lasarobotics.ftc.util.Timers;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -47,8 +48,8 @@ public class MonkeyC {
         MonkeyData data = MonkeyUtil.createDeltas(local1, previous1, local2, previous2, time);
 
         //Update previous values to current values
-        this.previous1 = local1;
-        this.previous2 = local2;
+        this.previous1 = new Controller(local1);
+        this.previous2 = new Controller(local2);
 
         //Write to the instruction array for writing to disk later
         commands.add(data);

@@ -3,13 +3,21 @@ package com.lasarobotics.ftc.controller;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Implements a functional controller with an event API
  */
 public class Controller {
 
+    private static final Map<Integer, ButtonState> intToButtonStateMap = new HashMap<Integer, ButtonState>();
+    static {
+        for (ButtonState type : ButtonState.values()) {
+            intToButtonStateMap.put(type.getValue(), type);
+        }
+    }
     public ButtonToggle dpad_up = new ButtonToggle();
     public ButtonToggle dpad_down = new ButtonToggle();
     public ButtonToggle dpad_left = new ButtonToggle();
@@ -36,21 +44,45 @@ public class Controller {
     public Controller() {
     }
     public Controller(Controller another) {
-        this.dpad_up = another.dpad_up;
-        this.dpad_down = another.dpad_down;
-        this.dpad_left = another.dpad_left;
-        this.dpad_right = another.dpad_right;
-        this.a = another.a;
-        this.b = another.b;
-        this.x = another.x;
-        this.y = another.y;
-        this.guide = another.guide;
-        this.start = another.start;
-        this.back = another.back;
+        this.dpad_up = new ButtonToggle();
+        this.dpad_up.state = intToButtonStateMap.get(dpad_up.state.getValue());
+
+        this.dpad_down = new ButtonToggle();
+        this.dpad_down.state = intToButtonStateMap.get(dpad_down.state.getValue());
+
+        this.dpad_left = new ButtonToggle();
+        this.dpad_left.state = intToButtonStateMap.get(dpad_left.state.getValue());
+
+        this.dpad_right = new ButtonToggle();
+        this.dpad_right.state  = intToButtonStateMap.get(dpad_right.state.getValue());
+
+        this.a = new ButtonToggle();
+        this.a.state  = intToButtonStateMap.get(a.state.getValue());
+
+        this.b = new ButtonToggle();
+        this.b.state  = intToButtonStateMap.get(b.state.getValue());
+
+        this.x = new ButtonToggle();
+        this.x.state  = intToButtonStateMap.get(x.state.getValue());
+
+        this.y = new ButtonToggle();
+        this.y.state  = intToButtonStateMap.get(y.state.getValue());
+
+        this.guide = new ButtonToggle();
+        this.guide.state  = intToButtonStateMap.get(guide.state.getValue());
+
+        this.start = new ButtonToggle();
+        this.start.state  = intToButtonStateMap.get(start.state.getValue());
+
+        this.back = new ButtonToggle();
+        this.back.state  = intToButtonStateMap.get(back.state.getValue());
+
         this.left_bumper = another.left_bumper;
         this.right_bumper = another.right_bumper;
         this.left_trigger = another.left_trigger;
-        this.right_trigger = another.right_trigger;
+        this.right_trigger = new ButtonFloat();
+        this.right_trigger.value = another.right_trigger.value;
+
         this.left_stick_x = another.left_stick_x;
         this.left_stick_y = another.left_stick_y;
         this.right_stick_x = another.right_stick_x;
