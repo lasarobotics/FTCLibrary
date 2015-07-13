@@ -1,9 +1,14 @@
 package com.lasarobotics.ftc.monkeyc;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.lasarobotics.ftc.controller.Controller;
+import com.lasarobotics.ftc.util.Constants;
 
 import org.json.JSONObject;
+
+import java.util.Iterator;
 
 /**
  * Contains a single time-stamped patched state of one Controller
@@ -13,61 +18,101 @@ public class MonkeyData {
 
 
     @SerializedName("g1")
-    JSONObject deltas_gamepad1;
+    private JsonObject deltasGamepad1;
     @SerializedName("g2")
-    JSONObject deltas_gamepad2;
+    private JsonObject deltasGamepad2;
     @SerializedName("t")
-    long time;
+    private long time;
 
     MonkeyData()
     {
-        deltas_gamepad1 = null;
-        deltas_gamepad2 = null;
-        time = 0;
+        deltasGamepad1 = null;
+        deltasGamepad2 = null;
+        time = -1;
     }
 
-    MonkeyData( JSONObject deltas_gamepad1, JSONObject deltas_gamepad2, long time) {
-        this.deltas_gamepad1 = deltas_gamepad1;
-        this.deltas_gamepad2 = deltas_gamepad2;
+    MonkeyData( JsonObject deltasGamepad1, JsonObject deltasGamepad2, long time) {
+        this.deltasGamepad1 = deltasGamepad1;
+        this.deltasGamepad2 = deltasGamepad2;
         this.time = time;
     }
 
-//    Controller[] getNextState(Controller previous1, Controller previous2) {
-//        if (hasUpdate()) return new Controller[] { previous1, previous2 };
-//
-//        Controller[] updated = new Controller[] { previous1, previous2 };
-//
-//        if (previous1 != null) {
-//            for (MonkeyDelta<Boolean> b : deltas_button1)
-//                updated[0].setState(b.variable, b.value ? 1 : 0);
-//            for (MonkeyDelta<Float> f : deltas_joystick1)
-//                updated[0].setState(f.variable, ((Float) f.value).intValue());
-//        }
-//        if (previous2 != null) {
-//            for (MonkeyDelta<Boolean> b : deltas_button2)
-//                updated[1].setState(b.variable, b.value ? 1 : 0);
-//            for (MonkeyDelta<Float> f : deltas_joystick2)
-//                updated[1].setState(f.variable, ((Float) f.value).intValue());
-//        }
-//        return updated;
-//    }
-//
-//    public Controller updateControllerOne(Controller previous)
-//    {
-//        return getNextState(previous, null)[0];
-//    }
-//
-//    public Controller updateControllerTwo(Controller previous)
-//    {
-//        return getNextState(null, previous)[1];
-//    }
-//
-//    public boolean hasUpdate()
-//    {
-//        return ((deltas_button1 == null) && (deltas_joystick1 == null) &&
-//                (deltas_button2 == null) && (deltas_joystick2 == null));
-//    }
 
+    public Controller updateControllerOne(Controller previous)
+    {
+        if ( deltasGamepad1 != null) {
+            Gson g = new Gson();
+            try {
+                JSONObject previousjson = new JSONObject(g.toJson(previous));
+                JSONObject patch = new JSONObject(deltasGamepad1.toString());
+                Iterator<?> keys = patch.keys();
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    previousjson.remove(key);
+                    previousjson.put(key, patch.get(key));
+                }
+                return g.fromJson(previousjson.toString(), Controller.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return previous;
+        }
+        else{
+            return previous;
+        }
+    }
+
+    public Controller updateControllerTwo(Controller previous)
+    {
+        if ( deltasGamepad2 != null) {
+            Gson g = new Gson();
+            try {
+                JSONObject previousjson = new JSONObject(g.toJson(previous));
+                JSONObject patch = new JSONObject(deltasGamepad2.toString());
+                Iterator<?> keys = patch.keys();
+                while (keys.hasNext()) {
+                    String key = (String) keys.next();
+                    previousjson.remove(key);
+                    previousjson.put(key, patch.get(key));
+                }
+                return g.fromJson(previousjson.toString(), Controller.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return previous;
+        }
+        else{
+            return previous;
+        }
+    }
+    public boolean hasUpdate(){
+        if (deltasGamepad1 != null || deltasGamepad2 != null){
+            return true;
+        }
+        if (time == Constants.MONKEYC_STARTING_CONSTANT){
+            return true;
+        }
+        return false;
+    }
+    public JsonObject getDeltasGamepad1() {
+        return deltasGamepad1;
+    }
+
+    public void setDeltasGamepad1(JsonObject deltasGamepad1) {
+        this.deltasGamepad1 = deltasGamepad1;
+    }
+
+    public JsonObject getDeltasGamepad2() {
+        return deltasGamepad2;
+    }
+
+    public void setDeltasGamepad2(JsonObject deltasGamepad2) {
+        this.deltasGamepad2 = deltasGamepad2;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
     public long getTime()
     {
         return time;

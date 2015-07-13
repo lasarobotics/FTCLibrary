@@ -98,7 +98,7 @@ public class Timers {
      * Returns whether the clock is at the specified amount of milliseconds
      * @param name The clock name
      * @param target The target time in milliseconds
-     * @param precision How much target and clock value can differ by
+     * @param precision How much target and clock value can differ by in milliseconds
      * @return True if at the target (+- precision), false otherwise
      */
     public boolean isAtTargetMillis(String name, long target,long precision){

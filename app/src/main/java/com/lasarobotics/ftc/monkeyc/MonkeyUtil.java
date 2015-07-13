@@ -6,18 +6,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
-import com.lasarobotics.ftc.controller.ButtonFloat;
-import com.lasarobotics.ftc.controller.ButtonState;
-import com.lasarobotics.ftc.controller.ButtonToggle;
 import com.lasarobotics.ftc.controller.Controller;
 
-import org.json.JSONArray;
+
+import com.google.gson.JsonObject;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,10 +21,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -38,31 +30,24 @@ import java.util.Scanner;
  */
 public class MonkeyUtil {
     public final static String FILE_DIR = Environment.getExternalStorageDirectory() + "/MonkeyC/";
-    //TODO static File[] getList();
-    //TODO static File[] getList(Directory dir);
 
-    //TODO static byte[] getData();
 
-    private static JSONObject getDeltas(Controller current, Controller previous) throws JSONException {
+    private static JsonObject getDeltas(Controller current, Controller previous) throws JSONException {
         Gson g = getGson();
-        JSONObject currentjson = new JSONObject(g.toJson(current));
+        JSONObject currentjson = new JSONObject(g.toJson(current)) ;
         JSONObject previousjson = new JSONObject(g.toJson(previous));
-        JSONObject out = new JSONObject();
+        JsonObject out = new JsonObject();
         //Test if anything was changed
         boolean changed = false;
         Iterator<?> keys = previousjson.keys();
         while (keys.hasNext()) {
 
             String key = (String) keys.next();
-            String cur = currentjson.get(key).toString();
-            String prev = previousjson.get(key).toString();
-            if (!cur.equals(prev)) {
+            double cur = currentjson.getDouble(key);
+            double prev = previousjson.getDouble(key);
+            if (!(cur == prev)) {
                 changed = true;
-                try {
-                    out.put(key, new JSONObject(cur));
-                } catch (Exception e) {
-                    out.put(key, cur);
-                }
+                out.addProperty(key,cur);
             }
         }
 
@@ -80,7 +65,6 @@ public class MonkeyUtil {
         return null;
     }
 
-    //static Controller[] deserializeDeltas(Controller[] controller)
 
     public static void writeFile(String filename, ArrayList<MonkeyData> commands, Context context) {
         try {
@@ -116,45 +100,6 @@ public class MonkeyUtil {
         }
     }
 
-    private static Gson getGson() {
-        Type buttontoggle = (new TypeToken<ButtonToggle>() {
-        }).getType();
-        Type buttonfloat = (new TypeToken<ButtonFloat>() {
-        }).getType();
-        GsonBuilder gb = new GsonBuilder();
-        gb.registerTypeAdapter(buttontoggle, new JsonSerializer<ButtonToggle>() {
-
-            @Override
-            public JsonElement serialize(ButtonToggle arg0, Type arg1, JsonSerializationContext arg2) {
-                // TODO Compress this to key-value pairs ONLY
-                JsonObject obj = new JsonObject();
-                if (arg0 != null && arg0.state != null) {
-                    obj.add("state", new JsonPrimitive(arg0.state.getValue()));
-                } else {
-                    obj.add("state", new JsonPrimitive(-1));
-                }
-                return obj;
-            }
-
-        });
-        gb.registerTypeAdapter(buttonfloat, new JsonSerializer<ButtonFloat>() {
-
-            @Override
-            public JsonElement serialize(ButtonFloat arg0, Type arg1, JsonSerializationContext arg2) {
-                // TODO Compress this to key-value pairs ONLY
-                JsonObject obj = new JsonObject();
-                if (arg0 != null && arg0.state != null) {
-                    obj.add("state", new JsonPrimitive(arg0.state.getValue()));
-                } else {
-                    obj.add("state", new JsonPrimitive(-1));
-                }
-                obj.add("value", new JsonPrimitive(arg0.value));
-                return obj;
-            }
-
-        });
-        return gb.create();
-    }
 
     public static ArrayList<MonkeyData> readFile(String filename, Context context) {
         File file = new File(FILE_DIR, filename);
@@ -172,5 +117,10 @@ public class MonkeyUtil {
             e.printStackTrace();
         }
         return commands;
+    }
+
+    private static Gson getGson() {
+        GsonBuilder gb = new GsonBuilder();
+        return gb.create();
     }
 }

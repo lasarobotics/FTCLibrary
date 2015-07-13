@@ -3,7 +3,6 @@ package com.lasarobotics.ftc.monkeyc;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.lasarobotics.ftc.controller.ButtonState;
 import com.lasarobotics.ftc.controller.Controller;
 import com.lasarobotics.ftc.util.Timers;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -16,9 +15,9 @@ import java.util.ArrayList;
  * or can be created prior to a match.  MonkeyDo can then execute these commands.
  */
 public class MonkeyC {
-    ArrayList<MonkeyData> commands;
-    Controller previous1 = new Controller();
-    Controller previous2 = new Controller();
+    private ArrayList<MonkeyData> commands;
+    private Controller previous1 = new Controller();
+    private Controller previous2 = new Controller();
     Timers t;
 
     public MonkeyC()
@@ -52,7 +51,8 @@ public class MonkeyC {
         this.previous2 = new Controller(local2);
 
         //Write to the instruction array for writing to disk later
-        commands.add(data);
+        if (data.getDeltasGamepad1() != null || data.getDeltasGamepad2() != null )
+            commands.add(data);
     }
 
     public void add(Gamepad instruction, Gamepad instruction2)
@@ -71,5 +71,8 @@ public class MonkeyC {
     public void write(String filename,Context context)
     {
         MonkeyUtil.writeFile(filename, commands, context);
+    }
+    public int size(){
+        return commands.size();
     }
 }
