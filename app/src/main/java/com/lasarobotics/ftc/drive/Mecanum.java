@@ -1,6 +1,7 @@
 package com.lasarobotics.ftc.drive;
 
 import com.lasarobotics.ftc.sensor.Gyroscope;
+import com.lasarobotics.ftc.util.MathUtil;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.util.Arrays;
@@ -35,10 +36,10 @@ public final class Mecanum {
             rightBackVal /= wheelPowers[3];
         }
 
-        leftFront.setPower(leftFrontVal);
-        rightFront.setPower(rightFrontVal);
-        leftBack.setPower(leftBackVal);
-        rightBack.setPower(rightBackVal);
+        leftFront.setPower(MathUtil.coerce(-1,1,leftFrontVal));
+        rightFront.setPower(MathUtil.coerce(-1,1,rightFrontVal));
+        leftBack.setPower(MathUtil.coerce(-1,1,leftBackVal));
+        rightBack.setPower(MathUtil.coerce(-1,1,rightBackVal));
     }
 
     /**
