@@ -73,7 +73,7 @@ public class Controller {
         start = handleUpdate(start,g.start);
         back = handleUpdate(back,g.back);
         left_bumper = handleUpdate(left_bumper,g.left_bumper);
-        right_trigger = handleUpdate(right_bumper,g.right_bumper);
+        right_bumper = handleUpdate(right_bumper,g.right_bumper);
         left_trigger = g.left_trigger;
         right_trigger = g.right_trigger;
         left_stick_x = g.left_stick_x;
