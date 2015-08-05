@@ -95,4 +95,29 @@ public class Controller {
                 return ButtonState.NOT_PRESSED;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Controller{" +
+                "dpad_up=" + dpad_up +
+                ", dpad_down=" + dpad_down +
+                ", dpad_left=" + dpad_left +
+                ", dpad_right=" + dpad_right +
+                ", a=" + a +
+                ", b=" + b +
+                ", x=" + x +
+                ", y=" + y +
+                ", guide=" + guide +
+                ", start=" + start +
+                ", back=" + back +
+                ", left_bumper=" + left_bumper +
+                ", right_bumper=" + right_bumper +
+                ", left_trigger=" + left_trigger +
+                ", right_trigger=" + right_trigger +
+                ", left_stick_x=" + left_stick_x +
+                ", left_stick_y=" + left_stick_y +
+                ", right_stick_x=" + right_stick_x +
+                ", right_stick_y=" + right_stick_y +
+                '}';
+    }
 }
