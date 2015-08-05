@@ -2,8 +2,6 @@ package com.lasarobotics.ftc.sensor.android;
 
 import android.content.Context;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import com.lasarobotics.ftc.util.Android;
@@ -11,27 +9,24 @@ import com.lasarobotics.ftc.util.Android;
 import java.util.List;
 
 /**
- * Lists Android sensors, converts sensors to this library's format, and tests if certain sensor is present
+ * Lists Android manager, converts manager to this library's format, and tests if certain sensor is present
  *
  * Use for any Android internal device sensor implemented in hardware OR software
  */
-public final class Sensors implements SensorEventListener {
+public final class Sensors {
+    static SensorManager manager = (SensorManager)Android.getContext().getSystemService(Context.SENSOR_SERVICE);
+
     public static List<Sensor> getAllSensors()
     {
-        Context ctx = Android.getContext();
-        SensorManager sensors;
-        sensors = (SensorManager)ctx.getSystemService(ctx.SENSOR_SERVICE);
-        List<Sensor> all = sensors.getSensorList(Sensor.TYPE_ALL);
-        return all;
+        return manager.getSensorList(Sensor.TYPE_ALL);
     }
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
+    public static Sensor getSensor(int type)
+    {
+        return manager.getDefaultSensor(type);
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-
+    public static Boolean hasSensor(int type) {
+        return getSensor(type) != null;
     }
 }
