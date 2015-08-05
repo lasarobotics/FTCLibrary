@@ -1,7 +1,7 @@
 package com.lasarobotics.ftc.controller;
 
 /**
- * Created by Ehsan on 7/11/2015.
+ * Contains button state variables
  */
 public class ButtonState {
     public final static int NOT_PRESSED = 0;

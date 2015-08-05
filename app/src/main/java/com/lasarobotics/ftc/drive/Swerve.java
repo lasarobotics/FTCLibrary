@@ -1,6 +1,6 @@
 package com.lasarobotics.ftc.drive;
 
-import com.lasarobotics.ftc.sensor.Gyroscope;
+import com.lasarobotics.ftc.sensor.hitechnic.Gyroscope;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 

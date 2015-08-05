@@ -1,4 +1,4 @@
-package com.lasarobotics.ftc.sensor;
+package com.lasarobotics.ftc.sensor.generic;
 
 /**
  * We should really do this
