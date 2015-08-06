@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 
 /**
  * Implements an IR sensor with additional advanced methods
+ *
+ * TODO ungenericify to HT and ModernRobotics when testing equipment available
  */
 public class IR {
     private IrSeekerSensor sensor;
