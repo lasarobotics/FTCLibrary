@@ -1,10 +1,10 @@
-package com.lasarobotics.ftc.sensor.modernrobotics;
+package com.lasarobotics.ftc.sensor.generic;
 
 import com.lasarobotics.ftc.controller.ButtonState;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
- * Implements the Modern Robotics Core Touch Sensor with advanced events
+ * Implements a Touch Sensor with advanced events
  */
 public class Touch {
     private TouchSensor touch;

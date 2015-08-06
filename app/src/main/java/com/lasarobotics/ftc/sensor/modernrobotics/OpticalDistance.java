@@ -31,6 +31,33 @@ public class OpticalDistance {
     }
 
     /**
+     * Returns true if an object is detected within the sensor's absolute maximum range (25 cm)
+     * @return True if an object is detected
+     */
+    public Boolean objectDetected()
+    {
+        return (getDistance() <= 25);
+    }
+
+    /**
+     * Returns true if an object is near the sensor (within 5-10 cm)
+     * @return True if an object is near the sensor
+     */
+    public Boolean objectNear()
+    {
+        return (getDistance() <= 10);
+    }
+
+    /**
+     * Returns true if an object is close enough to get an accurate distance measurement of +- 1 cm, assuming light object
+     * @return True if an object is close enough to get an accurate distance measurement
+     */
+    public Boolean objectClose()
+    {
+        return (getDistance() <= 4);
+    }
+
+    /**
      * Gets an approximate distance from the object in centimeters
      * Formula based on empirical measurements in 2700K lighting at room temperature with a white semi-reflective object perpendicular to the beam
      *
