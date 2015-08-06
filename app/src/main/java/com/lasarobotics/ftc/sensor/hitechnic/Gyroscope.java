@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class Gyroscope {
     private GyroSensor gyroSensor;
     //IMPORTANT DELTAS
-    private double lastvalue = 0.0D;
+
     private double velPrevious = 0.0D;
     private double velCurr = 0.0D;
     private double dt = 0.0D;
@@ -20,6 +20,7 @@ public class Gyroscope {
     private double heading = 0;
     private Timers timers;
     private final String clockName = "gyro";
+
     public Gyroscope(GyroSensor g)
     {
         timers = new Timers();
