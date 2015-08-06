@@ -1,7 +1,7 @@
 package com.lasarobotics.ftc.util;
 
 /**
- * Distance Units for Encoder Counts to Distance conversion
+ * OpticalDistance Units for Encoder Counts to OpticalDistance conversion
  */
 public enum DistanceUnit {
     ENCODER_COUNTS,
