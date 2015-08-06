@@ -33,6 +33,8 @@ public class OpticalDistance {
     /**
      * Gets an approximate distance from the object in centimeters
      * Formula based on empirical measurements in 2700K lighting at room temperature with a white semi-reflective object perpendicular to the beam
+     *
+     * Please note that these values are only SOMEWHAT ACCURATE between 0.5 and 5 cm!
      * @return An approximate distance in centimeters
      */
     public double getDistance()
