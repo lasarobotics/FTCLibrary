@@ -1,8 +1,6 @@
 package com.lasarobotics.ftc.doodle.actions;
 
 import com.lasarobotics.ftc.doodle.DoodleRunData;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Move a motor at a specified power

@@ -3,7 +3,6 @@ package com.lasarobotics.ftc.sensor.android;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorEventListener2;
 import android.hardware.SensorManager;
 
 import com.lasarobotics.ftc.util.Vector3;

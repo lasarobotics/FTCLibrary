@@ -2,8 +2,6 @@ package com.lasarobotics.ftc.doodle.actions.wait;
 
 import com.lasarobotics.ftc.doodle.DoodleRunData;
 import com.lasarobotics.ftc.doodle.actions.Action;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Waits a certain period of time
