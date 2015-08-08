@@ -49,4 +49,8 @@ public class MonkeyDo {
     public void setFilename(String filename) {
         this.filename = filename;
     }
+
+    public void onStart() {
+        t.resetClock("global");
+    }
 }
