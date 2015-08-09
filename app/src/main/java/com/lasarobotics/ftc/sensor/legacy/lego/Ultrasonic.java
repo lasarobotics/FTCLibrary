@@ -1,7 +1,7 @@
 package com.lasarobotics.ftc.sensor.legacy.lego;
 
 /**
- * We should really do this
+ * Powers a LEGO ultrasonic sensor
  */
 public class Ultrasonic {
 
