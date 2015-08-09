@@ -70,8 +70,13 @@ public class MonkeyUtil {
         try {
             Type listOfTestObject = new TypeToken<List<MonkeyData>>() {
             }.getType();
-
+            
+            if (new File(FILE_DIR, filename).exists()) //if we already have a file named filename
+            {
+                new File(FILE_DIR, filename).delete();//we should delete it
+            }
             File dir = new File(FILE_DIR);
+            
             File file = new File(FILE_DIR, filename);
             Log.d("ftc", file.getAbsolutePath() + "");
 
