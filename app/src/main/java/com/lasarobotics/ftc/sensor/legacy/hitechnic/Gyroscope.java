@@ -1,4 +1,4 @@
-package com.lasarobotics.ftc.sensor.hitechnic;
+package com.lasarobotics.ftc.sensor.legacy.hitechnic;
 
 import com.lasarobotics.ftc.util.Timers;
 import com.qualcomm.robotcore.hardware.GyroSensor;

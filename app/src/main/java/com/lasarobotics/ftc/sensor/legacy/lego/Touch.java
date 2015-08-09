@@ -1,25 +1,24 @@
-package com.lasarobotics.ftc.sensor.generic;
+package com.lasarobotics.ftc.sensor.legacy.lego;
 
 import com.lasarobotics.ftc.controller.ButtonState;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.LegacyModule;
 
 /**
- * Implements a Touch Sensor with advanced events
+ * Implements the NXT touch sensor
  */
-public class Touch {
-    private TouchSensor touch;
-    private int state = ButtonState.NOT_PRESSED;
-
-    public Touch(TouchSensor t) {
-        touch = t;
+public class Touch extends TouchInternal {
+    public Touch(LegacyModule legacyModule, int physicalPort)
+    {
+        super(legacyModule, physicalPort);
     }
+
+    private int state = ButtonState.NOT_PRESSED;
 
     /**
      * Update the sensor events - run this every loop()
-     * @param t The current TouchSensor variable
      */
-    public void update(TouchSensor t) {
-        if (t.isPressed()) {
+    public void update() {
+        if (super.isPressed()) {
             if (state == ButtonState.NOT_PRESSED || state == ButtonState.RELEASED)
                 state =  ButtonState.PRESSED;
             else
@@ -44,7 +43,7 @@ public class Touch {
      * Checks if the sensor was JUST PRESSED
      * @return True if just pressed, false otherwise
      */
-    public Boolean isPressed()
+    public boolean isPressed()
     {
         return state == ButtonState.PRESSED;
     }
@@ -53,7 +52,7 @@ public class Touch {
      * Checks if the sensor was JUST RELEASED
      * @return True if just released, false otherwise
      */
-    public Boolean isReleased()
+    public boolean isReleased()
     {
         return state == ButtonState.RELEASED;
     }
@@ -62,7 +61,7 @@ public class Touch {
      * Checks if the sensor is held down
      * @return True if pressed or held, false otherwise
      */
-    public Boolean isHeldDown()
+    public boolean isHeldDown()
     {
         return state == ButtonState.PRESSED || state == ButtonState.HELD;
     }

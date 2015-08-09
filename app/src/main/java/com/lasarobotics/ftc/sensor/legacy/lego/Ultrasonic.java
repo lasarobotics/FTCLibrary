@@ -1,4 +1,4 @@
-package com.lasarobotics.ftc.sensor.lego;
+package com.lasarobotics.ftc.sensor.legacy.lego;
 
 /**
  * We should really do this
