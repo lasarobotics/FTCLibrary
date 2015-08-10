@@ -1,19 +1,16 @@
 package com.lasarobotics.ftc.sensor.android;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-
 /**
- * Implements the Android camera
+ * Implements a single Android camera
  */
+@SuppressWarnings("deprecation")
 public class Camera {
-    public static boolean isHardwareAvailable(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
-            return false;
-        }
+    android.hardware.Camera c;
+
+    public Camera(android.hardware.Camera camera)
+    {
+        this.c = camera;
     }
+
+    public android.hardware.Camera getCamera() { return c; }
 }
