@@ -15,12 +15,9 @@ android {
     sourceSets.main {
         jni.srcDirs = [] //disable automatic ndk-build call
     }
-    task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
-        commandLine "/home/arthur/Android/Sdk/ndk-bundle/ndk-build",
-                'NDK_PROJECT_PATH=build/intermediates/ndk',
-                'NDK_LIBS_OUT=src/main/jniLibs',
-                'APP_BUILD_SCRIPT=src/main/jni/Android.mk',
-                'NDK_APPLICATION_MK=src/main/jni/Application.mk'
+    task (ndkBuild, type: JavaExec) {
+        classpath files('../../libjnibuild/build/libs/libjnibuild.jar')
+        main 'com.arthurpachachura.jni.Build'
     }
     tasks.withType(JavaCompile) {
         compileTask -> compileTask.dependsOn ndkBuild
@@ -36,6 +33,8 @@ dependencies {
     compile files('libs/android-support-v4.jar')
 
     compile 'com.google.code.gson:gson:2.3'
+    compile project(':libjnibuild')
+    //classpath files('../../libjnibuild/build/libs/libjnibuild.jar')
     compile project(':opencv-java')
 
     compile (name:'d2xx', ext:'jar')
