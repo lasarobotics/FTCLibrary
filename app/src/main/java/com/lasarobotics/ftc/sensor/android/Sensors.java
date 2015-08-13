@@ -4,7 +4,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 
-import com.lasarobotics.ftc.util.Android;
+import com.lasarobotics.ftc.android.Util;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * Use for any Android internal device sensor implemented in hardware OR software
  */
 public final class Sensors {
-    static SensorManager manager = (SensorManager)Android.getContext().getSystemService(Context.SENSOR_SERVICE);
+    static SensorManager manager = (SensorManager) Util.getContext().getSystemService(Context.SENSOR_SERVICE);
 
     public static List<Sensor> getAllSensors()
     {

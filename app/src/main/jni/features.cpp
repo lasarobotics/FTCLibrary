@@ -16,7 +16,7 @@ extern "C"
         return env->NewStringUTF("Hello from JNI");
     }
 
-    JNIEXPORT void JNICALL Java_com_lasarobotics_ftc_camera_detection_Features_highlightFeatures(JNIEnv*, jobject, jlong addrGray, jlong addrRgba)
+    JNIEXPORT void JNICALL Java_com_lasarobotics_ftc_camera_detection_Features_highlightFeatures(JNIEnv* jobject, jlong addrGray, jlong addrRgba)
     {
         Mat& mGr  = *(Mat*)addrGray;
         Mat& mRgb = *(Mat*)addrRgba;

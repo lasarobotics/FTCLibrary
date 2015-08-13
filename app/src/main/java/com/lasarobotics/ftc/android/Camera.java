@@ -1,4 +1,4 @@
-package com.lasarobotics.ftc.sensor.android;
+package com.lasarobotics.ftc.android;
 
 /**
  * Implements a single Android camera
