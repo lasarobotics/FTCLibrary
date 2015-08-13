@@ -17,6 +17,7 @@ android {
     }
     task (ndkBuild, type: JavaExec) {
         classpath files('../../libjnibuild/build/libs/libjnibuild.jar')
+        args = ["../../local.properties"]
         main 'com.arthurpachachura.jni.Build'
     }
     tasks.withType(JavaCompile) {
