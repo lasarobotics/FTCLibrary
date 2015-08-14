@@ -10,7 +10,8 @@ OPENCV_LIB_TYPE:=SHARED
 include ${OPENCVROOT}/sdk/native/jni/OpenCV.mk
 
 LOCAL_MODULE    := libftc
-LOCAL_SRC_FILES := features.cpp detection.cpp opencv.cpp
-LOCAL_LDLIBS +=  -llog -ldl -lopencv_java3
+LOCAL_SRC_FILES := other.cpp
+LOCAL_SHARED_LIBRARIES := opencv_java3
+LOCAL_LDLIBS +=  -llog -ldl
 
 include $(BUILD_SHARED_LIBRARY)

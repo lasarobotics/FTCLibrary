@@ -14,13 +14,16 @@ extern "C"
 {
     JNIEXPORT jstring JNICALL Java_com_lasarobotics_ftc_camera_detection_Features_stringFromJNI(
             JNIEnv *env, jobject type);
+    JNIEXPORT void JNICALL Java_com_lasarobotics_ftc_camera_detection_Features_highlightFeatures(
+            JNIEnv *env, jobject type, jlong addrGray, jlong addrRgba);
+
 
     JNIEXPORT jstring JNICALL Java_com_lasarobotics_ftc_camera_detection_Features_stringFromJNI
             (JNIEnv *env, jobject type) {
         return env->NewStringUTF("Hello from JNI");
     }
 
-    JNIEXPORT void JNICALL Java_com_lasarobotics_ftc_camera_detection_Features_highlightFeatures(JNIEnv* jobject, jlong addrGray, jlong addrRgba)
+    JNIEXPORT void JNICALL Java_com_lasarobotics_ftc_camera_detection_Features_highlightFeatures(JNIEnv *env, jobject type, jlong addrGray, jlong addrRgba)
     {
         Mat& mGr  = *(Mat*)addrGray;
         Mat& mRgb = *(Mat*)addrRgba;

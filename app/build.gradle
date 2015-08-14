@@ -27,7 +27,7 @@ android {
 
 repositories {
     flatDir {
-        dirs 'libs'
+        dirs = ['libs', 'src/main/jniLibs']
     }
 }
 dependencies {
