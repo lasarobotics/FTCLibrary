@@ -11,18 +11,6 @@ android {
             moduleName "libftc"
         }
     }
-
-    sourceSets.main {
-        jni.srcDirs = [] //disable automatic ndk-build call
-    }
-    task (ndkBuild, type: JavaExec) {
-        classpath files('../../libjnibuild/build/libs/libjnibuild.jar')
-        args = ["../../local.properties"]
-        main 'com.arthurpachachura.jni.Build'
-    }
-    tasks.withType(JavaCompile) {
-        compileTask -> compileTask.dependsOn ndkBuild
-    }
 }
 
 repositories {
@@ -34,8 +22,6 @@ dependencies {
     compile files('libs/android-support-v4.jar')
 
     compile 'com.google.code.gson:gson:2.3'
-    compile project(':libjnibuild')
-    compile project(':opencv-java')
 
     compile (name:'d2xx', ext:'jar')
     compile (name:'RobotCore-release', ext:'aar')
