@@ -105,7 +105,6 @@ JNIEXPORT void JNICALL Java_com_lasarobotics_ftc_camera_detection_Detection_find
     //-- Show detected matches
     imshow("Good Matches & Object detection", img_matches);
 
-    waitKey(0);
     return 0;
 }
 

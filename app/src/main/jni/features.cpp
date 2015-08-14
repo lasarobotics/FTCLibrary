@@ -1,3 +1,7 @@
+//
+// Implements advanced feature detection methods
+//
+
 #include <string.h>
 #include <jni.h>
 #include <opencv2/core/core.hpp>
