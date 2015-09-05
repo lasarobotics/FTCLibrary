@@ -1,0 +1,83 @@
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1drive_1_1_mecanum}{}\section{com.\+lasarobotics.\+library.\+drive.\+Mecanum Class Reference}
+\label{classcom_1_1lasarobotics_1_1library_1_1drive_1_1_mecanum}\index{com.\+lasarobotics.\+library.\+drive.\+Mecanum@{com.\+lasarobotics.\+library.\+drive.\+Mecanum}}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classcom_1_1lasarobotics_1_1library_1_1drive_1_1_mecanum_a8ab2eabd44ba148744ca3480484e731b}{Arcade} (double y, double x, double c, Dc\+Motor left\+Front, Dc\+Motor right\+Front, Dc\+Motor left\+Back, Dc\+Motor right\+Back)
+\item 
+static void \hyperlink{classcom_1_1lasarobotics_1_1library_1_1drive_1_1_mecanum_a2a6039a767b1a6aa175f5c28ef8f33bd}{Arcade\+\_\+\+Field\+Oriented} (double y, double x, double c, double gyroheading, Dc\+Motor left\+Front, Dc\+Motor right\+Front, Dc\+Motor left\+Back, Dc\+Motor right\+Back)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Methods for the \hyperlink{classcom_1_1lasarobotics_1_1library_1_1drive_1_1_mecanum}{Mecanum} multi-\/directional drive train 
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1drive_1_1_mecanum_a8ab2eabd44ba148744ca3480484e731b}{}\index{com\+::lasarobotics\+::library\+::drive\+::\+Mecanum@{com\+::lasarobotics\+::library\+::drive\+::\+Mecanum}!Arcade@{Arcade}}
+\index{Arcade@{Arcade}!com\+::lasarobotics\+::library\+::drive\+::\+Mecanum@{com\+::lasarobotics\+::library\+::drive\+::\+Mecanum}}
+\subsubsection[{Arcade(double y, double x, double c, Dc\+Motor left\+Front, Dc\+Motor right\+Front, Dc\+Motor left\+Back, Dc\+Motor right\+Back)}]{\setlength{\rightskip}{0pt plus 5cm}static void com.\+lasarobotics.\+library.\+drive.\+Mecanum.\+Arcade (
+\begin{DoxyParamCaption}
+\item[{double}]{y, }
+\item[{double}]{x, }
+\item[{double}]{c, }
+\item[{Dc\+Motor}]{left\+Front, }
+\item[{Dc\+Motor}]{right\+Front, }
+\item[{Dc\+Motor}]{left\+Back, }
+\item[{Dc\+Motor}]{right\+Back}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classcom_1_1lasarobotics_1_1library_1_1drive_1_1_mecanum_a8ab2eabd44ba148744ca3480484e731b}
+Implements the Arcade drive train with three axis and four motors. 
+\begin{DoxyParams}{Parameters}
+{\em y} & The y-\/axis of the controller, forward/rev \\
+\hline
+{\em x} & The x-\/axis of the controller, strafe \\
+\hline
+{\em c} & The spin axis of the controller \\
+\hline
+{\em left\+Front} & The motor on the front left \\
+\hline
+{\em right\+Front} & The motor on the front right \\
+\hline
+{\em left\+Back} & The motor on the back left \\
+\hline
+{\em right\+Back} & The motor on the back right \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1drive_1_1_mecanum_a2a6039a767b1a6aa175f5c28ef8f33bd}{}\index{com\+::lasarobotics\+::library\+::drive\+::\+Mecanum@{com\+::lasarobotics\+::library\+::drive\+::\+Mecanum}!Arcade\+\_\+\+Field\+Oriented@{Arcade\+\_\+\+Field\+Oriented}}
+\index{Arcade\+\_\+\+Field\+Oriented@{Arcade\+\_\+\+Field\+Oriented}!com\+::lasarobotics\+::library\+::drive\+::\+Mecanum@{com\+::lasarobotics\+::library\+::drive\+::\+Mecanum}}
+\subsubsection[{Arcade\+\_\+\+Field\+Oriented(double y, double x, double c, double gyroheading, Dc\+Motor left\+Front, Dc\+Motor right\+Front, Dc\+Motor left\+Back, Dc\+Motor right\+Back)}]{\setlength{\rightskip}{0pt plus 5cm}static void com.\+lasarobotics.\+library.\+drive.\+Mecanum.\+Arcade\+\_\+\+Field\+Oriented (
+\begin{DoxyParamCaption}
+\item[{double}]{y, }
+\item[{double}]{x, }
+\item[{double}]{c, }
+\item[{double}]{gyroheading, }
+\item[{Dc\+Motor}]{left\+Front, }
+\item[{Dc\+Motor}]{right\+Front, }
+\item[{Dc\+Motor}]{left\+Back, }
+\item[{Dc\+Motor}]{right\+Back}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classcom_1_1lasarobotics_1_1library_1_1drive_1_1_mecanum_a2a6039a767b1a6aa175f5c28ef8f33bd}
+Implements the Arcade drive train with field orientation based on Gyro input 
+\begin{DoxyParams}{Parameters}
+{\em y} & The y-\/axis of the controller, forward/rev \\
+\hline
+{\em x} & The x-\/axis of the controller, strafe \\
+\hline
+{\em c} & The spin axis of the controller \\
+\hline
+{\em gyroheading} & The current normalized gyro heading (between 0 and 360) \\
+\hline
+{\em left\+Front} & The motor on the front left \\
+\hline
+{\em right\+Front} & The motor on the front right \\
+\hline
+{\em left\+Back} & The motor on the back left \\
+\hline
+{\em right\+Back} & The motor on the back right \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ftc-\/library/src/main/java/com/lasarobotics/library/drive/Mecanum.\+java\end{DoxyCompactItemize}
