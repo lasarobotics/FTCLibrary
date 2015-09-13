@@ -1,0 +1,126 @@
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope}{}\section{com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope Class Reference}
+\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope}\index{com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope@{com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a560e1f991f1fc3e23ce6859a01462682}{}{\bfseries Gyroscope} (Gyro\+Sensor g)\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a560e1f991f1fc3e23ce6859a01462682}
+
+\item 
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_ab19083c7d24dbe3289e5f09823ae5358}{}void {\bfseries update} (Gyro\+Sensor g)\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_ab19083c7d24dbe3289e5f09823ae5358}
+
+\item 
+void \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a6c6937976f168cb48ba03cefaff23f30}{reset} ()
+\item 
+double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a1f8218ae8afe2a10f64420fd753f47e7}{get\+Rate} ()
+\item 
+double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a14c2d2d823cba6687e64d001fbdc6a7e}{get\+Heading} ()
+\item 
+double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_af80ec3a6a4126757943abe9c83c81950}{get\+Rotation} ()
+\item 
+double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_ab78c5038a63250b432ac2e98220642f6}{get\+Time\+Difference} ()
+\item 
+double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_af0dd85696fe27b31f6c70d08c4135f2a}{get\+Offset} ()
+\item 
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a07c16e78f614ecee303f761321aad858}{}void {\bfseries set\+Offset} (double offset)\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a07c16e78f614ecee303f761321aad858}
+
+\item 
+String \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a333b23a4b3025a0bfffcc9bac83b15c4}{to\+String} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_af679f1797341f2e8aee9c68eed7d2490}{normalize} (double heading)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements additional Gyroscopic control methods and events 
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a14c2d2d823cba6687e64d001fbdc6a7e}{}\index{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}!get\+Heading@{get\+Heading}}
+\index{get\+Heading@{get\+Heading}!com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}}
+\subsubsection[{get\+Heading()}]{\setlength{\rightskip}{0pt plus 5cm}double com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope.\+get\+Heading (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a14c2d2d823cba6687e64d001fbdc6a7e}
+Gets the gyroscope heading in degrees, between 0 and 360 \begin{DoxyReturn}{Returns}
+The gyro heading, between 0 and 360s 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_af0dd85696fe27b31f6c70d08c4135f2a}{}\index{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}!get\+Offset@{get\+Offset}}
+\index{get\+Offset@{get\+Offset}!com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}}
+\subsubsection[{get\+Offset()}]{\setlength{\rightskip}{0pt plus 5cm}double com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope.\+get\+Offset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_af0dd85696fe27b31f6c70d08c4135f2a}
+Gets the gyroscope offset, in degrees per second. \begin{DoxyReturn}{Returns}
+The offset, in degrees per second. 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a1f8218ae8afe2a10f64420fd753f47e7}{}\index{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}!get\+Rate@{get\+Rate}}
+\index{get\+Rate@{get\+Rate}!com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}}
+\subsubsection[{get\+Rate()}]{\setlength{\rightskip}{0pt plus 5cm}double com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope.\+get\+Rate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a1f8218ae8afe2a10f64420fd753f47e7}
+Gets the gyroscope rotation rate in degrees per second \begin{DoxyReturn}{Returns}
+The offset gyroscope rotation in degrees per second 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_af80ec3a6a4126757943abe9c83c81950}{}\index{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}!get\+Rotation@{get\+Rotation}}
+\index{get\+Rotation@{get\+Rotation}!com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}}
+\subsubsection[{get\+Rotation()}]{\setlength{\rightskip}{0pt plus 5cm}double com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope.\+get\+Rotation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_af80ec3a6a4126757943abe9c83c81950}
+Gets the gyroscope rotation in degrees \begin{DoxyReturn}{Returns}
+The gyroscope rotation in degrees 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_ab78c5038a63250b432ac2e98220642f6}{}\index{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}!get\+Time\+Difference@{get\+Time\+Difference}}
+\index{get\+Time\+Difference@{get\+Time\+Difference}!com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}}
+\subsubsection[{get\+Time\+Difference()}]{\setlength{\rightskip}{0pt plus 5cm}double com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope.\+get\+Time\+Difference (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_ab78c5038a63250b432ac2e98220642f6}
+Gets the time difference between the last readings. \begin{DoxyReturn}{Returns}
+The current time delay in seconds. 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_af679f1797341f2e8aee9c68eed7d2490}{}\index{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}!normalize@{normalize}}
+\index{normalize@{normalize}!com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}}
+\subsubsection[{normalize(double heading)}]{\setlength{\rightskip}{0pt plus 5cm}static double com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope.\+normalize (
+\begin{DoxyParamCaption}
+\item[{double}]{heading}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_af679f1797341f2e8aee9c68eed7d2490}
+Normalize \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope}{Gyroscope} bounds to within 0 and 360 
+\begin{DoxyParams}{Parameters}
+{\em heading} & The current \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope}{Gyroscope} value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The normalized \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope}{Gyroscope} value, between 0 and 360. 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a6c6937976f168cb48ba03cefaff23f30}{}\index{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}!reset@{reset}}
+\index{reset@{reset}!com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}}
+\subsubsection[{reset()}]{\setlength{\rightskip}{0pt plus 5cm}void com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope.\+reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a6c6937976f168cb48ba03cefaff23f30}
+Resets the gyroscope to a value of zero. \hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a333b23a4b3025a0bfffcc9bac83b15c4}{}\index{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}!to\+String@{to\+String}}
+\index{to\+String@{to\+String}!com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope@{com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}}
+\subsubsection[{to\+String()}]{\setlength{\rightskip}{0pt plus 5cm}String com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope.\+to\+String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1legacy_1_1hitechnic_1_1_gyroscope_a333b23a4b3025a0bfffcc9bac83b15c4}
+Gets the status of the gyroscope \begin{DoxyReturn}{Returns}
+The gyroscope status as a string 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ftc-\/library/src/main/java/com/lasarobotics/library/sensor/legacy/hitechnic/Gyroscope.\+java\end{DoxyCompactItemize}

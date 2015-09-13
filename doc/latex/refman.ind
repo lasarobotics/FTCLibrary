@@ -1,0 +1,313 @@
+\begin{theindex}
+
+  \item {Arcade}
+    \subitem {com\+::lasarobotics\+::library\+::drive\+::\+Mecanum}, 
+		\hyperpage{16}
+  \item {Arcade\+\_\+\+Field\+Oriented}
+    \subitem {com\+::lasarobotics\+::library\+::drive\+::\+Mecanum}, 
+		\hyperpage{17}
+
+  \indexspace
+
+  \item {coerce}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}, 
+		\hyperpage{14}
+  \item {com.\+lasarobotics.\+library.\+android.\+Util}, \hyperpage{30}
+  \item {com.\+lasarobotics.\+library.\+controller.\+Button\+State}, 
+		\hyperpage{5}
+  \item {com.\+lasarobotics.\+library.\+controller.\+Controller}, 
+		\hyperpage{6}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+actions.\+Action}, 
+		\hyperpage{5}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+actions.\+Motor\+Move}, 
+		\hyperpage{19}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+actions.\+No\+Operation}, 
+		\hyperpage{20}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+actions.\+sensors.\+Motor\+Encoder\+Reset}, 
+		\hyperpage{19}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+actions.\+wait.\+Wait\+Forever}, 
+		\hyperpage{31}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+actions.\+wait.\+Wait\+Time}, 
+		\hyperpage{31}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+Doodle\+Do}, 
+		\hyperpage{7}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+Doodle\+Map}, 
+		\hyperpage{7}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+Doodle\+Map.\+Motor\+Flags}, 
+		\hyperpage{19}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+Doodle\+Run\+Data}, 
+		\hyperpage{8}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+Doodle\+Write}, 
+		\hyperpage{8}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+maps.\+Doodle\+Map}, 
+		\hyperpage{8}
+  \item {com.\+lasarobotics.\+library.\+doodle.\+maps.\+Doodle\+Map.\+Range\+Of\+Motion}, 
+		\hyperpage{22}
+  \item {com.\+lasarobotics.\+library.\+drive.\+Mecanum}, 
+		\hyperpage{16}
+  \item {com.\+lasarobotics.\+library.\+drive.\+Swerve}, \hyperpage{23}
+  \item {com.\+lasarobotics.\+library.\+drive.\+Tank}, \hyperpage{23}
+  \item {com.\+lasarobotics.\+library.\+monkeyc.\+Monkey\+C}, 
+		\hyperpage{17}
+  \item {com.\+lasarobotics.\+library.\+monkeyc.\+Monkey\+Data}, 
+		\hyperpage{17}
+  \item {com.\+lasarobotics.\+library.\+monkeyc.\+Monkey\+Do}, 
+		\hyperpage{18}
+  \item {com.\+lasarobotics.\+library.\+monkeyc.\+Monkey\+Util}, 
+		\hyperpage{18}
+  \item {com.\+lasarobotics.\+library.\+sensor.\+android.\+Linear\+Acceleration}, 
+		\hyperpage{11}
+  \item {com.\+lasarobotics.\+library.\+sensor.\+android.\+Sensors}, 
+		\hyperpage{22}
+  \item {com.\+lasarobotics.\+library.\+sensor.\+generic.\+I\+R}, 
+		\hyperpage{10}
+  \item {com.\+lasarobotics.\+library.\+sensor.\+generic.\+Li\+D\+A\+R}, 
+		\hyperpage{11}
+  \item {com.\+lasarobotics.\+library.\+sensor.\+legacy.\+hitechnic.\+Gyroscope}, 
+		\hyperpage{9}
+  \item {com.\+lasarobotics.\+library.\+sensor.\+legacy.\+lego.\+Touch}, 
+		\hyperpage{27}
+  \item {com.\+lasarobotics.\+library.\+sensor.\+legacy.\+lego.\+Ultrasonic}, 
+		\hyperpage{30}
+  \item {com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Optical\+Distance}, 
+		\hyperpage{20}
+  \item {com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Touch}, 
+		\hyperpage{28}
+  \item {com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Voltage}, 
+		\hyperpage{30}
+  \item {com.\+lasarobotics.\+library.\+skynet.\+Kalman}, 
+		\hyperpage{11}
+  \item {com.\+lasarobotics.\+library.\+util.\+Constants}, 
+		\hyperpage{6}
+  \item {com.\+lasarobotics.\+library.\+util.\+Distance\+Unit}, 
+		\hyperpage{7}
+  \item {com.\+lasarobotics.\+library.\+util.\+Lookup\+Table$<$ T $>$}, 
+		\hyperpage{12}
+  \item {com.\+lasarobotics.\+library.\+util.\+Math\+Util}, 
+		\hyperpage{13}
+  \item {com.\+lasarobotics.\+library.\+util.\+Rolling\+Average$<$ T extends Number $>$}, 
+		\hyperpage{22}
+  \item {com.\+lasarobotics.\+library.\+util.\+Timers}, \hyperpage{25}
+  \item {com.\+lasarobotics.\+library.\+util.\+Vector3$<$ T $>$}, 
+		\hyperpage{30}
+  \item {com\+::lasarobotics\+::library\+::drive\+::\+Mecanum}
+    \subitem {Arcade}, \hyperpage{16}
+    \subitem {Arcade\+\_\+\+Field\+Oriented}, \hyperpage{17}
+  \item {com\+::lasarobotics\+::library\+::drive\+::\+Swerve}
+    \subitem {Standard}, \hyperpage{23}
+  \item {com\+::lasarobotics\+::library\+::drive\+::\+Tank}
+    \subitem {Motor2}, \hyperpage{23}
+    \subitem {Motor4}, \hyperpage{25}
+  \item {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}
+    \subitem {get\+Heading}, \hyperpage{9}
+    \subitem {get\+Offset}, \hyperpage{9}
+    \subitem {get\+Rate}, \hyperpage{9}
+    \subitem {get\+Rotation}, \hyperpage{9}
+    \subitem {get\+Time\+Difference}, \hyperpage{10}
+    \subitem {normalize}, \hyperpage{10}
+    \subitem {reset}, \hyperpage{10}
+    \subitem {to\+String}, \hyperpage{10}
+  \item {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::lego\+::\+Touch}
+    \subitem {get\+State}, \hyperpage{28}
+    \subitem {is\+Held\+Down}, \hyperpage{28}
+    \subitem {is\+Pressed}, \hyperpage{28}
+    \subitem {is\+Released}, \hyperpage{28}
+    \subitem {update}, \hyperpage{28}
+  \item {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}
+    \subitem {get\+Distance}, \hyperpage{21}
+    \subitem {get\+Light\+Detected}, \hyperpage{21}
+    \subitem {object\+Close}, \hyperpage{21}
+    \subitem {object\+Detected}, \hyperpage{21}
+    \subitem {object\+Near}, \hyperpage{21}
+  \item {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Touch}
+    \subitem {get\+State}, \hyperpage{29}
+    \subitem {is\+Held\+Down}, \hyperpage{29}
+    \subitem {is\+Pressed}, \hyperpage{29}
+    \subitem {is\+Released}, \hyperpage{29}
+    \subitem {update}, \hyperpage{29}
+  \item {com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}
+    \subitem {count}, \hyperpage{12}
+    \subitem {delete\+Value}, \hyperpage{12}
+    \subitem {get\+Table}, \hyperpage{13}
+    \subitem {get\+Value}, \hyperpage{13}
+    \subitem {Lookup\+Table}, \hyperpage{12}
+    \subitem {set\+Value}, \hyperpage{13}
+  \item {com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}
+    \subitem {coerce}, \hyperpage{14}
+    \subitem {deadband}, \hyperpage{14}
+    \subitem {equal}, \hyperpage{14}
+    \subitem {filter}, \hyperpage{14}
+    \subitem {in\+Bounds}, \hyperpage{16}
+  \item {com\+::lasarobotics\+::library\+::util\+::\+Timers}
+    \subitem {get\+Clock\+Value}, \hyperpage{26}
+    \subitem {get\+Precision}, \hyperpage{26}
+    \subitem {is\+At\+Target\+Millis}, \hyperpage{26}
+    \subitem {reset\+Clock}, \hyperpage{27}
+    \subitem {set\+Precision}, \hyperpage{27}
+    \subitem {start\+Clock}, \hyperpage{27}
+    \subitem {Timers}, \hyperpage{25}
+  \item {count}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}, 
+		\hyperpage{12}
+
+  \indexspace
+
+  \item {deadband}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}, 
+		\hyperpage{14}
+  \item {delete\+Value}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}, 
+		\hyperpage{12}
+
+  \indexspace
+
+  \item {equal}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}, 
+		\hyperpage{14}
+
+  \indexspace
+
+  \item {filter}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}, 
+		\hyperpage{14}
+
+  \indexspace
+
+  \item {get\+Clock\+Value}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Timers}, 
+		\hyperpage{26}
+  \item {get\+Distance}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}, 
+		\hyperpage{21}
+  \item {get\+Heading}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}, 
+		\hyperpage{9}
+  \item {get\+Light\+Detected}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}, 
+		\hyperpage{21}
+  \item {get\+Offset}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}, 
+		\hyperpage{9}
+  \item {get\+Precision}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Timers}, 
+		\hyperpage{26}
+  \item {get\+Rate}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}, 
+		\hyperpage{9}
+  \item {get\+Rotation}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}, 
+		\hyperpage{9}
+  \item {get\+State}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::lego\+::\+Touch}, 
+		\hyperpage{28}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Touch}, 
+		\hyperpage{29}
+  \item {get\+Table}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}, 
+		\hyperpage{13}
+  \item {get\+Time\+Difference}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}, 
+		\hyperpage{10}
+  \item {get\+Value}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}, 
+		\hyperpage{13}
+
+  \indexspace
+
+  \item {in\+Bounds}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}, 
+		\hyperpage{16}
+  \item {is\+At\+Target\+Millis}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Timers}, 
+		\hyperpage{26}
+  \item {is\+Held\+Down}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::lego\+::\+Touch}, 
+		\hyperpage{28}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Touch}, 
+		\hyperpage{29}
+  \item {is\+Pressed}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::lego\+::\+Touch}, 
+		\hyperpage{28}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Touch}, 
+		\hyperpage{29}
+  \item {is\+Released}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::lego\+::\+Touch}, 
+		\hyperpage{28}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Touch}, 
+		\hyperpage{29}
+
+  \indexspace
+
+  \item {Lookup\+Table}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}, 
+		\hyperpage{12}
+
+  \indexspace
+
+  \item {Motor2}
+    \subitem {com\+::lasarobotics\+::library\+::drive\+::\+Tank}, 
+		\hyperpage{23}
+  \item {Motor4}
+    \subitem {com\+::lasarobotics\+::library\+::drive\+::\+Tank}, 
+		\hyperpage{25}
+
+  \indexspace
+
+  \item {normalize}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}, 
+		\hyperpage{10}
+
+  \indexspace
+
+  \item {object\+Close}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}, 
+		\hyperpage{21}
+  \item {object\+Detected}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}, 
+		\hyperpage{21}
+  \item {object\+Near}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}, 
+		\hyperpage{21}
+
+  \indexspace
+
+  \item {reset}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}, 
+		\hyperpage{10}
+  \item {reset\+Clock}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Timers}, 
+		\hyperpage{27}
+
+  \indexspace
+
+  \item {set\+Precision}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Timers}, 
+		\hyperpage{27}
+  \item {set\+Value}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}, 
+		\hyperpage{13}
+  \item {Standard}
+    \subitem {com\+::lasarobotics\+::library\+::drive\+::\+Swerve}, 
+		\hyperpage{23}
+  \item {start\+Clock}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Timers}, 
+		\hyperpage{27}
+
+  \indexspace
+
+  \item {Timers}
+    \subitem {com\+::lasarobotics\+::library\+::util\+::\+Timers}, 
+		\hyperpage{25}
+  \item {to\+String}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::hitechnic\+::\+Gyroscope}, 
+		\hyperpage{10}
+
+  \indexspace
+
+  \item {update}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::legacy\+::lego\+::\+Touch}, 
+		\hyperpage{28}
+    \subitem {com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Touch}, 
+		\hyperpage{29}
+
+\end{theindex}

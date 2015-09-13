@@ -1,0 +1,86 @@
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance}{}\section{com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Optical\+Distance Class Reference}
+\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance}\index{com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Optical\+Distance@{com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Optical\+Distance}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_ad4009ff3381a553cc78787dc3932c7ac}{}{\bfseries Optical\+Distance} (Optical\+Distance\+Sensor sensor)\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_ad4009ff3381a553cc78787dc3932c7ac}
+
+\item 
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_ae58a79f371560087ea2d9ab2ec3f61b8}{}void {\bfseries update} (Optical\+Distance\+Sensor sensor)\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_ae58a79f371560087ea2d9ab2ec3f61b8}
+
+\item 
+double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_a0694b6194e93fb22bcebeb0aff66486b}{get\+Light\+Detected} ()
+\item 
+Boolean \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_a366a12fd4ccfb876a22464b4c6096899}{object\+Detected} ()
+\item 
+Boolean \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_ab77075ad6e8a0523a6f77b7fbc54a2da}{object\+Near} ()
+\item 
+Boolean \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_ac3d175c6bfb8bbcb8abb50e2febbe6fc}{object\+Close} ()
+\item 
+double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_afc702503dd61db5ae033af322a474cf9}{get\+Distance} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements the Core Optical \hyperlink{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance}{Optical\+Distance} Sensor with advanced methods
+
+This sensor is only fully accurate U\+P T\+O 5 C\+M Different lighting conditions greatly affect distance read after 5 cm away from the object 
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_afc702503dd61db5ae033af322a474cf9}{}\index{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance@{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}!get\+Distance@{get\+Distance}}
+\index{get\+Distance@{get\+Distance}!com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance@{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}}
+\subsubsection[{get\+Distance()}]{\setlength{\rightskip}{0pt plus 5cm}double com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Optical\+Distance.\+get\+Distance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_afc702503dd61db5ae033af322a474cf9}
+Gets an approximate distance from the object in centimeters Formula based on empirical measurements in 2700\+K lighting at room temperature with a white semi-\/reflective object perpendicular to the beam
+
+Please note that these values are only S\+O\+M\+E\+W\+H\+A\+T A\+C\+C\+U\+R\+A\+T\+E between 0.\+5 and 5 cm! \begin{DoxyReturn}{Returns}
+An approximate distance in centimeters 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_a0694b6194e93fb22bcebeb0aff66486b}{}\index{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance@{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}!get\+Light\+Detected@{get\+Light\+Detected}}
+\index{get\+Light\+Detected@{get\+Light\+Detected}!com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance@{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}}
+\subsubsection[{get\+Light\+Detected()}]{\setlength{\rightskip}{0pt plus 5cm}double com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Optical\+Distance.\+get\+Light\+Detected (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_a0694b6194e93fb22bcebeb0aff66486b}
+Gets the raw light reflected as a decimal \begin{DoxyReturn}{Returns}
+The raw light reflected as a decimal 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_ac3d175c6bfb8bbcb8abb50e2febbe6fc}{}\index{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance@{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}!object\+Close@{object\+Close}}
+\index{object\+Close@{object\+Close}!com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance@{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}}
+\subsubsection[{object\+Close()}]{\setlength{\rightskip}{0pt plus 5cm}Boolean com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Optical\+Distance.\+object\+Close (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_ac3d175c6bfb8bbcb8abb50e2febbe6fc}
+Returns true if an object is close enough to get an accurate distance measurement of +-\/ 1 cm, assuming light object \begin{DoxyReturn}{Returns}
+True if an object is close enough to get an accurate distance measurement 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_a366a12fd4ccfb876a22464b4c6096899}{}\index{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance@{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}!object\+Detected@{object\+Detected}}
+\index{object\+Detected@{object\+Detected}!com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance@{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}}
+\subsubsection[{object\+Detected()}]{\setlength{\rightskip}{0pt plus 5cm}Boolean com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Optical\+Distance.\+object\+Detected (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_a366a12fd4ccfb876a22464b4c6096899}
+Returns true if an object is detected within the sensor\textquotesingle{}s absolute maximum range (25 cm) \begin{DoxyReturn}{Returns}
+True if an object is detected 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_ab77075ad6e8a0523a6f77b7fbc54a2da}{}\index{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance@{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}!object\+Near@{object\+Near}}
+\index{object\+Near@{object\+Near}!com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance@{com\+::lasarobotics\+::library\+::sensor\+::modernrobotics\+::\+Optical\+Distance}}
+\subsubsection[{object\+Near()}]{\setlength{\rightskip}{0pt plus 5cm}Boolean com.\+lasarobotics.\+library.\+sensor.\+modernrobotics.\+Optical\+Distance.\+object\+Near (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1sensor_1_1modernrobotics_1_1_optical_distance_ab77075ad6e8a0523a6f77b7fbc54a2da}
+Returns true if an object is near the sensor (within 5-\/10 cm) \begin{DoxyReturn}{Returns}
+True if an object is near the sensor 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ftc-\/library/src/main/java/com/lasarobotics/library/sensor/modernrobotics/Optical\+Distance.\+java\end{DoxyCompactItemize}
