@@ -1,0 +1,131 @@
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table}{}\section{com.\+lasarobotics.\+library.\+util.\+Lookup\+Table$<$ T $>$ Class Template Reference}
+\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table}\index{com.\+lasarobotics.\+library.\+util.\+Lookup\+Table$<$ T $>$@{com.\+lasarobotics.\+library.\+util.\+Lookup\+Table$<$ T $>$}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_acc7f40d76adc0c9ef5af49cf44af7929}{Lookup\+Table} ()
+\item 
+\hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_af95827a058b619d3f98324fae15cb24c}{Lookup\+Table} (Hashtable$<$ String, T $>$ other)
+\item 
+\hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a01db510c04a8a9c299e5958285f4cac0}{Lookup\+Table} (\hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table}{Lookup\+Table}$<$ T $>$ other)
+\item 
+void \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a1ace1666dc3340fe969e0161031094db}{set\+Value} (String id, T value)
+\item 
+T \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a468df4f143f2103485ddda43ecdc98fc}{get\+Value} (String id)
+\item 
+void \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_aa9a47eda22918f48045fd0e9ef49eedb}{delete\+Value} (String id)
+\item 
+int \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a9be202b6492a8acb988d23d829de76cb}{count} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Hashtable$<$ String, T $>$ \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a6355cca75e147643b09a7a3c9898eca7}{get\+Table} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements a variable L\+U\+T. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_acc7f40d76adc0c9ef5af49cf44af7929}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}!Lookup\+Table@{Lookup\+Table}}
+\index{Lookup\+Table@{Lookup\+Table}!com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}}
+\subsubsection[{Lookup\+Table()}]{\setlength{\rightskip}{0pt plus 5cm}{\bf com.\+lasarobotics.\+library.\+util.\+Lookup\+Table}$<$ T $>$.{\bf Lookup\+Table} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_acc7f40d76adc0c9ef5af49cf44af7929}
+Instantiate a lookup table for variables. \hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_af95827a058b619d3f98324fae15cb24c}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}!Lookup\+Table@{Lookup\+Table}}
+\index{Lookup\+Table@{Lookup\+Table}!com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}}
+\subsubsection[{Lookup\+Table(\+Hashtable$<$ String, T $>$ other)}]{\setlength{\rightskip}{0pt plus 5cm}{\bf com.\+lasarobotics.\+library.\+util.\+Lookup\+Table}$<$ T $>$.{\bf Lookup\+Table} (
+\begin{DoxyParamCaption}
+\item[{Hashtable$<$ String, T $>$}]{other}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_af95827a058b619d3f98324fae15cb24c}
+Create a clone from another Hashtable. 
+\begin{DoxyParams}{Parameters}
+{\em other} & Another Hashtable. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a01db510c04a8a9c299e5958285f4cac0}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}!Lookup\+Table@{Lookup\+Table}}
+\index{Lookup\+Table@{Lookup\+Table}!com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}}
+\subsubsection[{Lookup\+Table(\+Lookup\+Table$<$ T $>$ other)}]{\setlength{\rightskip}{0pt plus 5cm}{\bf com.\+lasarobotics.\+library.\+util.\+Lookup\+Table}$<$ T $>$.{\bf Lookup\+Table} (
+\begin{DoxyParamCaption}
+\item[{{\bf Lookup\+Table}$<$ T $>$}]{other}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a01db510c04a8a9c299e5958285f4cac0}
+Create a clone based on another \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table}{Lookup\+Table}. 
+\begin{DoxyParams}{Parameters}
+{\em other} & Another \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table}{Lookup\+Table} of the same type. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a9be202b6492a8acb988d23d829de76cb}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}!count@{count}}
+\index{count@{count}!com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}}
+\subsubsection[{count()}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf com.\+lasarobotics.\+library.\+util.\+Lookup\+Table}$<$ T $>$.count (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a9be202b6492a8acb988d23d829de76cb}
+The count of items in the table. \begin{DoxyReturn}{Returns}
+The count of items in the table. 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_aa9a47eda22918f48045fd0e9ef49eedb}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}!delete\+Value@{delete\+Value}}
+\index{delete\+Value@{delete\+Value}!com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}}
+\subsubsection[{delete\+Value(\+String id)}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf com.\+lasarobotics.\+library.\+util.\+Lookup\+Table}$<$ T $>$.delete\+Value (
+\begin{DoxyParamCaption}
+\item[{String}]{id}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_aa9a47eda22918f48045fd0e9ef49eedb}
+Remove a value from the table at a specific I\+D. 
+\begin{DoxyParams}{Parameters}
+{\em id} & The I\+D of an item in the table. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a6355cca75e147643b09a7a3c9898eca7}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}!get\+Table@{get\+Table}}
+\index{get\+Table@{get\+Table}!com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}}
+\subsubsection[{get\+Table()}]{\setlength{\rightskip}{0pt plus 5cm}Hashtable$<$String, T$>$ {\bf com.\+lasarobotics.\+library.\+util.\+Lookup\+Table}$<$ T $>$.get\+Table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a6355cca75e147643b09a7a3c9898eca7}
+Gets the underlying Hashtable instance. \begin{DoxyReturn}{Returns}
+The underlying Hashtable. 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a468df4f143f2103485ddda43ecdc98fc}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}!get\+Value@{get\+Value}}
+\index{get\+Value@{get\+Value}!com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}}
+\subsubsection[{get\+Value(\+String id)}]{\setlength{\rightskip}{0pt plus 5cm}T {\bf com.\+lasarobotics.\+library.\+util.\+Lookup\+Table}$<$ T $>$.get\+Value (
+\begin{DoxyParamCaption}
+\item[{String}]{id}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a468df4f143f2103485ddda43ecdc98fc}
+Get the value of an id in the L\+U\+T. 
+\begin{DoxyParams}{Parameters}
+{\em id} & The I\+D of the item to retrieve. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value of the item at the id. 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a1ace1666dc3340fe969e0161031094db}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}!set\+Value@{set\+Value}}
+\index{set\+Value@{set\+Value}!com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table@{com\+::lasarobotics\+::library\+::util\+::\+Lookup\+Table}}
+\subsubsection[{set\+Value(\+String id, T value)}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf com.\+lasarobotics.\+library.\+util.\+Lookup\+Table}$<$ T $>$.set\+Value (
+\begin{DoxyParamCaption}
+\item[{String}]{id, }
+\item[{T}]{value}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_lookup_table_a1ace1666dc3340fe969e0161031094db}
+Set the value of an item in the table, or create if new. 
+\begin{DoxyParams}{Parameters}
+{\em id} & The I\+D of the item in the L\+U\+T. \\
+\hline
+{\em value} & The value to set the id to. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ftc-\/library/src/main/java/com/lasarobotics/library/util/Lookup\+Table.\+java\end{DoxyCompactItemize}

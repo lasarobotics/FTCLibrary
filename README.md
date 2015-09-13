@@ -1,2 +1,2 @@
-# FTCAndroidLibrary DEV BRANCH
+# FTCAndroidLibrary
 Repo for FTC Android Library development

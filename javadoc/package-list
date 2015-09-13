@@ -1,0 +1,16 @@
+com.lasarobotics.library.android
+com.lasarobotics.library.controller
+com.lasarobotics.library.doodle
+com.lasarobotics.library.doodle.actions
+com.lasarobotics.library.doodle.actions.sensors
+com.lasarobotics.library.doodle.actions.wait
+com.lasarobotics.library.doodle.maps
+com.lasarobotics.library.drive
+com.lasarobotics.library.monkeyc
+com.lasarobotics.library.sensor.android
+com.lasarobotics.library.sensor.generic
+com.lasarobotics.library.sensor.legacy.hitechnic
+com.lasarobotics.library.sensor.legacy.lego
+com.lasarobotics.library.sensor.modernrobotics
+com.lasarobotics.library.skynet
+com.lasarobotics.library.util

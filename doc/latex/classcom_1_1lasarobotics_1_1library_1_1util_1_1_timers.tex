@@ -1,0 +1,176 @@
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers}{}\section{com.\+lasarobotics.\+library.\+util.\+Timers Class Reference}
+\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers}\index{com.\+lasarobotics.\+library.\+util.\+Timers@{com.\+lasarobotics.\+library.\+util.\+Timers}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a05e3526671638c8a7989faa021972a5a}{Timers} ()
+\item 
+\hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a85a3d0fdaaf25c38a0f0cf8f8a3270ae}{Timers} (int precision)
+\item 
+void \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a0baeaa0b504aae6298341e4e4258f41c}{start\+Clock} (String name)
+\item 
+void \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_adfd15587ecf606bc5edd2484be56047a}{reset\+Clock} (String name)
+\item 
+long \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a7e981eca3d9a4ae24e08a56f375a74cc}{get\+Clock\+Value} (String name)
+\item 
+long \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_afc579ae87fe551fbf34b35bc0ffd0ba6}{get\+Clock\+Value} (String name, Time\+Unit time\+Unit)
+\item 
+boolean \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a18f1e196191869904f1bf68158929dcf}{is\+At\+Target\+Millis} (String name, long target)
+\item 
+boolean \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a5cd21a3b007ee957507830fabb952dfd}{is\+At\+Target\+Millis} (String name, long target, long precision)
+\item 
+long \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a6c7fcedc038f1e8b9f8e0cd6bfdce308}{get\+Precision} ()
+\item 
+void \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a9bc557ec5fbf399594df81d132e3b46f}{set\+Precision} (int precision)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements advanced timers with events and precision manipulation. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a05e3526671638c8a7989faa021972a5a}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}!Timers@{Timers}}
+\index{Timers@{Timers}!com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}}
+\subsubsection[{Timers()}]{\setlength{\rightskip}{0pt plus 5cm}com.\+lasarobotics.\+library.\+util.\+Timers.\+Timers (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a05e3526671638c8a7989faa021972a5a}
+Instantiates the timer class with the default millisecond precision. \hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a85a3d0fdaaf25c38a0f0cf8f8a3270ae}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}!Timers@{Timers}}
+\index{Timers@{Timers}!com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}}
+\subsubsection[{Timers(int precision)}]{\setlength{\rightskip}{0pt plus 5cm}com.\+lasarobotics.\+library.\+util.\+Timers.\+Timers (
+\begin{DoxyParamCaption}
+\item[{int}]{precision}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a85a3d0fdaaf25c38a0f0cf8f8a3270ae}
+Instantiates the timer class with an arbitrary precision in milliseconds. 
+\begin{DoxyParams}{Parameters}
+{\em precision} & Precision of the clock, in milliseconds. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a7e981eca3d9a4ae24e08a56f375a74cc}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}!get\+Clock\+Value@{get\+Clock\+Value}}
+\index{get\+Clock\+Value@{get\+Clock\+Value}!com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}}
+\subsubsection[{get\+Clock\+Value(\+String name)}]{\setlength{\rightskip}{0pt plus 5cm}long com.\+lasarobotics.\+library.\+util.\+Timers.\+get\+Clock\+Value (
+\begin{DoxyParamCaption}
+\item[{String}]{name}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a7e981eca3d9a4ae24e08a56f375a74cc}
+Get clock value. Defaults to millisecond precision. 
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of the clock \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Value of clock in milliseconds 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_afc579ae87fe551fbf34b35bc0ffd0ba6}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}!get\+Clock\+Value@{get\+Clock\+Value}}
+\index{get\+Clock\+Value@{get\+Clock\+Value}!com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}}
+\subsubsection[{get\+Clock\+Value(\+String name, Time\+Unit time\+Unit)}]{\setlength{\rightskip}{0pt plus 5cm}long com.\+lasarobotics.\+library.\+util.\+Timers.\+get\+Clock\+Value (
+\begin{DoxyParamCaption}
+\item[{String}]{name, }
+\item[{Time\+Unit}]{time\+Unit}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_afc579ae87fe551fbf34b35bc0ffd0ba6}
+Get clock value with precision in a given time unit 
+\begin{DoxyParams}{Parameters}
+{\em name} & Name of the clock \\
+\hline
+{\em time\+Unit} & Time\+Unit the output should be in \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value of the clock converted to the time unit specified (may lose precision) 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a6c7fcedc038f1e8b9f8e0cd6bfdce308}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}!get\+Precision@{get\+Precision}}
+\index{get\+Precision@{get\+Precision}!com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}}
+\subsubsection[{get\+Precision()}]{\setlength{\rightskip}{0pt plus 5cm}long com.\+lasarobotics.\+library.\+util.\+Timers.\+get\+Precision (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a6c7fcedc038f1e8b9f8e0cd6bfdce308}
+Gets the precision in milliseconds \begin{DoxyReturn}{Returns}
+Precision in milliseconds 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a18f1e196191869904f1bf68158929dcf}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}!is\+At\+Target\+Millis@{is\+At\+Target\+Millis}}
+\index{is\+At\+Target\+Millis@{is\+At\+Target\+Millis}!com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}}
+\subsubsection[{is\+At\+Target\+Millis(\+String name, long target)}]{\setlength{\rightskip}{0pt plus 5cm}boolean com.\+lasarobotics.\+library.\+util.\+Timers.\+is\+At\+Target\+Millis (
+\begin{DoxyParamCaption}
+\item[{String}]{name, }
+\item[{long}]{target}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a18f1e196191869904f1bf68158929dcf}
+Returns whether the clock is at the specified amount of milliseconds 
+\begin{DoxyParams}{Parameters}
+{\em name} & The clock name \\
+\hline
+{\em target} & The target time in milliseconds \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if at the target (+-\/ precision), false otherwise 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a5cd21a3b007ee957507830fabb952dfd}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}!is\+At\+Target\+Millis@{is\+At\+Target\+Millis}}
+\index{is\+At\+Target\+Millis@{is\+At\+Target\+Millis}!com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}}
+\subsubsection[{is\+At\+Target\+Millis(\+String name, long target, long precision)}]{\setlength{\rightskip}{0pt plus 5cm}boolean com.\+lasarobotics.\+library.\+util.\+Timers.\+is\+At\+Target\+Millis (
+\begin{DoxyParamCaption}
+\item[{String}]{name, }
+\item[{long}]{target, }
+\item[{long}]{precision}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a5cd21a3b007ee957507830fabb952dfd}
+Returns whether the clock is at the specified amount of milliseconds 
+\begin{DoxyParams}{Parameters}
+{\em name} & The clock name \\
+\hline
+{\em target} & The target time in milliseconds \\
+\hline
+{\em precision} & How much target and clock value can differ by in milliseconds \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if at the target (+-\/ precision), false otherwise 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_adfd15587ecf606bc5edd2484be56047a}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}!reset\+Clock@{reset\+Clock}}
+\index{reset\+Clock@{reset\+Clock}!com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}}
+\subsubsection[{reset\+Clock(\+String name)}]{\setlength{\rightskip}{0pt plus 5cm}void com.\+lasarobotics.\+library.\+util.\+Timers.\+reset\+Clock (
+\begin{DoxyParamCaption}
+\item[{String}]{name}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_adfd15587ecf606bc5edd2484be56047a}
+Reset a clock with the specified name. Clock will continue running immediately. 
+\begin{DoxyParams}{Parameters}
+{\em name} & The clock name \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a9bc557ec5fbf399594df81d132e3b46f}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}!set\+Precision@{set\+Precision}}
+\index{set\+Precision@{set\+Precision}!com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}}
+\subsubsection[{set\+Precision(int precision)}]{\setlength{\rightskip}{0pt plus 5cm}void com.\+lasarobotics.\+library.\+util.\+Timers.\+set\+Precision (
+\begin{DoxyParamCaption}
+\item[{int}]{precision}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a9bc557ec5fbf399594df81d132e3b46f}
+Sets the precision to a value 
+\begin{DoxyParams}{Parameters}
+{\em precision} & The precision of the clock, in milliseconds. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a0baeaa0b504aae6298341e4e4258f41c}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}!start\+Clock@{start\+Clock}}
+\index{start\+Clock@{start\+Clock}!com\+::lasarobotics\+::library\+::util\+::\+Timers@{com\+::lasarobotics\+::library\+::util\+::\+Timers}}
+\subsubsection[{start\+Clock(\+String name)}]{\setlength{\rightskip}{0pt plus 5cm}void com.\+lasarobotics.\+library.\+util.\+Timers.\+start\+Clock (
+\begin{DoxyParamCaption}
+\item[{String}]{name}
+\end{DoxyParamCaption}
+)}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_timers_a0baeaa0b504aae6298341e4e4258f41c}
+Start (and create, if nonexistent) a clock with a specified name. 
+\begin{DoxyParams}{Parameters}
+{\em name} & The clock name \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ftc-\/library/src/main/java/com/lasarobotics/library/util/Timers.\+java\end{DoxyCompactItemize}

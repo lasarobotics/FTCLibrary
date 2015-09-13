@@ -1,0 +1,154 @@
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util}{}\section{com.\+lasarobotics.\+library.\+util.\+Math\+Util Class Reference}
+\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util}\index{com.\+lasarobotics.\+library.\+util.\+Math\+Util@{com.\+lasarobotics.\+library.\+util.\+Math\+Util}}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_a4669403ad7a53281e54642b19c854969}{deadband} (double deadband, double value)
+\item 
+static Boolean \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_a237a2132ae1166ad3860162c43772c8d}{equal} (double a, double b)
+\item 
+static Boolean \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_a4a0d5166631ce63f29831cddcc93606c}{equal} (double a, double b, double distance)
+\item 
+static double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_ad4f61bfb6db04221bfa2ae604294212b}{filter} (double value, double lastvalue, double fail)
+\item 
+static double \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_ad104d4e18dfb7085f1df06cc06e1181d}{coerce} (double min, double max, double value)
+\item 
+static boolean \hyperlink{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_abf940081e2bc48457b82db587b9e19cd}{in\+Bounds} (double min, double max, double value)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Mathematical and Precision Utilities 
+
+\subsection{Member Function Documentation}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_ad104d4e18dfb7085f1df06cc06e1181d}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}!coerce@{coerce}}
+\index{coerce@{coerce}!com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}}
+\subsubsection[{coerce(double min, double max, double value)}]{\setlength{\rightskip}{0pt plus 5cm}static double com.\+lasarobotics.\+library.\+util.\+Math\+Util.\+coerce (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max, }
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_ad104d4e18dfb7085f1df06cc06e1181d}
+Forces a numerical value to be between a min and a max
+
+
+\begin{DoxyParams}{Parameters}
+{\em min} & If less than min, returns min \\
+\hline
+{\em max} & If greater than max, returns max \\
+\hline
+{\em value} & Value to test \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Coerced value 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_a4669403ad7a53281e54642b19c854969}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}!deadband@{deadband}}
+\index{deadband@{deadband}!com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}}
+\subsubsection[{deadband(double deadband, double value)}]{\setlength{\rightskip}{0pt plus 5cm}static double com.\+lasarobotics.\+library.\+util.\+Math\+Util.\+deadband (
+\begin{DoxyParamCaption}
+\item[{double}]{deadband, }
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_a4669403ad7a53281e54642b19c854969}
+Gives a \char`\"{}deadzone\char`\"{} where any value less than this would return zero.
+
+
+\begin{DoxyParams}{Parameters}
+{\em deadband} & Maximum value that returns zero \\
+\hline
+{\em value} & Value to test \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Deadbanded value 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_a237a2132ae1166ad3860162c43772c8d}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}!equal@{equal}}
+\index{equal@{equal}!com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}}
+\subsubsection[{equal(double a, double b)}]{\setlength{\rightskip}{0pt plus 5cm}static Boolean com.\+lasarobotics.\+library.\+util.\+Math\+Util.\+equal (
+\begin{DoxyParamCaption}
+\item[{double}]{a, }
+\item[{double}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_a237a2132ae1166ad3860162c43772c8d}
+Returns if two double values are equal to within epsilon. 
+\begin{DoxyParams}{Parameters}
+{\em a} & First value \\
+\hline
+{\em b} & Second value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the values are equal, false otherwise 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_a4a0d5166631ce63f29831cddcc93606c}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}!equal@{equal}}
+\index{equal@{equal}!com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}}
+\subsubsection[{equal(double a, double b, double distance)}]{\setlength{\rightskip}{0pt plus 5cm}static Boolean com.\+lasarobotics.\+library.\+util.\+Math\+Util.\+equal (
+\begin{DoxyParamCaption}
+\item[{double}]{a, }
+\item[{double}]{b, }
+\item[{double}]{distance}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_a4a0d5166631ce63f29831cddcc93606c}
+Returns if two double values are equal to within a distance. 
+\begin{DoxyParams}{Parameters}
+{\em a} & First value \\
+\hline
+{\em b} & Second value \\
+\hline
+{\em distance} & Maximum distance between a and b \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the values are equal ot within distance, false otherwise 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_ad4f61bfb6db04221bfa2ae604294212b}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}!filter@{filter}}
+\index{filter@{filter}!com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}}
+\subsubsection[{filter(double value, double lastvalue, double fail)}]{\setlength{\rightskip}{0pt plus 5cm}static double com.\+lasarobotics.\+library.\+util.\+Math\+Util.\+filter (
+\begin{DoxyParamCaption}
+\item[{double}]{value, }
+\item[{double}]{lastvalue, }
+\item[{double}]{fail}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_ad4f61bfb6db04221bfa2ae604294212b}
+Ignores values equal to the fail value (normally zero). 
+\begin{DoxyParams}{Parameters}
+{\em value} & Current value \\
+\hline
+{\em lastvalue} & Previous value \\
+\hline
+{\em fail} & Filter this value, normally zero \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Filtered value 
+\end{DoxyReturn}
+\hypertarget{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_abf940081e2bc48457b82db587b9e19cd}{}\index{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}!in\+Bounds@{in\+Bounds}}
+\index{in\+Bounds@{in\+Bounds}!com\+::lasarobotics\+::library\+::util\+::\+Math\+Util@{com\+::lasarobotics\+::library\+::util\+::\+Math\+Util}}
+\subsubsection[{in\+Bounds(double min, double max, double value)}]{\setlength{\rightskip}{0pt plus 5cm}static boolean com.\+lasarobotics.\+library.\+util.\+Math\+Util.\+in\+Bounds (
+\begin{DoxyParamCaption}
+\item[{double}]{min, }
+\item[{double}]{max, }
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\label{classcom_1_1lasarobotics_1_1library_1_1util_1_1_math_util_abf940081e2bc48457b82db587b9e19cd}
+Tests if a number is between the bounds, inclusive.
+
+
+\begin{DoxyParams}{Parameters}
+{\em min} & If less than min, returns false \\
+\hline
+{\em max} & If greater than max, returns false \\
+\hline
+{\em value} & Value to test \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns true if value is between (inclusive) min and max, false otherwise. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ftc-\/library/src/main/java/com/lasarobotics/library/util/Math\+Util.\+java\end{DoxyCompactItemize}
