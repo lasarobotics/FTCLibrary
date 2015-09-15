@@ -7,31 +7,43 @@ import com.qualcomm.robotcore.hardware.Gamepad;
  */
 public class Controller {
 
-    public int dpad_up;
-    public int dpad_down;
-    public int dpad_left;
-    public int dpad_right;
-    public int a;
-    public int b;
-    public int x;
-    public int y;
-    public int guide;
-    public int start;
-    public int back;
-    public int left_bumper;
-    public int right_bumper;
+    //BUTTONS
+    //Buttons use an integer to identify state, found in controller.ButtonState
+    public int dpad_up;         //Directional pad UP
+    public int dpad_down;       //Directional pad DOWN
+    public int dpad_left;       //Directional pad LEFT
+    public int dpad_right;      //Directional pad RIGHT
+    public int a;               //A button
+    public int b;               //B button
+    public int x;               //X button
+    public int y;               //Y button
+    public int guide;           //Guide button
+    public int start;           //START button
+    public int back;            //BACK button
+    public int left_bumper;     //left bumper
+    public int right_bumper;    //right bumper
 
     //Triggers use a float for how much they are pressed
-    public float left_trigger;
-    public float right_trigger;
+    public float left_trigger;  //left trigger
+    public float right_trigger; //right trigger
 
-    //Joysticks don't have any events
-    public float left_stick_x;
-    public float left_stick_y;
-    public float right_stick_x;
-    public float right_stick_y;
+    //Joysticks don't have any events, just values
+    public float left_stick_x;  //left joystick X axis
+    public float left_stick_y;  //left joystick Y axis
+    public float right_stick_x; //right joystick X axis
+    public float right_stick_y; //right joystick Y axis
+
+    /**
+     * Initialize a blank controller
+     */
     public Controller() {
+
     }
+
+    /**
+     * Initialize a controller from another (cloning)
+     * @param another Another Controller
+     */
     public Controller(Controller another) {
         this.dpad_up = another.dpad_up;
         this.dpad_down = another.dpad_down;
@@ -56,10 +68,19 @@ public class Controller {
         this.right_stick_y = another.right_stick_y;
     }
 
+    /**
+     * Initialize a controller from a Gamepad (FIRST library underlayer)
+     * @param g
+     */
     public Controller(Gamepad g) {
         update(g);
     }
 
+    /**
+     * Update the Controller states from a Gamepad.
+     * CALL THIS METHOD ON EVERY EVENT LOOP!
+     * @param g
+     */
     public void update(Gamepad g){
         dpad_up = handleUpdate(dpad_up,g.dpad_up);
         dpad_down = handleUpdate(dpad_down,g.dpad_down);
@@ -82,6 +103,12 @@ public class Controller {
         right_stick_y = g.right_stick_y;
     }
 
+    /**
+     * Update an individual button or bumper
+     * @param b Variable from Controller
+     * @param updatedstatus Boolean from Gamepad
+     * @return The new state
+     */
     private int handleUpdate(Integer b, boolean updatedstatus) {
         if (updatedstatus) {
             if (b == ButtonState.NOT_PRESSED || b == ButtonState.RELEASED)
