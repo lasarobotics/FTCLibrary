@@ -72,15 +72,15 @@ public class MathUtil {
     }
 
     /**
-     * Tests if a number is between the bounds, inclusive.
+     * Tests if a number is between the bounds, exclusive.
      *
      * @param min If less than min, returns false
      * @param max If greater than max, returns false
      * @param value Value to test
-     * @return Returns true if value is between (inclusive) min and max, false otherwise.
+     * @return Returns true if value is between (exclusive) min and max, false otherwise.
      */
     public static boolean inBounds(double min, double max, double value) {
-        return (value > max) ? false : (value < min) ? false : true;
+        return (value < max) && (value > min);
     }
 
 }
