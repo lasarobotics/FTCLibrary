@@ -3,7 +3,15 @@ package com.lasarobotics.library.util;
 /**
  *  Mathematical and Precision Utilities
  */
-public class MathUtil {
+public final class MathUtil {
+	
+    /**
+      * Suppresses constructor for noninstantiability
+      */
+    private MathUtil() {
+        throw new AssertionError();
+    }
+    
     /**
      * Double equality epsilon
      */
@@ -17,10 +25,8 @@ public class MathUtil {
      * @param value Value to test
      * @return Deadbanded value
      */
-    public static double deadband(double deadband, double value)
-    {
-        if (Math.abs(value) > deadband) { return value; }
-        return 0;
+    public static double deadband(double deadband, double value) {
+        return (Math.abs(value) > deadband) ? value : 0;
     }
 
     /**
@@ -29,8 +35,7 @@ public class MathUtil {
      * @param b Second value
      * @return True if the values are equal, false otherwise
      */
-    public static Boolean equal(double a, double b)
-    {
+    public static Boolean equal(double a, double b) {
         return (Math.abs(a - b) < EPSILON);
     }
 
@@ -41,8 +46,7 @@ public class MathUtil {
      * @param distance Maximum distance between a and b
      * @return True if the values are equal ot within distance, false otherwise
      */
-    public static Boolean equal(double a, double b, double distance)
-    {
+    public static Boolean equal(double a, double b, double distance) {
         return (Math.abs(a - b) < distance);
     }
 
@@ -53,8 +57,7 @@ public class MathUtil {
      * @param fail Filter this value, normally zero
      * @return Filtered value
      */
-    public static double filter(double value, double lastvalue, double fail)
-    {
+    public static double filter(double value, double lastvalue, double fail) {
         return (value == fail) ? lastvalue : value;
     }
 
@@ -82,5 +85,4 @@ public class MathUtil {
     public static boolean inBounds(double min, double max, double value) {
         return (value < max) && (value > min);
     }
-
 }
