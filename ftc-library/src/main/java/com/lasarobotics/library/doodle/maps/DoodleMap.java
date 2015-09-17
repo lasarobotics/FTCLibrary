@@ -16,28 +16,33 @@ public abstract class DoodleMap {
     HardwareMap map;
     RangeOfMotion rangeOfMotion = RangeOfMotion.DRIVE_AMPLITUDE_ROTATION;
 
-    protected DoodleMap(HardwareMap map, RangeOfMotion rangeOfMotion)
-    {
+    protected DoodleMap(HardwareMap map, RangeOfMotion rangeOfMotion) {
         this.map = map;
         this.rangeOfMotion = rangeOfMotion;
     }
 
-    public void update(HardwareMap map)
-    {
+    public void update(HardwareMap map) {
         this.map = map;
     }
 
     /*
      * Designates the capabilities of the drive train
      */
-    protected enum RangeOfMotion
-    {
+    protected enum RangeOfMotion {
         DRIVE_AMPLITUDE_ONLY,                   //drive trains only capable of moving forwards and backwards, should not be used
         DRIVE_AMPLITUDE_ROTATION,               //drive trains capable of rotation and amplitude (such as tank drive)
-        DRIVE_AMPLITUDE_ROTATION_TRANSLATION;   //drive trains capable of amplitude, rotation, and translation (such as mecanum drive)
+        DRIVE_AMPLITUDE_ROTATION_TRANSLATION   //drive trains capable of amplitude, rotation, and translation (such as mecanum drive)
     }
 
-    public void move(float amplitude) { move(amplitude, 0, 0); }
-    public void move(float amplitude, float rotation) { move(amplitude, rotation, 0); }
-    public void move(float amplitude, Float translation) { move(amplitude, 0, translation); }
+    public void move(float amplitude) {
+        move(amplitude, 0, 0);
+    }
+
+    public void move(float amplitude, float rotation) {
+        move(amplitude, rotation, 0);
+    }
+
+    public void move(float amplitude, Float translation) {
+        move(amplitude, 0, translation);
+    }
 }

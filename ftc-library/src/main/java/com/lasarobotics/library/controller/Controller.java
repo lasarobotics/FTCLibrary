@@ -42,6 +42,7 @@ public class Controller {
 
     /**
      * Initialize a controller from another (cloning)
+     *
      * @param another Another Controller
      */
     public Controller(Controller another) {
@@ -70,7 +71,6 @@ public class Controller {
 
     /**
      * Initialize a controller from a Gamepad (FIRST library underlayer)
-     * @param g
      */
     public Controller(Gamepad g) {
         update(g);
@@ -79,22 +79,21 @@ public class Controller {
     /**
      * Update the Controller states from a Gamepad.
      * CALL THIS METHOD ON EVERY EVENT LOOP!
-     * @param g
      */
-    public void update(Gamepad g){
-        dpad_up = handleUpdate(dpad_up,g.dpad_up);
-        dpad_down = handleUpdate(dpad_down,g.dpad_down);
-        dpad_left = handleUpdate(dpad_left,g.dpad_left);
-        dpad_right = handleUpdate(dpad_right,g.dpad_right);
-        a = handleUpdate(a,g.a);
-        b = handleUpdate(b,g.b);
-        x = handleUpdate(x,g.x);
-        y = handleUpdate(y,g.y);
-        guide = handleUpdate(guide,g.guide);
-        start = handleUpdate(start,g.start);
-        back = handleUpdate(back,g.back);
-        left_bumper = handleUpdate(left_bumper,g.left_bumper);
-        right_bumper = handleUpdate(right_bumper,g.right_bumper);
+    public void update(Gamepad g) {
+        dpad_up = handleUpdate(dpad_up, g.dpad_up);
+        dpad_down = handleUpdate(dpad_down, g.dpad_down);
+        dpad_left = handleUpdate(dpad_left, g.dpad_left);
+        dpad_right = handleUpdate(dpad_right, g.dpad_right);
+        a = handleUpdate(a, g.a);
+        b = handleUpdate(b, g.b);
+        x = handleUpdate(x, g.x);
+        y = handleUpdate(y, g.y);
+        guide = handleUpdate(guide, g.guide);
+        start = handleUpdate(start, g.start);
+        back = handleUpdate(back, g.back);
+        left_bumper = handleUpdate(left_bumper, g.left_bumper);
+        right_bumper = handleUpdate(right_bumper, g.right_bumper);
         left_trigger = g.left_trigger;
         right_trigger = g.right_trigger;
         left_stick_x = g.left_stick_x;
@@ -105,7 +104,8 @@ public class Controller {
 
     /**
      * Update an individual button or bumper
-     * @param b Variable from Controller
+     *
+     * @param b             Variable from Controller
      * @param updatedstatus Boolean from Gamepad
      * @return The new state
      */

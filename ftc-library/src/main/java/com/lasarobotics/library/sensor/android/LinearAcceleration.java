@@ -20,19 +20,16 @@ public class LinearAcceleration implements SensorEventListener {
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int i)
-    {
+    public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event)
-    {
+    public void onSensorChanged(SensorEvent event) {
         values = event.values;
     }
 
-    public Vector3<Float> getAcceleration()
-    {
+    public Vector3<Float> getAcceleration() {
         if (values != null)
             return new Vector3<Float>(values[0], values[1], values[2]);
         return new Vector3<Float>(null, null, null);

@@ -3,6 +3,7 @@ package com.lasarobotics.library.monkeyc;
 import android.content.Context;
 
 import com.google.gson.Gson;
+
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.util.Timers;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -20,15 +21,13 @@ public class MonkeyC {
     private Controller previous2 = new Controller();
     Timers t;
 
-    public MonkeyC()
-    {
+    public MonkeyC() {
         this.commands = new ArrayList<MonkeyData>();
         t = new Timers();
         t.startClock("global");
     }
 
-    public void add(Controller c1, Controller c2)
-    {
+    public void add(Controller c1, Controller c2) {
         //Make copy of controller
         Controller local1 = new Controller(c1);
         Controller local2 = new Controller(c2);
@@ -51,28 +50,26 @@ public class MonkeyC {
         this.previous2 = new Controller(local2);
 
         //Write to the instruction array for writing to disk later
-        if (data.getDeltasGamepad1() != null || data.getDeltasGamepad2() != null )
+        if (data.getDeltasGamepad1() != null || data.getDeltasGamepad2() != null)
             commands.add(data);
     }
 
-    public void add(Gamepad instruction, Gamepad instruction2)
-    {
+    public void add(Gamepad instruction, Gamepad instruction2) {
         //TODO test this - status on update() may remain either just pressed or just unpressed
         Controller one = new Controller(instruction);
         Controller two = new Controller(instruction2);
         add(one, two);
     }
 
-    public void clear()
-    {
+    public void clear() {
         commands.clear();
     }
 
-    public void write(String filename,Context context)
-    {
+    public void write(String filename, Context context) {
         MonkeyUtil.writeFile(filename, commands, context);
     }
-    public int size(){
+
+    public int size() {
         return commands.size();
     }
 }

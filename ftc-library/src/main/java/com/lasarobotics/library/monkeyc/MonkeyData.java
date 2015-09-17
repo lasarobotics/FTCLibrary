@@ -3,6 +3,7 @@ package com.lasarobotics.library.monkeyc;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
+
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.util.Constants;
 
@@ -24,23 +25,21 @@ public class MonkeyData {
     @SerializedName("t")
     private long time;
 
-    MonkeyData()
-    {
+    MonkeyData() {
         deltasGamepad1 = null;
         deltasGamepad2 = null;
         time = -1;
     }
 
-    MonkeyData( JsonObject deltasGamepad1, JsonObject deltasGamepad2, long time) {
+    MonkeyData(JsonObject deltasGamepad1, JsonObject deltasGamepad2, long time) {
         this.deltasGamepad1 = deltasGamepad1;
         this.deltasGamepad2 = deltasGamepad2;
         this.time = time;
     }
 
 
-    public Controller updateControllerOne(Controller previous)
-    {
-        if ( deltasGamepad1 != null) {
+    public Controller updateControllerOne(Controller previous) {
+        if (deltasGamepad1 != null) {
             Gson g = new Gson();
             try {
                 JSONObject previousjson = new JSONObject(g.toJson(previous));
@@ -56,15 +55,13 @@ public class MonkeyData {
                 e.printStackTrace();
             }
             return previous;
-        }
-        else{
+        } else {
             return previous;
         }
     }
 
-    public Controller updateControllerTwo(Controller previous)
-    {
-        if ( deltasGamepad2 != null) {
+    public Controller updateControllerTwo(Controller previous) {
+        if (deltasGamepad2 != null) {
             Gson g = new Gson();
             try {
                 JSONObject previousjson = new JSONObject(g.toJson(previous));
@@ -80,20 +77,18 @@ public class MonkeyData {
                 e.printStackTrace();
             }
             return previous;
-        }
-        else{
+        } else {
             return previous;
         }
     }
-    public boolean hasUpdate(){
-        if (deltasGamepad1 != null || deltasGamepad2 != null){
+
+    public boolean hasUpdate() {
+        if (deltasGamepad1 != null || deltasGamepad2 != null) {
             return true;
         }
-        if (time == Constants.MONKEYC_STARTING_CONSTANT){
-            return true;
-        }
-        return false;
+        return time == Constants.MONKEYC_STARTING_CONSTANT;
     }
+
     public JsonObject getDeltasGamepad1() {
         return deltasGamepad1;
     }
@@ -113,8 +108,8 @@ public class MonkeyData {
     public void setTime(long time) {
         this.time = time;
     }
-    public long getTime()
-    {
+
+    public long getTime() {
         return time;
     }
 }

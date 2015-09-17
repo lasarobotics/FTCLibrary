@@ -9,8 +9,7 @@ import com.lasarobotics.library.doodle.DoodleRunData;
 public abstract class Action {
     private String name;
 
-    protected Action(String name)
-    {
+    protected Action(String name) {
         this.name = name;
     }
 

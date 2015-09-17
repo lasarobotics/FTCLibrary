@@ -8,26 +8,21 @@ import com.lasarobotics.library.doodle.actions.Action;
  */
 public class WaitForever extends Action {
 
-    public WaitForever()
-    {
+    public WaitForever() {
         super("Wait forever");
     }
 
-    public void run(DoodleRunData data)
-    {
+    public void run(DoodleRunData data) {
         try {
-            while(true)
-            {
+            while (true) {
                 Thread.sleep(1000);
             }
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "Wait forever";
     }
 }
