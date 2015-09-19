@@ -2,12 +2,12 @@ package com.lasarobotics.library.monkeyc;
 
 import android.content.Context;
 import android.os.Environment;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import com.lasarobotics.library.android.Util;
 import com.lasarobotics.library.controller.Controller;
 
 
@@ -67,34 +67,12 @@ public class MonkeyUtil {
     }
 
 
-    public static void writeFile(String filename, ArrayList<MonkeyData> commands, Context context) {
+    public static void writeFile(String fileName, ArrayList<MonkeyData> commands, Context context) {
         try {
             Type listOfTestObject = new TypeToken<List<MonkeyData>>() {
             }.getType();
 
-            if (new File(FILE_DIR, filename).exists()) //if we already have a file named filename
-            {
-                new File(FILE_DIR, filename).delete();//we should delete it
-            }
-            File dir = new File(FILE_DIR);
-
-            File file = new File(FILE_DIR, filename);
-            Log.d("ftc", file.getAbsolutePath() + "");
-
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            // if file doesnt exists, then create it
-            if (!file.exists()) {
-                file.createNewFile();
-            } else {
-                int i = 0;
-                while (file.exists()) {
-                    file = new File(FILE_DIR, filename + "." + i);
-                    i++;
-                }
-                file.createNewFile();
-            }
+            File file = Util.createFileOnDevice(context, FILE_DIR, fileName);
             Gson g = getGson();
             String out = g.toJson(commands, listOfTestObject);
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
