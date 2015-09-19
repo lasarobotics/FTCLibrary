@@ -10,12 +10,16 @@ public class DoodleRunData {
     HardwareMap map;
     OpMode mode;
 
-    public DoodleRunData(HardwareMap map, OpMode mode)
-    {
+    public DoodleRunData(HardwareMap map, OpMode mode) {
         this.map = map;
         this.mode = mode;
     }
 
-    public HardwareMap map() { return map; }
-    public OpMode mode() { return mode; }
+    public HardwareMap map() {
+        return map;
+    }
+
+    public OpMode mode() {
+        return mode;
+    }
 }

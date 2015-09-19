@@ -8,18 +8,15 @@ import com.lasarobotics.library.doodle.DoodleRunData;
  */
 public class NoOperation extends Action {
 
-    public NoOperation()
-    {
+    public NoOperation() {
         super("Do nothing");
     }
 
-    public void run(DoodleRunData data)
-    {
+    public void run(DoodleRunData data) {
 
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "Do nothing";
     }
 }

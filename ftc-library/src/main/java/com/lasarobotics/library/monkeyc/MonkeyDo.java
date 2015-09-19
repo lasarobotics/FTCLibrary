@@ -15,27 +15,26 @@ public class MonkeyDo {
     private ArrayList<MonkeyData> commands;
     private Timers t;
     private String filename;
-    public MonkeyDo(String filename,Context context)
-    {
-        commands = MonkeyUtil.readFile(filename,context);
+
+    public MonkeyDo(String filename, Context context) {
+        commands = MonkeyUtil.readFile(filename, context);
         t = new Timers();
         t.startClock("global");
         this.filename = filename;
     }
 
-    public MonkeyData getNextCommand()
-    {
+    public MonkeyData getNextCommand() {
         long time = t.getClockValue("global");
-        if (time < commands.get(0).getTime()){
-            return new MonkeyData(null,null, Constants.MONKEYC_STARTING_CONSTANT);
+        if (time < commands.get(0).getTime()) {
+            return new MonkeyData(null, null, Constants.MONKEYC_STARTING_CONSTANT);
         }
-        for( int i = 0; i < commands.size();i++){
-            if (i+1 == commands.size()){
+        for (int i = 0; i < commands.size(); i++) {
+            if (i + 1 == commands.size()) {
                 return new MonkeyData();
             }
-            MonkeyData next = commands.get(i+1);
+            MonkeyData next = commands.get(i + 1);
             MonkeyData current = commands.get(i);
-            if (next.getTime() >= time &&  time >= current.getTime()){
+            if (next.getTime() >= time && time >= current.getTime()) {
                 return current;
             }
         }

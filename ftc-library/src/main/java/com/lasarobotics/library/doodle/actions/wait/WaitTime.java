@@ -10,23 +10,19 @@ public class WaitTime extends Action {
 
     long timems;
 
-    public WaitTime(long ms)
-    {
+    public WaitTime(long ms) {
         super("Wait time");
     }
 
-    public void run(DoodleRunData data)
-    {
+    public void run(DoodleRunData data) {
         try {
             Thread.sleep(timems);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public String toString()
-    {
-        return "Wait " + (float)timems + " milliseconds";
+    public String toString() {
+        return "Wait " + (float) timems + " milliseconds";
     }
 }

@@ -19,15 +19,13 @@ class TouchInternal extends TouchSensor {
         //legacyModule.enableAnalogReadMode(physicalPort);
 
 
-
         this.legacyModule = legacyModule;
         this.physicalPort = physicalPort;
 
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         legacyModule.registerForPortReadyCallback(new LegacyModule.PortReadyCallback() {
             @Override
             public void portIsReady(int i) {
@@ -37,9 +35,7 @@ class TouchInternal extends TouchSensor {
                     byte[] b = legacyModule.getI2cReadCache(physicalPort);
                     byte[] c = legacyModule.getI2cWriteCache(physicalPort);
                     byte j = b[0];
-                }
-                else
-                {
+                } else {
                     //legacyModule.enableNxtI2cReadMode(physicalPort, 16, 0, 1);
                     legacyModule.setNxtI2cPortActionFlag(physicalPort);
                     //legacyModule.writeI2cCacheToModule(physicalPort);
@@ -51,13 +47,12 @@ class TouchInternal extends TouchSensor {
 
     public double getRawValue() {
         byte[] a = this.legacyModule.readAnalog(this.physicalPort);
-        double var1 = (double) TypeConversion.byteArrayToShort(a, ByteOrder.LITTLE_ENDIAN);
-        return var1;
+        return (double) TypeConversion.byteArrayToShort(a, ByteOrder.LITTLE_ENDIAN);
     }
 
     public double getValue() {
         double var1 = getRawValue();
-        var1 = var1 > 675.0D?0.0D:1.0D;
+        var1 = var1 > 675.0D ? 0.0D : 1.0D;
         return var1;
     }
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
 import com.lasarobotics.library.controller.Controller;
 
 
@@ -34,7 +35,7 @@ public class MonkeyUtil {
 
     private static JsonObject getDeltas(Controller current, Controller previous) throws JSONException {
         Gson g = getGson();
-        JSONObject currentjson = new JSONObject(g.toJson(current)) ;
+        JSONObject currentjson = new JSONObject(g.toJson(current));
         JSONObject previousjson = new JSONObject(g.toJson(previous));
         JsonObject out = new JsonObject();
         //Test if anything was changed
@@ -47,7 +48,7 @@ public class MonkeyUtil {
             double prev = previousjson.getDouble(key);
             if (!(cur == prev)) {
                 changed = true;
-                out.addProperty(key,cur);
+                out.addProperty(key, cur);
             }
         }
 
@@ -70,13 +71,13 @@ public class MonkeyUtil {
         try {
             Type listOfTestObject = new TypeToken<List<MonkeyData>>() {
             }.getType();
-            
+
             if (new File(FILE_DIR, filename).exists()) //if we already have a file named filename
             {
                 new File(FILE_DIR, filename).delete();//we should delete it
             }
             File dir = new File(FILE_DIR);
-            
+
             File file = new File(FILE_DIR, filename);
             Log.d("ftc", file.getAbsolutePath() + "");
 
