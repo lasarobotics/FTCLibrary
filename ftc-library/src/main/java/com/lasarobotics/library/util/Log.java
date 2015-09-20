@@ -76,10 +76,10 @@ public class Log {
      *
      * @param fileType Format to write file in
      */
-    public void saveAs(Context c, FileType fileType) {
+    public void saveAs(FileType fileType) {
         try {
             //Use correct filename for requested file type
-            File f = Util.createFileOnDevice(c, fileDirectory, fileName + "." + fileType.toString());
+            File f = Util.createFileOnDevice(fileDirectory, fileName + "." + fileType.toString());
             String out = "";
             switch (fileType) {
                 case JSON:

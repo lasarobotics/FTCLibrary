@@ -66,7 +66,7 @@ public class MonkeyC {
     }
 
     public void write(String filename, Context context) {
-        MonkeyUtil.writeFile(filename, commands, context);
+        MonkeyUtil.writeFile(filename, commands);
     }
 
     public int size() {

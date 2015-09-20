@@ -67,12 +67,12 @@ public class MonkeyUtil {
     }
 
 
-    public static void writeFile(String fileName, ArrayList<MonkeyData> commands, Context context) {
+    public static void writeFile(String fileName, ArrayList<MonkeyData> commands) {
         try {
             Type listOfTestObject = new TypeToken<List<MonkeyData>>() {
             }.getType();
 
-            File file = Util.createFileOnDevice(context, FILE_DIR, fileName);
+            File file = Util.createFileOnDevice(FILE_DIR, fileName);
             Gson g = getGson();
             String out = g.toJson(commands, listOfTestObject);
             FileWriter fw = new FileWriter(file.getAbsoluteFile());

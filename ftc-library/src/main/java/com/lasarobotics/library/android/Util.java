@@ -77,7 +77,7 @@ public final class Util {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
     }
 
-    public static File createFileOnDevice(Context c, String fileDirectory, String fileName) throws IOException {
+    public static File createFileOnDevice(String fileDirectory, String fileName) throws IOException {
         String absoluteFileDir = Environment.getExternalStorageDirectory() + fileDirectory;
         File dir = new File(absoluteFileDir);
 
@@ -85,7 +85,7 @@ public final class Util {
             dir.mkdirs();
         }
         File file = new File(absoluteFileDir, fileName);
-        // if file doesnt exists, then create it
+        // if file doesn't exists, then create it
         if (!file.exists()) {
             file.createNewFile();
         } else {
