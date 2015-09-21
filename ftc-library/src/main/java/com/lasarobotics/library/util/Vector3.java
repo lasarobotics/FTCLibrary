@@ -9,6 +9,7 @@ public class Vector3<T> {
     public final T z;
     
     public static class Builder<T> {
+        private final T x, y, z;
         
         public Builder x(T n) {
             this.x = n;
