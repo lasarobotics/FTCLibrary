@@ -12,33 +12,19 @@ import java.lang.reflect.Method;
  * Android utilities
  */
 public final class Util {
-    public static Context getContext()
-    {
+    public static Context getContext() {
         try {
             final Class<?> activityThreadClass =
                     Class.forName("android.app.ActivityThread");
             final Method method = activityThreadClass.getMethod("currentApplication");
             return (Application) method.invoke(null, (Object[]) null);
-        } catch (final ClassNotFoundException e) {
-            // handle exception
-            return null;
-        } catch (final NoSuchMethodException e) {
-            // handle exception
-            return null;
-        } catch (final IllegalArgumentException e) {
-            // handle exception
-            return null;
-        } catch (final IllegalAccessException e) {
-            // handle exception
-            return null;
-        } catch (final InvocationTargetException e) {
+        } catch (final java.lang.Throwable e) {
             // handle exception
             return null;
         }
     }
 
-    public static String getDataDirectory(Context ctx)
-    {
+    public static String getDataDirectory(Context ctx) {
         try {
             return ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).applicationInfo.dataDir;
         }
@@ -47,13 +33,11 @@ public final class Util {
         }
     }
 
-    public static String getWorkingDirectory()
-    {
+    public static String getWorkingDirectory() {
         return System.getProperty("user.dir");
     }
 
-    public static String getDCIMDirectory()
-    {
+    public static String getDCIMDirectory() {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
     }
 }
