@@ -11,17 +11,17 @@ public class Vector3<T> {
     public static class Builder<T> {
         private final T x, y, z;
         
-        public Builder x(T n) {
+        public Builder<T> x(T n) {
             this.x = n;
             return this;
         }
         
-        public Builder y(T n) {
+        public Builder<T> y(T n) {
             this.y = n;
             return this;
         }
         
-        public Builder z(T n) {
+        public Builder<T> z(T n) {
             this.z = n;
             return this;
         }
