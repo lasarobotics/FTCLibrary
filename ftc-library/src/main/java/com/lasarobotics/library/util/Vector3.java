@@ -1,7 +1,7 @@
 package com.lasarobotics.library.util;
 
 /**
- * 3D Vector
+ * 3D Vector : Immutable
  */
 public class Vector3<T> {
     public final T x;
@@ -26,8 +26,9 @@ public class Vector3<T> {
             return this;
         }
         
+        // Illegal State Exception errors can be thrown if x, y, or z is null
         public Vector3<T> build() { 
-            return new Vector3<T>(x, y, x);
+            return new Vector3<T>(x, y, z);
         }
     }
 
