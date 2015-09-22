@@ -50,7 +50,7 @@ public final class Util {
      * @return The user working directory, as a string
      */
     public static String getWorkingDirectory() {
-        return System.getProperty("user.dir");
+        return System.getProperty("user.dir")
     }
 
     /**
