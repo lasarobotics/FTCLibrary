@@ -1,29 +1,41 @@
 package com.lasarobotics.library.util;
 
 /**
- * 3D Vector
+ * 3D Vector : Immutable
  */
 public class Vector3<T> {
-    private T x;
-    private T y;
-    private T z;
+    public final T x;
+    public final T y;
+    public final T z;
+
+    public static class Builder<T> {
+        private T x, y, z;
+
+        public Builder<T> x(T n) {
+            this.x = n;
+            return this;
+        }
+
+        public Builder<T> y(T n) {
+            this.y = n;
+            return this;
+        }
+
+        public Builder<T> z(T n) {
+            this.z = n;
+            return this;
+        }
+
+        // Illegal State Exception errors can be thrown if x, y, or z is null
+        public Vector3<T> build() {
+            return new Vector3<T>(x, y, z);
+        }
+    }
 
     public Vector3(T x, T y, T z) {
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-
-    public T x() {
-        return x;
-    }
-
-    public T y() {
-        return y;
-    }
-
-    public T z() {
-        return z;
     }
 
     @Override
