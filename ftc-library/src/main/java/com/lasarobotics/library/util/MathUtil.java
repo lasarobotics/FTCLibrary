@@ -13,7 +13,7 @@ public final class MathUtil {
     }
     
     /**
-     * Double equality epsilon
+     * Double equality epsilon (maximum tolerance for a double)
      */
     private final static double EPSILON = 0.000001;
 
@@ -66,7 +66,7 @@ public final class MathUtil {
 
     /**
      * Forces a numerical value to be between a min
-     * and a max
+     * and a max.
      *
      * @param min   If less than min, returns min
      * @param max   If greater than max, returns max

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 import com.lasarobotics.library.controller.Controller;
@@ -20,17 +21,20 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
  * MonkeyUtil handles reading and writing text files with instructions created by MonkeyC
  */
 public class MonkeyUtil {
-    public final static String FILE_DIR = Environment.getExternalStorageDirectory() + "/MonkeyC/";
+    public final static String FILE_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MonkeyC/";
 
 
     private static JsonObject getDeltas(Controller current, Controller previous) throws JSONException {
@@ -58,12 +62,18 @@ public class MonkeyUtil {
     }
 
     public static MonkeyData createDeltas(Controller current1, Controller previous1, Controller current2, Controller previous2, long time) {
+        //Get controller deltas
+        JsonObject one = null;
+        JsonObject two = null;
+
         try {
-            return new MonkeyData(getDeltas(current1, previous1), getDeltas(current2, previous2), time);
+            one = getDeltas(current1, previous1);
+            two = getDeltas(current2, previous2);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return new MonkeyData(one, two, time);
     }
 
 
@@ -106,7 +116,6 @@ public class MonkeyUtil {
         }
     }
 
-
     public static ArrayList<MonkeyData> readFile(String filename, Context context) {
         File file = new File(FILE_DIR, filename);
         String out = "";
@@ -128,5 +137,35 @@ public class MonkeyUtil {
     private static Gson getGson() {
         GsonBuilder gb = new GsonBuilder();
         return gb.create();
+    }
+
+    static void callMonkeyMethod(String m) {
+        String methodName = m.substring(m.lastIndexOf('.') + 1);
+        String className = m.substring(0, m.lastIndexOf('.'));
+
+        //GET CLASS
+        Class<?> clas;
+        try {
+            clas = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+        //GET METHOD WITHIN CLASS
+        Method method;
+        try {
+            method = clas.getMethod(methodName);//, param1.class, param2.class, ..);
+        } catch (SecurityException | NoSuchMethodException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        //RUN METHOD
+        try {
+            Object obj = clas.newInstance();
+            method.invoke(obj);
+        } catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 }

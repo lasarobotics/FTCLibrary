@@ -23,15 +23,35 @@ public class Controller {
     public int left_bumper;     //left bumper
     public int right_bumper;    //right bumper
 
+    //TRIGGERS
     //Triggers use a float for how much they are pressed
     public float left_trigger;  //left trigger
     public float right_trigger; //right trigger
 
+    //JOYSTICKS
     //Joysticks don't have any events, just values
     public float left_stick_x;  //left joystick X axis
     public float left_stick_y;  //left joystick Y axis
     public float right_stick_x; //right joystick X axis
     public float right_stick_y; //right joystick Y axis
+
+    //BUTTONS AND TRIGGERS enumeration
+    public enum Keys
+    {
+        dpad_up,
+        dpad_down,
+        dpad_left,
+        dpad_right,
+        a,
+        b,
+        x,
+        y,
+        guide,
+        start,
+        back,
+        left_bumper,
+        right_bumper;
+    }
 
     /**
      * Initialize a blank controller
