@@ -1,14 +1,15 @@
 package com.lasarobotics.library.monkeyc;
 
 import android.content.Context;
+import android.os.Environment;
 
 import com.google.gson.Gson;
-
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.util.Timers;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The MonkeyC (MonkeySee) library that handles recording and storing driver controls
@@ -16,31 +17,37 @@ import java.util.ArrayList;
  * or can be created prior to a match.  MonkeyDo can then execute these commands.
  */
 public class MonkeyC {
-    private ArrayList<MonkeyData> commands;
-    private Controller previous1 = new Controller();
-    private Controller previous2 = new Controller();
-    Timers t;
+    private ArrayList<MonkeyData> commands;             //Array of commands to be written as JSON
+    private Controller previous1 = new Controller();    //Previous state of controller 1
+    private Controller previous2 = new Controller();    //Previous state of controller 2
 
-    public MonkeyC() {
+    private Timers t;                                   //Timer instance - we use "global"
+
+    /**
+     * Initialize the MonkeyC instance
+     */
+    public MonkeyC()
+    {
         this.commands = new ArrayList<MonkeyData>();
+
+        //Create a PAUSED clock
         t = new Timers();
-        t.startClock("global");
+        t.createClock("global");
     }
 
-    public void add(Controller c1, Controller c2) {
+    /**
+     * Add an instruction using two controllers
+     * @param c1 Controller 1
+     * @param c2 Controller 2
+     */
+    public void add(Controller c1, Controller c2)
+    {
         //Make copy of controller
         Controller local1 = new Controller(c1);
         Controller local2 = new Controller(c2);
 
         //Get current time stamp
         long time = t.getClockValue("global");
-
-        //Get previous controller state JSON
-        Gson gson = new Gson();
-        //GsonBuilder gsonbuild = new GsonBuilder();
-
-        //String json1 = gson.toJson(local1);
-        //JsonObject jsobj = new JsonObject();
 
         //Get controller deltas
         MonkeyData data = MonkeyUtil.createDeltas(local1, previous1, local2, previous2, time);
@@ -50,26 +57,92 @@ public class MonkeyC {
         this.previous2 = new Controller(local2);
 
         //Write to the instruction array for writing to disk later
-        if (data.getDeltasGamepad1() != null || data.getDeltasGamepad2() != null)
+        if (data.getDeltasGamepad1() != null || data.getDeltasGamepad2() != null )
+        {
             commands.add(data);
+            if (!t.isRunning("global"))
+            {
+                //Resume clock if it is NOT running
+                t.startClock("global");
+            }
+        }
     }
 
-    public void add(Gamepad instruction, Gamepad instruction2) {
-        //TODO test this - status on update() may remain either just pressed or just unpressed
+    /**
+     * Add an instruction using two gamepads (FIRST native, not recommended)
+     * @param instruction Gamepad 1
+     * @param instruction2 Gamepad 2
+     */
+    public void add(Gamepad instruction, Gamepad instruction2)
+    {
+        //TODO test this - status on update() must remain either just pressed or just unpressed
         Controller one = new Controller(instruction);
         Controller two = new Controller(instruction2);
         add(one, two);
     }
 
-    public void clear() {
+    /**
+     * Returns true if the MonkeyC timer is paused.
+     *
+     * Please note that time continues running during a custom function, but
+     * controller input will NOT be recorded until the function completes.
+     *
+     * To resume time, press any controller button or joystick
+     * when NOT currently executing a custom function.
+     * @return True if paused, false if running
+     */
+    public boolean isPaused()
+    {
+        return !t.isRunning("global");
+    }
+
+    /**
+     * Gets the time of the MonkeyC clock
+     * @return The time of the clock, in seconds.
+     */
+    public float getTime()
+    {
+        return (float)t.getClockValue("global", TimeUnit.MILLISECONDS) / 1000.0f;
+    }
+
+    public void pauseTime() {
+        t.pauseClock("global");
+    }
+
+    public void resumeTime() {
+        t.startClock("global");
+    }
+
+    /**
+     * Wait for a controller key update to continue the clock
+     */
+    public void waitForController() {
+        pauseTime();
+    }
+
+    /**
+     * Clears the entire command list. All commands will be deleted.
+     */
+    public void clear()
+    {
         commands.clear();
     }
 
-    public void write(String filename, Context context) {
+    /**
+     * Write the final JSON to a file
+     * @param filename The filename to write to
+     * @param context The current Context or Application instance
+     */
+    public void write(String filename, Context context)
+    {
         MonkeyUtil.writeFile(filename, commands, context);
     }
 
-    public int size() {
+    /**
+     * Returns the count of items in the command array
+     * @return The count of items in the command array
+     */
+    public int getCommandsWritten(){
         return commands.size();
     }
 }

@@ -50,7 +50,9 @@ public class FtcOpModeRegister implements OpModeRegister {
         manager.register("Null", NullOp.class);
         manager.register("Mecanum Prototype", MecanumPrototypeTeleop.class);
         manager.register("MonkeyC Do", MonkeyCDo.class);
+        manager.register("MonkeyC 2.0 Do", MonkeyC2Do.class);
         manager.register("MonkeyC Write", MonkeyCWrite.class);
+        manager.register("MonkeyC 2.0 Write", MonkeyC2Write.class);
         manager.register("Optical Distance Sensor Tester", DistanceSensorTester.class);
     }
 }

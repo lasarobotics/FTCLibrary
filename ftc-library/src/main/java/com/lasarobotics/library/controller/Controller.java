@@ -60,6 +60,60 @@ public class Controller {
 
     }
 
+    public static Controller getZeroController()
+    {
+        Controller a = new Controller();
+        a.dpad_up = ButtonState.NOT_PRESSED;
+        a.dpad_down = ButtonState.NOT_PRESSED;
+        a.dpad_left = ButtonState.NOT_PRESSED;
+        a.dpad_right = ButtonState.NOT_PRESSED;
+        a.a = ButtonState.NOT_PRESSED;
+        a.b = ButtonState.NOT_PRESSED;
+        a.x = ButtonState.NOT_PRESSED;
+        a.y = ButtonState.NOT_PRESSED;
+        a.guide = ButtonState.NOT_PRESSED;
+        a.start = ButtonState.NOT_PRESSED;
+        a.back = ButtonState.NOT_PRESSED;
+        a.left_bumper = ButtonState.NOT_PRESSED;
+        a.right_bumper = ButtonState.NOT_PRESSED;
+
+        a.left_trigger = 0.0f;
+        a.right_trigger = 0.0f;
+
+        a.left_stick_x = 0.0f;
+        a.left_stick_y = 0.0f;
+        a.right_stick_x = 0.0f;
+        a.right_stick_y = 0.0f;
+        return a;
+    }
+
+    public static Controller getPressedController()
+    {
+        Controller a = new Controller();
+        a.dpad_up = ButtonState.HELD;
+        a.dpad_down = ButtonState.HELD;
+        a.dpad_left = ButtonState.HELD;
+        a.dpad_right = ButtonState.HELD;
+        a.a = ButtonState.HELD;
+        a.b = ButtonState.HELD;
+        a.x = ButtonState.HELD;
+        a.y = ButtonState.HELD;
+        a.guide = ButtonState.HELD;
+        a.start = ButtonState.HELD;
+        a.back = ButtonState.HELD;
+        a.left_bumper = ButtonState.HELD;
+        a.right_bumper = ButtonState.HELD;
+
+        a.left_trigger = 1.0f;
+        a.right_trigger = 1.0f;
+
+        a.left_stick_x = 1.0f;
+        a.left_stick_y = 1.0f;
+        a.right_stick_x = 1.0f;
+        a.right_stick_y = 1.0f;
+        return a;
+    }
+
     /**
      * Initialize a controller from another (cloning)
      *

@@ -1,19 +1,19 @@
 package com.lasarobotics.ftcrobotcontroller.opmodes;
 
 
-import com.lasarobotics.library.drive.Mecanum;
+import com.lasarobotics.ftcrobotcontroller.MyApplication;
+import com.lasarobotics.library.controller.ButtonState;
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.monkeyc.MonkeyC;
 import com.lasarobotics.library.sensor.legacy.hitechnic.Gyroscope;
-import com.lasarobotics.ftcrobotcontroller.MyApplication;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
 /**
- * A Test Teleop
+ * MonkeyC2 Write Test
  */
-public class MonkeyCWrite extends OpMode {
+public class MonkeyC2Write extends OpMode {
     //basic FTC classes
     DcMotor leftFront;
     DcMotor rightFront;
@@ -30,17 +30,17 @@ public class MonkeyCWrite extends OpMode {
     public void init() {
         gamepad1.setJoystickDeadzone(.1F);
         gamepad2.setJoystickDeadzone(.1F);
-        leftFront = hardwareMap.dcMotor.get("leftFront");
-        rightFront = hardwareMap.dcMotor.get("rightFront");
-        leftBack = hardwareMap.dcMotor.get("leftBack");
-        rightBack = hardwareMap.dcMotor.get("rightBack");
+        //leftFront = hardwareMap.dcMotor.get("leftFront");
+        //rightFront = hardwareMap.dcMotor.get("rightFront");
+        //leftBack = hardwareMap.dcMotor.get("leftBack");
+        //rightBack = hardwareMap.dcMotor.get("rightBack");
 
-        leftFront.setDirection(DcMotor.Direction.REVERSE);
-        leftBack.setDirection(DcMotor.Direction.REVERSE);
-
+        //leftFront.setDirection(DcMotor.Direction.REVERSE);
+        //leftBack.setDirection(DcMotor.Direction.REVERSE);
     }
     @Override
     public void start(){
+        MonkeyC2Do.isTested = false;
         writer = new MonkeyC();
     }
     @Override
@@ -49,9 +49,27 @@ public class MonkeyCWrite extends OpMode {
         one.update(gamepad1);
         two.update(gamepad2);
         writer.add(one, two);
+
+        if (one.x == ButtonState.PRESSED)
+        {
+            MonkeyC2Do.test();
+            //writer.waitForController();
+        }
+
+        if (MonkeyC2Do.isTested)
+        {
+            telemetry.addData("X KEY", "PRESSED!");
+        }
+        else
+        {
+            telemetry.addData("X KEY", "Not pressed");
+        }
+
         telemetry.addData("Status", writer.getCommandsWritten() + " commands written");
+        telemetry.addData("Time", writer.getTime() + " seconds");
+
         //Drive commands go here (must match when playing back)
-        Mecanum.Arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
+        //Mecanum.Arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
     }
 
     @Override
