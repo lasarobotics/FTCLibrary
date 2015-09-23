@@ -168,7 +168,7 @@ public class Timers {
             else
             {
                 //Paused, store returns absolute
-                return store.get(name).time;
+                return timeUnit.convert(store.get(name).time, TimeUnit.NANOSECONDS);
             }
         }
         else{
