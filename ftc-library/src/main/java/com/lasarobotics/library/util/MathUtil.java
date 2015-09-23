@@ -4,14 +4,14 @@ package com.lasarobotics.library.util;
  * Mathematical and Precision Utilities
  */
 public final class MathUtil {
-	
+
     /**
-      * Suppresses constructor for noninstantiability
-      */
+     * Suppresses constructor for noninstantiability
+     */
     private MathUtil() {
         throw new AssertionError();
     }
-    
+
     /**
      * Double equality epsilon
      */
