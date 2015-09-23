@@ -22,6 +22,7 @@ public class MonkeyC {
     private Controller previous2 = new Controller();    //Previous state of controller 2
 
     private Timers t;                                   //Timer instance - we use "global"
+    private boolean ended = false;                      //True if the end() method has been called
 
     /**
      * Initialize the MonkeyC instance
@@ -29,6 +30,7 @@ public class MonkeyC {
     public MonkeyC()
     {
         this.commands = new ArrayList<MonkeyData>();
+        ended = false;
 
         //Create a PAUSED clock
         t = new Timers();
@@ -42,6 +44,8 @@ public class MonkeyC {
      */
     public void add(Controller c1, Controller c2)
     {
+        if (ended) { return; }
+
         //Make copy of controller
         Controller local1 = new Controller(c1);
         Controller local2 = new Controller(c2);
@@ -110,6 +114,7 @@ public class MonkeyC {
     }
 
     public void resumeTime() {
+        if (ended) { return; }
         t.startClock("global");
     }
 
@@ -128,6 +133,14 @@ public class MonkeyC {
         commands.clear();
     }
 
+    public void end()
+    {
+        if (ended) { return; }
+        pauseTime();
+        add(Controller.getZeroController(), Controller.getZeroController());
+        ended = true;
+    }
+
     /**
      * Write the final JSON to a file
      * @param filename The filename to write to
@@ -135,6 +148,7 @@ public class MonkeyC {
      */
     public void write(String filename, Context context)
     {
+        end();
         MonkeyUtil.writeFile(filename, commands, context);
     }
 

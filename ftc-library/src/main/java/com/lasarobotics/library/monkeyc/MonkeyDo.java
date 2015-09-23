@@ -47,14 +47,6 @@ public class MonkeyDo {
             }
             return commands.get(commandsRead);
         }
-        //If we're just past the last command, send a reset command to reset all of the controllers
-        else if (commandsRead + 1 == commands.size())
-        {
-            commandsRead++;
-            return MonkeyUtil.createDeltas(Controller.getZeroController(), Controller.getPressedController(),
-                                    Controller.getZeroController(), Controller.getPressedController(),
-                                    currentTime);
-        }
         /*Terminates the program, by feeding no values.
         * This causes MonkeyData.hasUpdate() to return false since both deltas are null
         */
