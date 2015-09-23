@@ -4,6 +4,7 @@ import com.lasarobotics.ftcrobotcontroller.MyApplication;
 import com.lasarobotics.library.controller.ButtonState;
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.drive.Mecanum;
+import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.monkeyc.MonkeyData;
 import com.lasarobotics.library.monkeyc.MonkeyDo;
 import com.lasarobotics.library.sensor.legacy.hitechnic.Gyroscope;
@@ -42,13 +43,14 @@ public class MonkeyC2Do extends OpMode {
     public void init() {
         gamepad1.setJoystickDeadzone(.1F);
         gamepad2.setJoystickDeadzone(.1F);
-        //leftFront = hardwareMap.dcMotor.get("leftFront");
-        //rightFront = hardwareMap.dcMotor.get("rightFront");
-        //leftBack = hardwareMap.dcMotor.get("leftBack");
-        //rightBack = hardwareMap.dcMotor.get("rightBack");
+        leftFront = hardwareMap.dcMotor.get("leftFront");
+        rightFront = hardwareMap.dcMotor.get("rightFront");
+        leftBack = hardwareMap.dcMotor.get("leftBack");
+        rightBack = hardwareMap.dcMotor.get("rightBack");
 
-        //leftFront.setDirection(DcMotor.Direction.REVERSE);
-        //leftBack.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+
         reader = new MonkeyDo("test.txt", MyApplication.getAppContext());
     }
     @Override
@@ -73,7 +75,7 @@ public class MonkeyC2Do extends OpMode {
 
             telemetry.addData("Status", "Replaying commands for file " + reader.getFilename());
             //Drive commands go here
-            //Mecanum.Arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
+            Tank.Motor4(leftFront, rightFront, leftBack, rightBack, one.left_stick_y, one.right_stick_y);
         }
         else {
             telemetry.addData("Status", "Done replaying!");
