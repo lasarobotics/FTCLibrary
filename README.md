@@ -16,6 +16,7 @@ The most recent stable version of FTCLibrary can be found on [this page](https:/
 From the Android Studio menu, select `Open an existing Android Studio Project` and browse to the location of the library. Android Studio will begin running setup and generate the necessary files to use the library. Once done, you should see a `samples` modules such as the one shown here.
 
 ![Shows sample module](./docs/img1.png).
+<img src="./docs/img1.png" width="300">
 
 **You can now begin editing the `opmodes` in the sample module to code your robot with the library!** (We've included samples in the `samples/` folder for you to play with. Learn how the code works!)
 
