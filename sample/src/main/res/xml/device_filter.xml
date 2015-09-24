@@ -1,4 +1,6 @@
-
 <resources>
-   <usb-device vendor-id="1027" product-id="24577" /> <!-- FT232 Modern Robotics -->
+    <usb-device
+        vendor-id="1027"
+        product-id="24577" />
+    <!-- FT232 Modern Robotics -->
 </resources>
