@@ -44,6 +44,17 @@ public class MonkeyC {
      */
     public void add(Controller c1, Controller c2)
     {
+        add(c1, c2, false);
+    }
+
+    /**
+     * Add an instruction using two controllers
+     * @param c1 Controller 1
+     * @param c2 Controller 2
+     * @param allowNull Allow a null controller state? Required to ensure end of method at a specified time.
+     */
+    private void add(Controller c1, Controller c2, boolean allowNull)
+    {
         if (ended) { return; }
 
         //Make copy of controller
@@ -54,7 +65,7 @@ public class MonkeyC {
         long time = t.getClockValue("global");
 
         //Get controller deltas
-        MonkeyData data = MonkeyUtil.createDeltas(local1, previous1, local2, previous2, time);
+        MonkeyData data = MonkeyUtil.createDeltas(local1, previous1, local2, previous2, time, allowNull);
 
         //Update previous values to current values
         this.previous1 = new Controller(local1);
@@ -133,11 +144,14 @@ public class MonkeyC {
         commands.clear();
     }
 
+    /**
+     * End the command stream. After this, no further commands can be written.
+     */
     public void end()
     {
         if (ended) { return; }
         pauseTime();
-        add(Controller.getZeroController(), Controller.getZeroController());
+        add(Controller.getZeroController(), Controller.getZeroController(), true);
         ended = true;
     }
 

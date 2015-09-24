@@ -36,7 +36,7 @@ public class MonkeyUtil {
     public final static String FILE_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MonkeyC/";
 
 
-    private static JsonObject getDeltas(Controller current, Controller previous) throws JSONException {
+    private static JsonObject getDeltas(Controller current, Controller previous, boolean allowNull) throws JSONException {
         Gson g = getGson();
         JSONObject currentjson = new JSONObject(g.toJson(current));
         JSONObject previousjson = new JSONObject(g.toJson(previous));
@@ -55,19 +55,19 @@ public class MonkeyUtil {
             }
         }
 
-        if (!changed)
+        if (!changed && !allowNull)
             return null;
         return out;
     }
 
-    public static MonkeyData createDeltas(Controller current1, Controller previous1, Controller current2, Controller previous2, long time) {
+    public static MonkeyData createDeltas(Controller current1, Controller previous1, Controller current2, Controller previous2, long time, boolean allowNull) {
         //Get controller deltas
         JsonObject one = null;
         JsonObject two = null;
 
         try {
-            one = getDeltas(current1, previous1);
-            two = getDeltas(current2, previous2);
+            one = getDeltas(current1, previous1, allowNull);
+            two = getDeltas(current2, previous2, allowNull);
         } catch (JSONException e) {
             e.printStackTrace();
         }
