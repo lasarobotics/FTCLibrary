@@ -7,7 +7,7 @@ We *strongly encourage* FTC teams to submit pull requests to this library. You w
 
 ##Getting Started
 ###Download Android Studio
-Android Studio is the IDE used for developing Android apps. It is available for Windows,OSX and most Linux distributions and can be downloaded from [here](http://developer.android.com/sdk/index.html).
+Android Studio is the IDE used for developing Android apps. It is available for Windows, OSX and most Linux distributions and can be downloaded from [here](http://developer.android.com/sdk/index.html).
 
 ###Get the project
 The most recent stable version of FTCLibrary can be found on [this page](https://github.com/lasarobotics/FTCLibrary/releases). Simply download the attached archive and extract it anywhere on your computer. Alternatively, you can clone the repository in git or browse to a specific branch to view development versions.
