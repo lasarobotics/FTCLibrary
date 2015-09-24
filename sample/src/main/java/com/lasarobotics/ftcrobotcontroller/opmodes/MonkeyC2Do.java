@@ -73,6 +73,15 @@ public class MonkeyC2Do extends OpMode {
                 //reader.waitForController();
             }
 
+            if (isTested)
+            {
+                telemetry.addData("X KEY", "PRESSED!");
+            }
+            else
+            {
+                telemetry.addData("X KEY", "Not pressed");
+            }
+
             telemetry.addData("Status", "Replaying commands for file " + reader.getFilename());
             //Drive commands go here
             Tank.Motor4(leftFront, rightFront, leftBack, rightBack, one.left_stick_y, one.right_stick_y);
