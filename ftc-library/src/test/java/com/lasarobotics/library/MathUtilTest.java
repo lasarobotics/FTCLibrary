@@ -16,7 +16,7 @@ public class MathUtilTest {
 
     @Test
     public void deadbandTest_ValueLessThanDedband_ReturnsZero(){
-        assertThat(MathUtil.deadband(10,5), is(1.0));
+        assertThat(MathUtil.deadband(10,5), is(0.0));
     }
     @Test
     public void deadbandTest_GreatLessThanDedband_ReturnsValue(){
