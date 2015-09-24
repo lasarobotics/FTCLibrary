@@ -26,7 +26,7 @@ We can provide support to teams who wish to use our library. Please let us know 
 Help in any and all areas is welcomed and encouraged. If you would like to help, please fork the library and pull request changes into the `staging` branch.
 
 **Thank you to the following teams for their participation and use of the library!**
-- **HiPhidelity (4290)**
+- **HIgh PHidelity (4290)**
 - **Static Void (6990)**
 
 
