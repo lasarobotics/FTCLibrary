@@ -23,6 +23,7 @@ public class MonkeyC {
 
     private Timers t;                                   //Timer instance - we use "global"
     private boolean ended = false;                      //True if the end() method has been called
+    private boolean isWaiting = false;                          //True if we're pausing the clock until the next press
 
     /**
      * Initialize the MonkeyC instance
@@ -72,13 +73,20 @@ public class MonkeyC {
         this.previous2 = new Controller(local2);
 
         //Write to the instruction array for writing to disk later
-        if (data.getDeltasGamepad1() != null || data.getDeltasGamepad2() != null )
+        if (data.getDeltasGamepad1() != null || data.getDeltasGamepad2() != null)
         {
             commands.add(data);
             if (!t.isRunning("global"))
             {
-                //Resume clock if it is NOT running
-                t.startClock("global");
+                if (isWaiting)
+                {
+                    //Keep the clock paused if we need to wait - at least until the next press
+                    isWaiting = false;
+                }
+                else {
+                    //Resume clock if it is NOT running
+                    t.startClock("global");
+                }
             }
         }
     }
@@ -132,8 +140,12 @@ public class MonkeyC {
     /**
      * Wait for a controller key update to continue the clock
      */
-    public void waitForController() {
+    public void waitForController(Controller controller1, Controller controller2) {
         pauseTime();
+        //reset controllers to zero while we're waiting to prevent a repress, resuming the clock
+        controller1.reset();
+        controller2.reset();
+        isWaiting = true;
     }
 
     /**

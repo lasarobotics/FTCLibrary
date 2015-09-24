@@ -35,6 +35,7 @@ public class MonkeyDo {
      */
     public MonkeyData getNextCommand() {
         long currentTime = t.getClockValue("global");
+
         //If before first patch, override the state of the MonkeyData.hasUpdate() method to return true
         if (currentTime < commands.get(0).getTime()) {
             return new MonkeyData(null, null, Constants.MONKEYC_STARTING_CONSTANT);
