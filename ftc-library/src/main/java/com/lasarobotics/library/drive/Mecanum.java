@@ -21,7 +21,7 @@ public final class Mecanum {
      * @param leftBack   The motor on the back left
      * @param rightBack  The motor on the back right
      */
-    public static void Arcade(double y, double x, double c, DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack) {
+    public static void arcade(double y, double x, double c, DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack) {
         double leftFrontVal = y + x + c;
         double rightFrontVal = y - x - c;
         double leftBackVal = y - x + c;
@@ -55,11 +55,11 @@ public final class Mecanum {
      * @param leftBack    The motor on the back left
      * @param rightBack   The motor on the back right
      */
-    public static void Arcade_FieldOriented(double y, double x, double c, double gyroheading, DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack) {
+    public static void fieldOriented(double y, double x, double c, double gyroheading, DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack) {
         double cosA = Math.cos(Math.toRadians(Gyroscope.normalize(gyroheading)));
         double sinA = Math.sin(Math.toRadians(Gyroscope.normalize(gyroheading)));
         double xOut = x * cosA - y * sinA;
         double yOut = x * sinA + y * cosA;
-        Arcade(yOut, xOut, c, leftFront, rightFront, leftBack, rightBack);
+        arcade(yOut, xOut, c, leftFront, rightFront, leftBack, rightBack);
     }
 }

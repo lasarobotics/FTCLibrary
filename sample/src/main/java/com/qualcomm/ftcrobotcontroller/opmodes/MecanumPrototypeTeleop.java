@@ -40,7 +40,7 @@ public class MecanumPrototypeTeleop extends OpMode {
         one.update(gamepad1);
         two.update(gamepad2);
 
-        Mecanum.Arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
+        Mecanum.arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
     }
 
     @Override
