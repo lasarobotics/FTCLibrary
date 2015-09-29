@@ -84,7 +84,7 @@ public class MonkeyC2Do extends OpMode {
 
             telemetry.addData("Status", "Replaying commands for file " + reader.getFilename());
             //Drive commands go here
-            Tank.Motor4(leftFront, rightFront, leftBack, rightBack, one.left_stick_y, one.right_stick_y);
+            Tank.motor4(leftFront, rightFront, leftBack, rightBack, one.left_stick_y, one.right_stick_y);
         }
         else {
             telemetry.addData("Status", "Done replaying!");

@@ -170,12 +170,11 @@ public class MonkeyC {
     /**
      * Write the final JSON to a file
      * @param filename The filename to write to
-     * @param context The current Context or Application instance
      */
-    public void write(String filename, Context context)
+    public void write(String filename)
     {
         end();
-        MonkeyUtil.writeFile(filename, commands, context);
+        MonkeyUtil.writeFile(filename, commands);
     }
 
     /**

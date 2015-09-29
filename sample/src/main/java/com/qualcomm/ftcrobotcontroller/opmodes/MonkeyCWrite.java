@@ -59,6 +59,6 @@ public class MonkeyCWrite extends OpMode {
 
     @Override
     public void stop() {
-        writer.write("test.txt", MyApplication.getAppContext());
+        writer.write("test.txt");
     }
 }

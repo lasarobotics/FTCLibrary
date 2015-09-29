@@ -72,11 +72,11 @@ public class MonkeyC2Write extends OpMode {
         telemetry.addData("Time", writer.getTime() + " seconds");
 
         //Drive commands go here (must match when playing back)
-        Tank.Motor4(leftFront, rightFront, leftBack, rightBack, one.left_stick_y, one.right_stick_y);
+        Tank.motor4(leftFront, rightFront, leftBack, rightBack, one.left_stick_y, one.right_stick_y);
     }
 
     @Override
     public void stop() {
-        writer.write("test.txt", MyApplication.getAppContext());
+        writer.write("test.txt");
     }
 }
