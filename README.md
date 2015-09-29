@@ -17,7 +17,7 @@ From the Android Studio menu, select `Open an existing Android Studio Project` a
 
 <img src="./docs/img1.png" width="300">
 
-**You can now begin editing the `opmodes` in the sample module to code your robot with the library!** (We've included samples in the `samples/` folder for you to play with. Learn how the code works!)
+**You can now begin editing the `opmodes` in the sample module to code your robot with the library!** (We've included samples in the `samples/` folder for you to play with.)
 
 ##Support
 We can provide support to teams who wish to use our library. Please let us know (via the issues tab) if there's anything we can help you with or anything you wish could be improved. We welcome feedback!
