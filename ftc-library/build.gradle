@@ -27,7 +27,6 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.3'
 
-    compile(name: 'd2xx', ext: 'jar')
     compile(name: 'RobotCore-release', ext: 'aar')
     compile(name: 'ModernRobotics-release', ext: 'aar')
     compile(name: 'FtcCommon-release', ext: 'aar')
