@@ -55,5 +55,6 @@ public class FtcOpModeRegister implements OpModeRegister {
         manager.register("MonkeyC 2.0 Write", MonkeyC2Write.class);
         manager.register("Optical Distance Sensor Tester", DistanceSensorTester.class);
         manager.register("LiftTest", LiftTest.class);
+        manager.register("LoggingSample", LoggingSample.class);
     }
 }

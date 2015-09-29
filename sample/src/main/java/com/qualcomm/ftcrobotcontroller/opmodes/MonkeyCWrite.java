@@ -54,7 +54,7 @@ public class MonkeyCWrite extends OpMode {
         writer.add(one, two);
         telemetry.addData("Status", writer.getCommandsWritten() + " commands written");
         //Drive commands go here (must match when playing back)
-        Mecanum.Arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
+        Mecanum.arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
     }
 
     @Override

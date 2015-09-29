@@ -27,7 +27,7 @@ public class Swerve {
      * @param lb          The servo on the back left
      * @param rb          The servo on the back right
      */
-    public static void Standard(double y, double x, double rot, double gyroheading,
+    public static void standard(double y, double x, double rot, double gyroheading,
                                 DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack,
                                 Servo lf, Servo rf, Servo lb, Servo rb) {
         //Makes commands field-centric

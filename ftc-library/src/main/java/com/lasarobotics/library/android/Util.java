@@ -4,7 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.util.Log;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -60,5 +63,27 @@ public final class Util {
      */
     public static String getDCIMDirectory() {
         return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+    }
+
+    public static File createFileOnDevice(String fileDirectory, String fileName) throws IOException {
+        String absoluteFileDir = Environment.getExternalStorageDirectory() + fileDirectory;
+        File dir = new File(absoluteFileDir);
+
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File file = new File(absoluteFileDir, fileName);
+        // if file doesn't exists, then create it
+        if (!file.exists()) {
+            file.createNewFile();
+        } else {
+            int i = 0;
+            while (file.exists()) {
+                file = new File(absoluteFileDir, fileName + "." + i);
+                i++;
+            }
+            file.createNewFile();
+        }
+        return file;
     }
 }

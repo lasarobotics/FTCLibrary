@@ -54,7 +54,7 @@ public class MonkeyCDo extends OpMode {
             two = m.updateControllerTwo(two);
             telemetry.addData("Status", "Replaying commands for file " + reader.getFilename());
             //Drive commands go here
-            Mecanum.Arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
+            Mecanum.arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
         } else {
             telemetry.addData("Status", "Done replaying");
         }

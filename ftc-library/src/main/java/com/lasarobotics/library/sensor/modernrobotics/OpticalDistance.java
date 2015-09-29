@@ -47,7 +47,8 @@ public class OpticalDistance {
     }
 
     /**
-     * Returns true if an object is close enough to get an accurate distance measurement of +- 1 cm,
+     * Returns true if an object is close enough to get an accurate distance measurement of +- 1
+     * cm,
      * assuming light object
      *
      * @return True if an object is close enough to get an accurate distance measurement

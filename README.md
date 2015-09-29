@@ -7,7 +7,7 @@ We *strongly encourage* FTC teams to submit pull requests to this library. You w
 
 ##Getting Started
 ###Download Android Studio
-Android Studio is the IDE used for developing Android apps. It is available for Windows,OSX and most Linux distributions and can be downloaded from [here](http://developer.android.com/sdk/index.html).
+Android Studio is the IDE used for developing Android apps. It is available for Windows, OSX and most Linux distributions and can be downloaded from [here](http://developer.android.com/sdk/index.html).
 
 ###Get the project
 The most recent stable version of FTCLibrary can be found on [this page](https://github.com/lasarobotics/FTCLibrary/releases). Simply download the attached archive and extract it anywhere on your computer. Alternatively, you can clone the repository in git or browse to a specific branch to view development versions.
@@ -15,9 +15,9 @@ The most recent stable version of FTCLibrary can be found on [this page](https:/
 ###Open the Project
 From the Android Studio menu, select `Open an existing Android Studio Project` and browse to the location of the library. Android Studio will begin running setup and generate the necessary files to use the library. Once done, you should see a `samples` modules such as the one shown here.
 
-![Shows sample module](./docs/img1.png).
+<img src="./docs/img1.png" width="300">
 
-**You can now begin editing the `opmodes` in the sample module to code your robot with the library!** (We've included samples in the `samples/` folder for you to play with. Learn how the code works!)
+**You can now begin editing the `opmodes` in the sample module to code your robot with the library!** (We've included samples in the `samples/` folder for you to play with.)
 
 ##Support
 We can provide support to teams who wish to use our library. Please let us know (via the issues tab) if there's anything we can help you with or anything you wish could be improved. We welcome feedback!
@@ -26,7 +26,7 @@ We can provide support to teams who wish to use our library. Please let us know 
 Help in any and all areas is welcomed and encouraged. If you would like to help, please fork the library and pull request changes into the `staging` branch.
 
 **Thank you to the following teams for their participation and use of the library!**
-- **HiPhidelity (4290)**
+- **HIgh PHidelity (4290)**
 - **Static Void (6990)**
 
 
