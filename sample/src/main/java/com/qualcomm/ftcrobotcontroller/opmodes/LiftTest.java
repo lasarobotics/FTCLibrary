@@ -54,8 +54,19 @@ public class LiftTest extends OpMode {
             liftAngle.setPower(0);
         }
 
+        if (one.x == ButtonState.PRESSED || one.x == ButtonState.HELD)
+        {
+            lift.setPower(1);
+        }
+        else if(one.b == ButtonState.PRESSED || one.b == ButtonState.HELD)
+        {
+            lift.setPower(-1);
+        }
+        else {
+            lift.setPower(0);
+        }
 
-        Tank.motor4(frontLeft, frontRight, backLeft, backRight, one.left_stick_y * -1, one.right_stick_y);
+        Tank.motor4(frontLeft, frontRight, backLeft, backRight, -one.left_stick_y, one.right_stick_y);
     }
 
     public void stop() {
