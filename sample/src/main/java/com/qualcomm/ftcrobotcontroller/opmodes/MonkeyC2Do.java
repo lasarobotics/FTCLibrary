@@ -14,8 +14,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 public class MonkeyC2Do extends OpMode {
     //basic FTC classes
-    DcMotor lift;
-    DcMotor liftAngle;
     DcMotor frontLeft, frontRight, backLeft, backRight;
     Controller one, two;
     MonkeyDo reader;
@@ -36,8 +34,6 @@ public class MonkeyC2Do extends OpMode {
         gamepad1.setJoystickDeadzone(.1F);
         gamepad2.setJoystickDeadzone(.1F);
 
-        lift = hardwareMap.dcMotor.get("lift");
-        liftAngle = hardwareMap.dcMotor.get("liftAngle");
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         frontRight = hardwareMap.dcMotor.get("frontRight");
         backLeft = hardwareMap.dcMotor.get("backLeft");
@@ -78,31 +74,8 @@ public class MonkeyC2Do extends OpMode {
             }
 
             telemetry.addData("Status", "Replaying commands for file " + reader.getFilename());
+
             //Drive commands go here
-            if (one.dpad_up == ButtonState.PRESSED || one.dpad_up == ButtonState.HELD)
-            {
-                liftAngle.setPower(0.25);
-            }
-            else if(one.dpad_down == ButtonState.PRESSED || one.dpad_down == ButtonState.HELD)
-            {
-                liftAngle.setPower(-0.25);
-            }
-            else {
-                liftAngle.setPower(0);
-            }
-
-            if (one.y == ButtonState.PRESSED || one.y == ButtonState.HELD)
-            {
-                liftAngle.setPower(1);
-            }
-            else if(one.a == ButtonState.PRESSED || one.a == ButtonState.HELD)
-            {
-                liftAngle.setPower(-1);
-            }
-            else {
-                liftAngle.setPower(0);
-            }
-
             Tank.motor4(frontLeft, frontRight, backLeft, backRight, one.left_stick_y * -1, one.right_stick_y);
         }
         else {
