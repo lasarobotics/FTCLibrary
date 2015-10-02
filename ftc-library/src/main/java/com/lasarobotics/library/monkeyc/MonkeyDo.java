@@ -2,7 +2,6 @@ package com.lasarobotics.library.monkeyc;
 
 import android.content.Context;
 
-import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.util.Constants;
 import com.lasarobotics.library.util.Timers;
 
@@ -75,13 +74,6 @@ public class MonkeyDo {
 
     public void resumeTime() {
         t.startClock("global");
-    }
-
-    /**
-     * Wait for a controller key update to continue the clock
-     */
-    public void waitForController() {
-        pauseTime();
     }
 
     public String getFilename() {

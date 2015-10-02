@@ -5,13 +5,10 @@ import android.os.Environment;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-
 import com.lasarobotics.library.android.Util;
 import com.lasarobotics.library.controller.Controller;
-
-
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +23,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -76,18 +72,23 @@ public class MonkeyUtil {
     }
 
 
-    public static void writeFile(String fileName, ArrayList<MonkeyData> commands) {
+    public static void writeFile(String fileName, ArrayList<MonkeyData> commands, boolean overwrite) {
         try {
             Type listOfTestObject = new TypeToken<List<MonkeyData>>() {
             }.getType();
 
-            File file = Util.createFileOnDevice(FILE_DIR, fileName);
+            File file = Util.createFileOnDevice(FILE_DIR, fileName, overwrite);
             Gson g = getGson();
             String out = g.toJson(commands, listOfTestObject);
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(out);
             bw.close();
+
+            boolean a = file.exists();
+            long b = file.length();
+            boolean c = file.canRead();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

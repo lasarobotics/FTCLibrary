@@ -2,7 +2,6 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.lasarobotics.library.controller.ButtonState;
 import com.lasarobotics.library.controller.Controller;
-import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.monkeyc.MonkeyData;
 import com.lasarobotics.library.monkeyc.MonkeyDo;
 import com.qualcomm.ftcrobotcontroller.MyApplication;
@@ -21,11 +20,11 @@ public class MonkeyC2Do extends OpMode {
     public static boolean isTested = false;
     public static void test()
     {
-        try {
+        /*try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         isTested = true;
     }
 
@@ -34,13 +33,13 @@ public class MonkeyC2Do extends OpMode {
         gamepad1.setJoystickDeadzone(.1F);
         gamepad2.setJoystickDeadzone(.1F);
 
-        frontLeft = hardwareMap.dcMotor.get("frontLeft");
-        frontRight = hardwareMap.dcMotor.get("frontRight");
-        backLeft = hardwareMap.dcMotor.get("backLeft");
-        backRight = hardwareMap.dcMotor.get("backRight");
+        //frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        //frontRight = hardwareMap.dcMotor.get("frontRight");
+        //backLeft = hardwareMap.dcMotor.get("backLeft");
+        //backRight = hardwareMap.dcMotor.get("backRight");
 
         one = new Controller(gamepad1);
-        one = new Controller(gamepad2);
+        two = new Controller(gamepad2);
 
         reader = new MonkeyDo("test.txt", MyApplication.getAppContext());
     }
@@ -60,8 +59,9 @@ public class MonkeyC2Do extends OpMode {
 
             if (one.x == ButtonState.PRESSED)
             {
+                reader.pauseTime();
                 test();
-                reader.waitForController();
+                reader.resumeTime();
             }
 
             if (isTested)
@@ -76,7 +76,7 @@ public class MonkeyC2Do extends OpMode {
             telemetry.addData("Status", "Replaying commands for file " + reader.getFilename());
 
             //Drive commands go here
-            Tank.motor4(frontLeft, frontRight, backLeft, backRight, one.left_stick_y * -1, one.right_stick_y);
+            //Tank.motor4(frontLeft, frontRight, backLeft, backRight, one.left_stick_y * -1, one.right_stick_y);
         }
         else {
             telemetry.addData("Status", "Done replaying!");

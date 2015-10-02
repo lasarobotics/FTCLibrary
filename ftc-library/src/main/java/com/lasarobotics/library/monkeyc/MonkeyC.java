@@ -1,9 +1,5 @@
 package com.lasarobotics.library.monkeyc;
 
-import android.content.Context;
-import android.os.Environment;
-
-import com.google.gson.Gson;
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.util.Timers;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -169,12 +165,26 @@ public class MonkeyC {
 
     /**
      * Write the final JSON to a file
+     *
+     * If the file exists, a new file with appended ".1", ".2", etc. will be created
+     * It is recommended to use the other implementation and set overwrite to true if you're viewing the file
+     * from a manager that does not show hidden files.
      * @param filename The filename to write to
      */
     public void write(String filename)
     {
+        write(filename, false);
+    }
+
+    /**
+     * Write the final JSON to a file
+     * @param filename The filename to write to
+     * @param overwrite True to overwrite file if exists, false to append ".1", ".2", etc. to the end if exists
+     */
+    public void write(String filename, boolean overwrite)
+    {
         end();
-        MonkeyUtil.writeFile(filename, commands);
+        MonkeyUtil.writeFile(filename, commands, overwrite);
     }
 
     /**
