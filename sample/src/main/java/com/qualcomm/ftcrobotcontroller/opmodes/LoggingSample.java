@@ -13,7 +13,7 @@ public class LoggingSample extends OpMode {
 
     @Override
     public void init() {
-        l = new Log("/FTC_Logs/", "test.txt");
+        l = new Log("/FTC_Logs/", "test");
         t = new Timers();
         t.startClock("global");
     }

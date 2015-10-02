@@ -29,7 +29,7 @@ import java.util.Scanner;
  * MonkeyUtil handles reading and writing text files with instructions created by MonkeyC
  */
 public class MonkeyUtil {
-    public final static String FILE_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MonkeyC/";
+    public final static String FILE_DIR = "/MonkeyC/";
 
 
     private static JsonObject getDeltas(Controller current, Controller previous, boolean allowNull) throws JSONException {
@@ -95,7 +95,7 @@ public class MonkeyUtil {
     }
 
     public static ArrayList<MonkeyData> readFile(String filename, Context context) {
-        File file = new File(FILE_DIR, filename);
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + FILE_DIR, filename);
         String out = "";
         ArrayList<MonkeyData> commands = new ArrayList<MonkeyData>();
         try {

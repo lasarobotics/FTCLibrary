@@ -64,6 +64,7 @@ public final class Util {
     }
 
     public static File createFileOnDevice(String fileDirectory, String fileName, boolean overwrite) throws IOException {
+        fileDirectory = Environment.getExternalStorageDirectory().getAbsolutePath() + fileDirectory;
         File dir = new File(fileDirectory);
 
         if (!dir.exists()) {
