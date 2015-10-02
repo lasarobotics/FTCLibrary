@@ -1,5 +1,6 @@
 package com.lasarobotics.library.controller;
 
+import com.google.gson.annotations.SerializedName;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 /**
@@ -9,30 +10,49 @@ public class Controller {
 
     //BUTTONS
     //Buttons use an integer to identify state, found in controller.ButtonState
+    @SerializedName("du")
     public int dpad_up;         //Directional pad UP
+    @SerializedName("dd")
     public int dpad_down;       //Directional pad DOWN
+    @SerializedName("dl")
     public int dpad_left;       //Directional pad LEFT
+    @SerializedName("dr")
     public int dpad_right;      //Directional pad RIGHT
+    @SerializedName("a")
     public int a;               //A button
+    @SerializedName("b")
     public int b;               //B button
+    @SerializedName("x")
     public int x;               //X button
+    @SerializedName("y")
     public int y;               //Y button
+    @SerializedName("g")
     public int guide;           //Guide button
+    @SerializedName("s")
     public int start;           //START button
+    @SerializedName("bk")
     public int back;            //BACK button
+    @SerializedName("bl")
     public int left_bumper;     //left bumper
+    @SerializedName("br")
     public int right_bumper;    //right bumper
 
     //TRIGGERS
     //Triggers use a float for how much they are pressed
+    @SerializedName("tl")
     public float left_trigger;  //left trigger
+    @SerializedName("tr")
     public float right_trigger; //right trigger
 
     //JOYSTICKS
     //Joysticks don't have any events, just values
+    @SerializedName("lx")
     public float left_stick_x;  //left joystick X axis
+    @SerializedName("ly")
     public float left_stick_y;  //left joystick Y axis
+    @SerializedName("rx")
     public float right_stick_x; //right joystick X axis
+    @SerializedName("ry")
     public float right_stick_y; //right joystick Y axis
 
     //BUTTONS AND TRIGGERS enumeration
