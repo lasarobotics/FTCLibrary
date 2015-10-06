@@ -159,7 +159,12 @@ public class MonkeyC {
     {
         if (ended) { return; }
         pauseTime();
+
+        //ensure that the final command written resets all of the controllers to zero
+        previous1 = Controller.getPressedController();
+        previous2 = Controller.getPressedController();
         add(Controller.getZeroController(), Controller.getZeroController(), true);
+
         ended = true;
     }
 
