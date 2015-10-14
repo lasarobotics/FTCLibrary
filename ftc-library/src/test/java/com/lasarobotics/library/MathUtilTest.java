@@ -1,9 +1,12 @@
+package com.lasarobotics.library;
+
 import com.lasarobotics.library.util.MathUtil;
 
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
+import static org.junit.matchers.JUnitMatchers.*;
 
 
 /**
