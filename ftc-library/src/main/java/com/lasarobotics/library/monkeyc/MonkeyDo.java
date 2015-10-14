@@ -39,13 +39,19 @@ public class MonkeyDo {
         if (currentTime < commands.get(0).getTime()) {
             return new MonkeyData(null, null, Constants.MONKEYC_STARTING_CONSTANT);
         }
-        //If there's still more commands to come
+        //If there are still more commands to come
         else if (commandsRead + 1 < commands.size()) {
             //If next command's start time has past, increment patch.
             if (commands.get(commandsRead + 1).getTime() < currentTime) {
                 commandsRead++;
             }
             return commands.get(commandsRead);
+        }
+        //Get the last one, without an OutOfRangeException!
+        else if (commandsRead + 1 == commands.size())
+        {
+            commandsRead++;
+            return commands.get(commandsRead - 1);
         }
         /*Terminates the program, by feeding no values.
         * This causes MonkeyData.hasUpdate() to return false since both deltas are null

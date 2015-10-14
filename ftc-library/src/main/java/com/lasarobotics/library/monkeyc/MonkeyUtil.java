@@ -85,10 +85,6 @@ public class MonkeyUtil {
             bw.write(out);
             bw.close();
 
-            boolean a = file.exists();
-            long b = file.length();
-            boolean c = file.canRead();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,7 +93,7 @@ public class MonkeyUtil {
     public static ArrayList<MonkeyData> readFile(String filename, Context context) {
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + FILE_DIR, filename);
         String out = "";
-        ArrayList<MonkeyData> commands = new ArrayList<MonkeyData>();
+        ArrayList<MonkeyData> commands = new ArrayList<>();
         try {
             Scanner s = new Scanner(file);
             while (s.hasNextLine()) {
