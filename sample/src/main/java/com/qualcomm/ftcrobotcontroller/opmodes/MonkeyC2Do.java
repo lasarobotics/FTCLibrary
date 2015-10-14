@@ -42,8 +42,8 @@ public class MonkeyC2Do extends OpMode {
         one = new Controller(gamepad1);
         two = new Controller(gamepad2);
 
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        //frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        //frontRight.setDirection(DcMotor.Direction.REVERSE);
 
         reader = new MonkeyDo("test.txt", MyApplication.getAppContext());
     }
@@ -80,7 +80,7 @@ public class MonkeyC2Do extends OpMode {
             telemetry.addData("Status", "Replaying commands for file " + reader.getFilename());
 
             //Drive commands go here
-            Tank.motor4(frontLeft, frontRight, backLeft, backRight, one.left_stick_y, -one.right_stick_y);
+            Tank.motor4(frontLeft, frontRight, backLeft, backRight, -one.left_stick_y, one.right_stick_y);
         }
         else {
             telemetry.addData("Status", "Done replaying!");

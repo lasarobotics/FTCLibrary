@@ -28,8 +28,8 @@ public class MonkeyC2Write extends OpMode {
         backLeft = hardwareMap.dcMotor.get("backLeft");
         backRight = hardwareMap.dcMotor.get("backRight");
 
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        //frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        //frontRight.setDirection(DcMotor.Direction.REVERSE);
 
         one = new Controller(gamepad1);
         two = new Controller(gamepad2);
@@ -66,7 +66,7 @@ public class MonkeyC2Write extends OpMode {
         telemetry.addData("Time", writer.getTime() + " seconds");
 
         //Drive commands go here (must match when playing back)
-        Tank.motor4(frontLeft, frontRight, backLeft, backRight, one.left_stick_y, -one.right_stick_y);
+        Tank.motor4(frontLeft, frontRight, backLeft, backRight, -one.left_stick_y, one.right_stick_y);
     }
 
     @Override
