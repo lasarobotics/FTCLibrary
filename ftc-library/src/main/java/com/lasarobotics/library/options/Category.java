@@ -3,7 +3,7 @@ package com.lasarobotics.library.options;
 import java.util.ArrayList;
 
 /**
- * Created by ehsan on 10/13/15.
+ * Holds a set of options for a menu type
  */
 public class Category {
     public String name;
