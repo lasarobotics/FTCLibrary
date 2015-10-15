@@ -52,13 +52,13 @@ public class MonkeyCWrite extends OpMode {
         one.update(gamepad1);
         two.update(gamepad2);
         writer.add(one, two);
-        telemetry.addData("Status", writer.size() + " commands written");
+        telemetry.addData("Status", writer.getCommandsWritten() + " commands written");
         //Drive commands go here (must match when playing back)
         Mecanum.arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
     }
 
     @Override
     public void stop() {
-        writer.write("test.txt", MyApplication.getAppContext());
+        writer.write("test.txt");
     }
 }

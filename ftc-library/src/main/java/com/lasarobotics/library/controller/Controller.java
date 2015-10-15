@@ -1,5 +1,6 @@
 package com.lasarobotics.library.controller;
 
+import com.google.gson.annotations.SerializedName;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 /**
@@ -9,35 +10,133 @@ public class Controller {
 
     //BUTTONS
     //Buttons use an integer to identify state, found in controller.ButtonState
+    @SerializedName("du")
     public int dpad_up;         //Directional pad UP
+    @SerializedName("dd")
     public int dpad_down;       //Directional pad DOWN
+    @SerializedName("dl")
     public int dpad_left;       //Directional pad LEFT
+    @SerializedName("dr")
     public int dpad_right;      //Directional pad RIGHT
+    @SerializedName("a")
     public int a;               //A button
+    @SerializedName("b")
     public int b;               //B button
+    @SerializedName("x")
     public int x;               //X button
+    @SerializedName("y")
     public int y;               //Y button
+    @SerializedName("g")
     public int guide;           //Guide button
+    @SerializedName("s")
     public int start;           //START button
+    @SerializedName("bk")
     public int back;            //BACK button
+    @SerializedName("bl")
     public int left_bumper;     //left bumper
+    @SerializedName("br")
     public int right_bumper;    //right bumper
 
+    //TRIGGERS
     //Triggers use a float for how much they are pressed
+    @SerializedName("tl")
     public float left_trigger;  //left trigger
+    @SerializedName("tr")
     public float right_trigger; //right trigger
 
+    //JOYSTICKS
     //Joysticks don't have any events, just values
+    @SerializedName("lx")
     public float left_stick_x;  //left joystick X axis
+    @SerializedName("ly")
     public float left_stick_y;  //left joystick Y axis
+    @SerializedName("rx")
     public float right_stick_x; //right joystick X axis
+    @SerializedName("ry")
     public float right_stick_y; //right joystick Y axis
+
+    //BUTTONS AND TRIGGERS enumeration
+    public enum Keys
+    {
+        dpad_up,
+        dpad_down,
+        dpad_left,
+        dpad_right,
+        a,
+        b,
+        x,
+        y,
+        guide,
+        start,
+        back,
+        left_bumper,
+        right_bumper;
+    }
 
     /**
      * Initialize a blank controller
      */
     public Controller() {
+        reset();
+    }
 
+    public void reset()
+    {
+        dpad_up = ButtonState.NOT_PRESSED;
+        dpad_down = ButtonState.NOT_PRESSED;
+        dpad_left = ButtonState.NOT_PRESSED;
+        dpad_right = ButtonState.NOT_PRESSED;
+        a = ButtonState.NOT_PRESSED;
+        b = ButtonState.NOT_PRESSED;
+        x = ButtonState.NOT_PRESSED;
+        y = ButtonState.NOT_PRESSED;
+        guide = ButtonState.NOT_PRESSED;
+        start = ButtonState.NOT_PRESSED;
+        back = ButtonState.NOT_PRESSED;
+        left_bumper = ButtonState.NOT_PRESSED;
+        right_bumper = ButtonState.NOT_PRESSED;
+
+        left_trigger = 0.0f;
+        right_trigger = 0.0f;
+
+        left_stick_x = 0.0f;
+        left_stick_y = 0.0f;
+        right_stick_x = 0.0f;
+        right_stick_y = 0.0f;
+    }
+
+    public static Controller getZeroController()
+    {
+        Controller a = new Controller();
+        a.reset();
+        return a;
+    }
+
+    public static Controller getPressedController()
+    {
+        Controller a = new Controller();
+        a.dpad_up = ButtonState.HELD;
+        a.dpad_down = ButtonState.HELD;
+        a.dpad_left = ButtonState.HELD;
+        a.dpad_right = ButtonState.HELD;
+        a.a = ButtonState.HELD;
+        a.b = ButtonState.HELD;
+        a.x = ButtonState.HELD;
+        a.y = ButtonState.HELD;
+        a.guide = ButtonState.HELD;
+        a.start = ButtonState.HELD;
+        a.back = ButtonState.HELD;
+        a.left_bumper = ButtonState.HELD;
+        a.right_bumper = ButtonState.HELD;
+
+        a.left_trigger = 1.0f;
+        a.right_trigger = 1.0f;
+
+        a.left_stick_x = 1.0f;
+        a.left_stick_y = 1.0f;
+        a.right_stick_x = 1.0f;
+        a.right_stick_y = 1.0f;
+        return a;
     }
 
     /**
