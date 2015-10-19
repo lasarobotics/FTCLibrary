@@ -30,7 +30,7 @@ import java.util.Scanner;
  */
 public class MonkeyUtil {
     public final static String FILE_DIR = "/MonkeyC/";
-
+    static final long MONKEYC_STARTING_CONSTANT = -1000;
 
     private static JsonObject getDeltas(Controller current, Controller previous, boolean allowNull) throws JSONException {
         Gson g = getGson();

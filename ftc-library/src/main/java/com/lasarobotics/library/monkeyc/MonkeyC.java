@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
  * or can be created prior to a match.  MonkeyDo can then execute these commands.
  */
 public class MonkeyC {
+
     private ArrayList<MonkeyData> commands;             //Array of commands to be written as JSON
     private Controller previous1 = new Controller();    //Previous state of controller 1
     private Controller previous2 = new Controller();    //Previous state of controller 2

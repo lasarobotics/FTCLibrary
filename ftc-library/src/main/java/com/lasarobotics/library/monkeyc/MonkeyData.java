@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.lasarobotics.library.controller.Controller;
-import com.lasarobotics.library.util.Constants;
 
 import org.json.JSONObject;
 
@@ -103,7 +102,7 @@ public class MonkeyData {
         if (deltasGamepad1 != null || deltasGamepad2 != null){
             return true;
         }
-        if (time == Constants.MONKEYC_STARTING_CONSTANT){
+        if (time == MonkeyUtil.MONKEYC_STARTING_CONSTANT){
             return true;
         }
         return false;

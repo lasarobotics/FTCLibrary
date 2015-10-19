@@ -55,24 +55,6 @@ public class Controller {
     @SerializedName("ry")
     public float right_stick_y; //right joystick Y axis
 
-    //BUTTONS AND TRIGGERS enumeration
-    public enum Keys
-    {
-        dpad_up,
-        dpad_down,
-        dpad_left,
-        dpad_right,
-        a,
-        b,
-        x,
-        y,
-        guide,
-        start,
-        back,
-        left_bumper,
-        right_bumper;
-    }
-
     /**
      * Initialize a blank controller
      */
@@ -179,6 +161,7 @@ public class Controller {
      * Update the Controller states from a Gamepad.
      * CALL THIS METHOD ON EVERY EVENT LOOP!
      */
+    //FIXME is Gamepad g necessary?
     public void update(Gamepad g) {
         dpad_up = handleUpdate(dpad_up, g.dpad_up);
         dpad_down = handleUpdate(dpad_down, g.dpad_down);

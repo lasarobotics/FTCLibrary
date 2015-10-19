@@ -2,7 +2,6 @@ package com.lasarobotics.library.monkeyc;
 
 import android.content.Context;
 
-import com.lasarobotics.library.util.Constants;
 import com.lasarobotics.library.util.Timers;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class MonkeyDo {
 
         //If before first patch, override the state of the MonkeyData.hasUpdate() method to return true
         if (currentTime < commands.get(0).getTime()) {
-            return new MonkeyData(null, null, Constants.MONKEYC_STARTING_CONSTANT);
+            return new MonkeyData(null, null, MonkeyUtil.MONKEYC_STARTING_CONSTANT);
         }
         //If there are still more commands to come
         else if (commandsRead + 1 < commands.size()) {
