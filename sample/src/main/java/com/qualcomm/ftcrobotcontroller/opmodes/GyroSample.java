@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 /**
  * Sample use of Custom Gyro I2CDriver
  */
-public class I2CSampleOPMode extends OpMode {
+public class GyroSample extends OpMode {
     Gyro g;
 
     @Override
