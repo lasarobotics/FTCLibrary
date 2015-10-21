@@ -1,12 +1,12 @@
 package com.lasarobotics.library.monkeyc;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.util.Timers;
 import com.qualcomm.robotcore.hardware.Gamepad;
+
+import android.content.Context;
 
 import java.util.ArrayList;
 
@@ -16,10 +16,10 @@ import java.util.ArrayList;
  * or can be created prior to a match.  MonkeyDo can then execute these commands.
  */
 public class MonkeyC {
+    Timers t;
     private ArrayList<MonkeyData> commands;
     private Controller previous1 = new Controller();
     private Controller previous2 = new Controller();
-    Timers t;
 
     public MonkeyC() {
         this.commands = new ArrayList<MonkeyData>();

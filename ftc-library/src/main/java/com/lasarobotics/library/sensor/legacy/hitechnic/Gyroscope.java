@@ -10,22 +10,35 @@ import java.util.concurrent.TimeUnit;
  * Implements additional Gyroscopic control methods and events
  */
 public class Gyroscope {
-    private GyroSensor gyroSensor;
+    private final String clockName = "gyro";
     //IMPORTANT DELTAS
-
+    private GyroSensor gyroSensor;
     private double velPrevious = 0.0D;
     private double velCurr = 0.0D;
     private double dt = 0.0D;
     private double offset = 0; //the offset for the GYROSCOPE RATE
     private double heading = 0;
     private Timers timers;
-    private final String clockName = "gyro";
 
     public Gyroscope(GyroSensor g) {
         timers = new Timers();
         timers.startClock(clockName);
         gyroSensor = g;
         reset();
+    }
+
+    /**
+     * Normalize Gyroscope bounds to within 0 and 360
+     *
+     * @param heading The current Gyroscope value
+     * @return The normalized Gyroscope value, between 0 and 360.
+     */
+    public static double normalize(double heading) {
+        if (heading < 0) {
+            return 360 - (Math.abs(heading) % 360);
+        } else {
+            return (heading % 360);
+        }
     }
 
     /* Run this method on every loop() event.
@@ -54,7 +67,6 @@ public class Gyroscope {
         heading = 0;
     }
 
-
     /**
      * Gets the gyroscope rotation rate in degrees per second
      *
@@ -81,21 +93,6 @@ public class Gyroscope {
     public double getRotation() {
         return heading;
     }
-
-    /**
-     * Normalize Gyroscope bounds to within 0 and 360
-     *
-     * @param heading The current Gyroscope value
-     * @return The normalized Gyroscope value, between 0 and 360.
-     */
-    public static double normalize(double heading) {
-        if (heading < 0) {
-            return 360 - (Math.abs(heading) % 360);
-        } else {
-            return (heading % 360);
-        }
-    }
-
 
     /**
      * Gets the time difference between the last readings.

@@ -1,9 +1,9 @@
 package com.lasarobotics.library.monkeyc;
 
-import android.content.Context;
-
 import com.lasarobotics.library.util.Constants;
 import com.lasarobotics.library.util.Timers;
+
+import android.content.Context;
 
 import java.util.ArrayList;
 

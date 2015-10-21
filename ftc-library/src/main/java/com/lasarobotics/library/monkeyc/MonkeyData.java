@@ -105,11 +105,11 @@ public class MonkeyData {
         this.deltasGamepad2 = deltasGamepad2;
     }
 
-    public void setTime(long time) {
-        this.time = time;
-    }
-
     public long getTime() {
         return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 }

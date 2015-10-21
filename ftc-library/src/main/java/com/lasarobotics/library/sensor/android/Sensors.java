@@ -1,10 +1,10 @@
 package com.lasarobotics.library.sensor.android;
 
+import com.lasarobotics.library.android.Util;
+
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-
-import com.lasarobotics.library.android.Util;
 
 import java.util.List;
 

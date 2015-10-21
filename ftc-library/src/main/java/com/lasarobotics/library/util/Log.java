@@ -5,8 +5,6 @@ import com.google.gson.reflect.TypeToken;
 
 import com.lasarobotics.library.android.Util;
 
-import android.content.Context;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,35 +21,6 @@ public class Log {
     private String fileName;
     private Timers timers;
     private ArrayList<LogData> logEntries;
-
-    public enum FileType {
-        JSON("json"),
-        CSV("csv"),
-        TEXT("txt");
-
-        private String fileType;
-
-        FileType(String deptName) {
-            this.fileType = deptName;
-        }
-
-        @Override
-        public String toString() {
-            return this.fileType;
-        }
-    }
-
-    private class LogData {
-        long time;
-        String tag;
-        String data;
-
-        public LogData(long time, String tag, String data) {
-            this.time = time;
-            this.tag = tag;
-            this.data = data;
-        }
-    }
 
     public Log(String fileDirectory, String fileName) {
         this.fileDirectory = fileDirectory;
@@ -123,5 +92,34 @@ public class Log {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public enum FileType {
+        JSON("json"),
+        CSV("csv"),
+        TEXT("txt");
+
+        private String fileType;
+
+        FileType(String deptName) {
+            this.fileType = deptName;
+        }
+
+        @Override
+        public String toString() {
+            return this.fileType;
+        }
+    }
+
+    private class LogData {
+        long time;
+        String tag;
+        String data;
+
+        public LogData(long time, String tag, String data) {
+            this.time = time;
+            this.tag = tag;
+            this.data = data;
+        }
     }
 }

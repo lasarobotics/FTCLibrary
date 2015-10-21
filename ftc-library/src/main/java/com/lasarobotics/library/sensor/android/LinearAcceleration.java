@@ -1,11 +1,11 @@
 package com.lasarobotics.library.sensor.android;
 
+import com.lasarobotics.library.util.Vector3;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
-import com.lasarobotics.library.util.Vector3;
 
 /**
  * Gets the forces placed upon the object in the x, y, and z directions excluding gravity in m/s^2

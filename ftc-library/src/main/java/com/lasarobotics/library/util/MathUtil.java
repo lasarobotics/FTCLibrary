@@ -6,16 +6,16 @@ package com.lasarobotics.library.util;
 public final class MathUtil {
 
     /**
+     * Double equality epsilon
+     */
+    private final static double EPSILON = 0.000001;
+
+    /**
      * Suppresses constructor for noninstantiability
      */
     private MathUtil() {
         throw new AssertionError();
     }
-
-    /**
-     * Double equality epsilon
-     */
-    private final static double EPSILON = 0.000001;
 
     /**
      * Gives a "deadzone" where any value less
