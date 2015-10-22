@@ -15,6 +15,10 @@ android {
         minSdkVersion 16
         targetSdkVersion 21
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 repositories {

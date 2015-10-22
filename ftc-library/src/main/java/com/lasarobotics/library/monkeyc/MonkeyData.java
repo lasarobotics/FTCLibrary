@@ -3,7 +3,6 @@ package com.lasarobotics.library.monkeyc;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
-
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.util.Constants;
 
@@ -16,30 +15,46 @@ import java.util.Iterator;
  */
 public class MonkeyData {
     //TODO can improve this to combine everything into one data set
-
-
+    
     @SerializedName("g1")
-    private JsonObject deltasGamepad1;
+    JsonObject deltasGamepad1;  //Changes to gamepad 1 from previous state
     @SerializedName("g2")
-    private JsonObject deltasGamepad2;
+    JsonObject deltasGamepad2;  //Changes to gamepad 2 from previous state
     @SerializedName("t")
-    private long time;
+    long time;                  //Time from initial delta
 
-    MonkeyData() {
+    /**
+     * Initialize a MonkeyData instance
+     */
+    MonkeyData()
+    {
         deltasGamepad1 = null;
         deltasGamepad2 = null;
         time = -1;
     }
 
-    MonkeyData(JsonObject deltasGamepad1, JsonObject deltasGamepad2, long time) {
+    MonkeyData(long time)
+    {
+        this.deltasGamepad1 = new JsonObject();
+        this.deltasGamepad2 = new JsonObject();
+        this.time = time;
+    }
+
+    /**
+     * Initialize a MonkeyData instance using data points
+     * @param deltasGamepad1 Deltas for Gamepad 1
+     * @param deltasGamepad2 Deltas
+     * @param time The current time, in milliseconds
+     */
+    MonkeyData( JsonObject deltasGamepad1, JsonObject deltasGamepad2, long time) {
         this.deltasGamepad1 = deltasGamepad1;
         this.deltasGamepad2 = deltasGamepad2;
         this.time = time;
     }
 
-
-    public Controller updateControllerOne(Controller previous) {
-        if (deltasGamepad1 != null) {
+    public Controller updateControllerOne(Controller previous)
+    {
+        if ( deltasGamepad1 != null) {
             Gson g = new Gson();
             try {
                 JSONObject previousjson = new JSONObject(g.toJson(previous));
@@ -55,13 +70,15 @@ public class MonkeyData {
                 e.printStackTrace();
             }
             return previous;
-        } else {
+        }
+        else{
             return previous;
         }
     }
 
-    public Controller updateControllerTwo(Controller previous) {
-        if (deltasGamepad2 != null) {
+    public Controller updateControllerTwo(Controller previous)
+    {
+        if ( deltasGamepad2 != null) {
             Gson g = new Gson();
             try {
                 JSONObject previousjson = new JSONObject(g.toJson(previous));
@@ -77,18 +94,20 @@ public class MonkeyData {
                 e.printStackTrace();
             }
             return previous;
-        } else {
+        }
+        else {
             return previous;
         }
     }
-
-    public boolean hasUpdate() {
-        if (deltasGamepad1 != null || deltasGamepad2 != null) {
+    public boolean hasUpdate(){
+        if (deltasGamepad1 != null || deltasGamepad2 != null){
             return true;
         }
-        return time == Constants.MONKEYC_STARTING_CONSTANT;
+        if (time == Constants.MONKEYC_STARTING_CONSTANT){
+            return true;
+        }
+        return false;
     }
-
     public JsonObject getDeltasGamepad1() {
         return deltasGamepad1;
     }
@@ -105,11 +124,11 @@ public class MonkeyData {
         this.deltasGamepad2 = deltasGamepad2;
     }
 
-    public long getTime() {
-        return time;
-    }
-
     public void setTime(long time) {
         this.time = time;
+    }
+    public long getTime()
+    {
+        return time;
     }
 }

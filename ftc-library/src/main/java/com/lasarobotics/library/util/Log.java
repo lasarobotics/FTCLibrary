@@ -2,7 +2,6 @@ package com.lasarobotics.library.util;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import com.lasarobotics.library.android.Util;
 
 import java.io.BufferedWriter;
@@ -43,12 +42,13 @@ public class Log {
     /**
      * Saves a log to fileName specified and with format specified
      *
+     * This function will not overwrite an existing log file, but append ".1", ".2", etc. if it already exists
      * @param fileType Format to write file in
      */
     public void saveAs(FileType fileType) {
         try {
             //Use correct filename for requested file type
-            File f = Util.createFileOnDevice(fileDirectory, fileName + "." + fileType.toString());
+            File f = Util.createFileOnDevice(fileDirectory, fileName + "." + fileType.toString(), false);
             String out = "";
             switch (fileType) {
                 case JSON:
