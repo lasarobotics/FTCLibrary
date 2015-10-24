@@ -20,7 +20,7 @@ public class LoggingSample extends OpMode {
 
     @Override
     public void loop() {
-        telemetry.addData("Teleop", "running for " + t.getClockValue("global"));
+        telemetry.addData("Teleop", "running for " + t.getTime("global"));
         l.add("simul", new Random().nextInt() + "");
     }
 

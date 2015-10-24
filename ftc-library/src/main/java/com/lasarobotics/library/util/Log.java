@@ -36,7 +36,7 @@ public class Log {
      * @param data Data for log entry
      */
     public void add(String tag, String data) {
-        logEntries.add(new LogData(timers.getClockValue("log"), tag, data));
+        logEntries.add(new LogData(timers.getTime("log"), tag, data));
     }
 
     /**

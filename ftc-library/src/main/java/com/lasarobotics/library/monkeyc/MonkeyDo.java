@@ -33,7 +33,7 @@ public class MonkeyDo {
      * @return MonkeyData object to patch current controller input
      */
     public MonkeyData getNextCommand() {
-        long currentTime = t.getClockValue("global");
+        long currentTime = t.getTime("global");
 
         //If before first patch, override the state of the MonkeyData.hasUpdate() method to return true
         if (currentTime < commands.get(0).getTime()) {
@@ -67,7 +67,7 @@ public class MonkeyDo {
      * @return The time of the clock, in seconds.
      */
     public float getTime() {
-        return (float) t.getClockValue("global", TimeUnit.MILLISECONDS) / 1000.0f;
+        return (float) t.getTime("global", TimeUnit.MILLISECONDS) / 1000.0f;
     }
 
     public int getCommandsRead() {

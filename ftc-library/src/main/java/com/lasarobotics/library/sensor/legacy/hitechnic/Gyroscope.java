@@ -52,7 +52,7 @@ public class Gyroscope {
         //store new values
         velPrevious = velCurr;
         velCurr = getRotation();
-        dt = timers.getClockValue(clockName, TimeUnit.SECONDS);
+        dt = timers.getTime(clockName, TimeUnit.SECONDS);
 
         heading += (velPrevious + velCurr) * .5D * dt;
 

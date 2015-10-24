@@ -1,12 +1,8 @@
 package com.lasarobotics.library.monkeyc;
 
-import com.google.gson.Gson;
-
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.util.Timers;
 import com.qualcomm.robotcore.hardware.Gamepad;
-
-import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -64,7 +60,7 @@ public class MonkeyC {
         Controller local2 = new Controller(c2);
 
         //Get current time stamp
-        long time = t.getClockValue("global");
+        long time = t.getTime("global");
 
         //Get controller deltas
         MonkeyData data = MonkeyUtil.createDeltas(local1, previous1, local2, previous2, time, allowNull);
@@ -126,7 +122,7 @@ public class MonkeyC {
      */
     public float getTime()
     {
-        return (float)t.getClockValue("global", TimeUnit.MILLISECONDS) / 1000.0f;
+        return (float)t.getTime("global", TimeUnit.MILLISECONDS) / 1000.0f;
     }
 
     public void pauseTime() {

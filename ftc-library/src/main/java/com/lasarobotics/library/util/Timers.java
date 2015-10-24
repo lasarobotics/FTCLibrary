@@ -1,7 +1,6 @@
 package com.lasarobotics.library.util;
 
 import java.util.Hashtable;
-import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -147,8 +146,17 @@ public class Timers {
      * @param name Name of the clock
      * @return Value of clock in milliseconds
      */
-    public long getClockValue(String name){
-        return getClockValue(name, TimeUnit.MILLISECONDS);
+    public long getTime(String name){
+        return getTime(name, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * Get clock value. Defaults to millisecond precision.
+     * @param name Name of the clock
+     * @return Value of clock in milliseconds
+     */
+    public double getTimeSeconds(String name){
+        return (double)getTime(name, TimeUnit.MILLISECONDS)/1000.0;
     }
 
     /**
@@ -157,7 +165,7 @@ public class Timers {
      * @param timeUnit TimeUnit the output should be in
      * @return The value of the clock converted to the time unit specified (may lose precision)
      */
-    public long getClockValue(String name,TimeUnit timeUnit){
+    public long getTime(String name, TimeUnit timeUnit){
         if (store.containsKey(name)){
             if (isRunning(name))
             {
@@ -195,7 +203,7 @@ public class Timers {
      */
     public boolean isAtTargetMillis(String name, long target,long precision){
         if (store.containsKey(name)){
-            long milliDiff = Math.abs(target - getClockValue(name));
+            long milliDiff = Math.abs(target - getTime(name));
             return milliDiff < precision;
         }
         else{
