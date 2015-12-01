@@ -1,7 +1,5 @@
 package com.lasarobotics.library.monkeyc;
 
-import android.content.Context;
-
 import com.lasarobotics.library.util.Timers;
 
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ public class MonkeyDo {
     private String filename;
     private int commandsRead = 0;
 
-    public MonkeyDo(String filename, Context context) {
+    public MonkeyDo(String filename) {
         commands = MonkeyUtil.readFile(filename);
         t = new Timers();
         t.startClock("global");

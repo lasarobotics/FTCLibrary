@@ -5,10 +5,7 @@ import com.lasarobotics.library.drive.Tank;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-/**
- * Basic robot test opmode
- */
-public class LiftTest extends OpMode {
+public class BasicOpMode extends OpMode {
 
     DcMotor frontLeft, frontRight, backLeft, backRight;
     Controller one;
@@ -24,7 +21,7 @@ public class LiftTest extends OpMode {
 
     public void loop() {
         one.update(gamepad1);
-        Tank.motor4(frontLeft, frontRight, backLeft, backRight, -one.left_stick_y, one.right_stick_y);
+        Tank.motor4(frontLeft, frontRight, backLeft, backRight, one.left_stick_y, one.right_stick_y);
     }
 
     public void stop() {
