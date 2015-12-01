@@ -19,8 +19,9 @@ From the Android Studio menu, select `Open an existing Android Studio Project` a
 
 **You can now begin editing the `opmodes` in the sample module to code your robot with the library!** (We've included samples in the `samples/` folder for you to play with.)
 
-##Documentation
-**Documentation for the entire stable API is available at ftclib.lasarobotics.org.** [![Documentation Status](https://img.shields.io/badge/documentation-online-blue.svg)](http://ftclib.lasarobotics.org)
+##Documentation  [![Documentation Status](https://img.shields.io/badge/documentation-online-blue.svg)](http://ftclib.lasarobotics.org)
+
+**Documentation for the entire stable API is available at ftclib.lasarobotics.org.** 
 
 ##Support
 We can provide support to teams who wish to use our library. Please let us know (via the issues tab) if there's anything we can help you with or anything you wish could be improved. We welcome feedback!
