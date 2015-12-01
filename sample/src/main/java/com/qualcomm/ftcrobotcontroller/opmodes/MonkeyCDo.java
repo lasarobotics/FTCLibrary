@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
 /**
- * Created by Ehsan on 7/9/2015.
+ * MonkeyC Do Test
  */
 public class MonkeyCDo extends OpMode {
     //basic FTC classes

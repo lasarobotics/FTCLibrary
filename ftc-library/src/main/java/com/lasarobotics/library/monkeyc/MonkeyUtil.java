@@ -1,6 +1,5 @@
 package com.lasarobotics.library.monkeyc;
 
-import android.content.Context;
 import android.os.Environment;
 
 import com.google.gson.Gson;
@@ -90,7 +89,7 @@ public class MonkeyUtil {
         }
     }
 
-    public static ArrayList<MonkeyData> readFile(String filename, Context context) {
+    public static ArrayList<MonkeyData> readFile(String filename) {
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + FILE_DIR, filename);
         String out = "";
         ArrayList<MonkeyData> commands = new ArrayList<>();

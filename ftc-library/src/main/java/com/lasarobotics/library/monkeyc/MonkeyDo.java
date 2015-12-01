@@ -18,7 +18,7 @@ public class MonkeyDo {
     private int commandsRead = 0;
 
     public MonkeyDo(String filename, Context context) {
-        commands = MonkeyUtil.readFile(filename, context);
+        commands = MonkeyUtil.readFile(filename);
         t = new Timers();
         t.startClock("global");
         this.filename = filename;
@@ -47,8 +47,7 @@ public class MonkeyDo {
             return commands.get(commandsRead);
         }
         //Get the last one, without an OutOfRangeException!
-        else if (commandsRead + 1 == commands.size())
-        {
+        else if (commandsRead + 1 == commands.size()) {
             commandsRead++;
             return commands.get(commandsRead - 1);
         }

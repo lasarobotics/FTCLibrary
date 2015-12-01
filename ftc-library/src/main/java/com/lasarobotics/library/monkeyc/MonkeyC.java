@@ -25,8 +25,7 @@ public class MonkeyC {
     /**
      * Initialize the MonkeyC instance
      */
-    public MonkeyC()
-    {
+    public MonkeyC() {
         this.commands = new ArrayList<MonkeyData>();
         ended = false;
 
@@ -37,23 +36,25 @@ public class MonkeyC {
 
     /**
      * Add an instruction using two controllers
+     *
      * @param c1 Controller 1
      * @param c2 Controller 2
      */
-    public void add(Controller c1, Controller c2)
-    {
+    public void add(Controller c1, Controller c2) {
         add(c1, c2, false);
     }
 
     /**
      * Add an instruction using two controllers
-     * @param c1 Controller 1
-     * @param c2 Controller 2
+     *
+     * @param c1        Controller 1
+     * @param c2        Controller 2
      * @param allowNull Allow a null controller state? Required to ensure end of method at a specified time.
      */
-    private void add(Controller c1, Controller c2, boolean allowNull)
-    {
-        if (ended) { return; }
+    private void add(Controller c1, Controller c2, boolean allowNull) {
+        if (ended) {
+            return;
+        }
 
         //Make copy of controller
         Controller local1 = new Controller(c1);
@@ -70,17 +71,13 @@ public class MonkeyC {
         this.previous2 = new Controller(local2);
 
         //Write to the instruction array for writing to disk later
-        if (data.getDeltasGamepad1() != null || data.getDeltasGamepad2() != null)
-        {
+        if (data.getDeltasGamepad1() != null || data.getDeltasGamepad2() != null) {
             commands.add(data);
-            if (!t.isRunning("global"))
-            {
-                if (isWaiting)
-                {
+            if (!t.isRunning("global")) {
+                if (isWaiting) {
                     //Keep the clock paused if we need to wait - at least until the next press
                     isWaiting = false;
-                }
-                else {
+                } else {
                     //Resume clock if it is NOT running
                     t.startClock("global");
                 }
@@ -90,11 +87,11 @@ public class MonkeyC {
 
     /**
      * Add an instruction using two gamepads (FIRST native, not recommended)
-     * @param instruction Gamepad 1
+     *
+     * @param instruction  Gamepad 1
      * @param instruction2 Gamepad 2
      */
-    public void add(Gamepad instruction, Gamepad instruction2)
-    {
+    public void add(Gamepad instruction, Gamepad instruction2) {
         //TODO test this - status on update() must remain either just pressed or just unpressed
         Controller one = new Controller(instruction);
         Controller two = new Controller(instruction2);
@@ -103,26 +100,26 @@ public class MonkeyC {
 
     /**
      * Returns true if the MonkeyC timer is paused.
-     *
+     * <p/>
      * Please note that time continues running during a custom function, but
      * controller input will NOT be recorded until the function completes.
-     *
+     * <p/>
      * To resume time, press any controller button or joystick
      * when NOT currently executing a custom function.
+     *
      * @return True if paused, false if running
      */
-    public boolean isPaused()
-    {
+    public boolean isPaused() {
         return !t.isRunning("global");
     }
 
     /**
      * Gets the time of the MonkeyC clock
+     *
      * @return The time of the clock, in seconds.
      */
-    public float getTime()
-    {
-        return (float)t.getClockValue("global", TimeUnit.MILLISECONDS) / 1000.0f;
+    public float getTime() {
+        return (float) t.getClockValue("global", TimeUnit.MILLISECONDS) / 1000.0f;
     }
 
     public void pauseTime() {
@@ -130,7 +127,9 @@ public class MonkeyC {
     }
 
     public void resumeTime() {
-        if (ended) { return; }
+        if (ended) {
+            return;
+        }
         t.startClock("global");
     }
 
@@ -148,17 +147,17 @@ public class MonkeyC {
     /**
      * Clears the entire command list. All commands will be deleted.
      */
-    public void clear()
-    {
+    public void clear() {
         commands.clear();
     }
 
     /**
      * End the command stream. After this, no further commands can be written.
      */
-    public void end()
-    {
-        if (ended) { return; }
+    public void end() {
+        if (ended) {
+            return;
+        }
         pauseTime();
 
         //ensure that the final command written resets all of the controllers to zero
@@ -171,33 +170,34 @@ public class MonkeyC {
 
     /**
      * Write the final JSON to a file
-     *
+     * <p/>
      * If the file exists, a new file with appended ".1", ".2", etc. will be created
      * It is recommended to use the other implementation and set overwrite to true if you're viewing the file
      * from a manager that does not show hidden files.
+     *
      * @param filename The filename to write to
      */
-    public void write(String filename)
-    {
+    public void write(String filename) {
         write(filename, false);
     }
 
     /**
      * Write the final JSON to a file
-     * @param filename The filename to write to
+     *
+     * @param filename  The filename to write to
      * @param overwrite True to overwrite file if exists, false to append ".1", ".2", etc. to the end if exists
      */
-    public void write(String filename, boolean overwrite)
-    {
+    public void write(String filename, boolean overwrite) {
         end();
         MonkeyUtil.writeFile(filename, commands, overwrite);
     }
 
     /**
      * Returns the count of items in the command array
+     *
      * @return The count of items in the command array
      */
-    public int getCommandsWritten(){
+    public int getCommandsWritten() {
         return commands.size();
     }
 }

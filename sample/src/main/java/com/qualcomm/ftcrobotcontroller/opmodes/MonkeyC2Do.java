@@ -13,14 +13,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * MonkeyC2 Do Test
  */
 public class MonkeyC2Do extends OpMode {
+    public static boolean isTested = false;
     //basic FTC classes
     DcMotor frontLeft, frontRight, backLeft, backRight;
     Controller one, two;
     MonkeyDo reader;
 
-    public static boolean isTested = false;
-    public static void test()
-    {
+    public static void test() {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -47,6 +46,7 @@ public class MonkeyC2Do extends OpMode {
 
         reader = new MonkeyDo("test.txt", MyApplication.getAppContext());
     }
+
     @Override
     public void start() {
         isTested = false;
@@ -56,24 +56,20 @@ public class MonkeyC2Do extends OpMode {
     @Override
     public void loop() {
         MonkeyData m = reader.getNextCommand();
-        if (m.hasUpdate()){
+        if (m.hasUpdate()) {
             m = reader.getNextCommand();
             one = m.updateControllerOne(one);
             two = m.updateControllerTwo(two);
 
-            if (one.x == ButtonState.PRESSED)
-            {
+            if (one.x == ButtonState.PRESSED) {
                 reader.pauseTime();
                 test();
                 reader.resumeTime();
             }
 
-            if (isTested)
-            {
+            if (isTested) {
                 telemetry.addData("X KEY", "PRESSED!");
-            }
-            else
-            {
+            } else {
                 telemetry.addData("X KEY", "Not pressed");
             }
 
@@ -81,8 +77,7 @@ public class MonkeyC2Do extends OpMode {
 
             //Drive commands go here
             Tank.motor4(frontLeft, frontRight, backLeft, backRight, -one.left_stick_y, one.right_stick_y);
-        }
-        else {
+        } else {
             telemetry.addData("Status", "Done replaying!");
             //We can choose to stop the timer here, but why...
         }

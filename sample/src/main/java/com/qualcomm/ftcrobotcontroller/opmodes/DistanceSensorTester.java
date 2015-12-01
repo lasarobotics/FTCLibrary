@@ -9,11 +9,10 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
  * Creates a rolling-average test for the optical distance sensor, attempting to correlate reflectivity with distance
  */
 public class DistanceSensorTester extends OpMode {
+    static final int avgcount = 2000;
     OpticalDistance distance;
     OpticalDistanceSensor d;
     RollingAverage<Double> average;
-
-    static final int avgcount = 2000;
     int totalcount = 0;
 
     @Override

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Lists Android manager, converts manager to this library's format, and tests if certain sensor is
  * present
- *
+ * <p/>
  * Use for any Android internal device sensor implemented in hardware OR software
  */
 public final class Sensors {

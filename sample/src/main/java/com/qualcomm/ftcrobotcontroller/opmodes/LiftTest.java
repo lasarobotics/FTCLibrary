@@ -1,13 +1,12 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.lasarobotics.library.controller.ButtonState;
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.drive.Tank;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
- * Created by arthur on 9/29/15.
+ * Basic robot test opmode
  */
 public class LiftTest extends OpMode {
 

@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 /**
  * Methods for the Mecanum multi-directional drive train
- *
+ * <p/>
  * WARNING: This class was ported from RobotC, but not retested. Use with caution.
  */
 public final class Mecanum {

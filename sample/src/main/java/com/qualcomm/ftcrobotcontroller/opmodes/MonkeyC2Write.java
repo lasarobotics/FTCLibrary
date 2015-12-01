@@ -34,11 +34,13 @@ public class MonkeyC2Write extends OpMode {
         one = new Controller(gamepad1);
         two = new Controller(gamepad2);
     }
+
     @Override
-    public void start(){
+    public void start() {
         MonkeyC2Do.isTested = false;
         writer = new MonkeyC();
     }
+
     @Override
     public void loop() {
         //update gamepads to controllers with events
@@ -46,19 +48,15 @@ public class MonkeyC2Write extends OpMode {
         two.update(gamepad2);
         writer.add(one, two);
 
-        if (one.x == ButtonState.PRESSED)
-        {
+        if (one.x == ButtonState.PRESSED) {
             writer.pauseTime();
             MonkeyC2Do.test();
             writer.waitForController(one, two);
         }
 
-        if (MonkeyC2Do.isTested)
-        {
+        if (MonkeyC2Do.isTested) {
             telemetry.addData("X KEY", "PRESSED!");
-        }
-        else
-        {
+        } else {
             telemetry.addData("X KEY", "Not pressed");
         }
 

@@ -1,11 +1,10 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 
-import com.lasarobotics.library.drive.Mecanum;
 import com.lasarobotics.library.controller.Controller;
+import com.lasarobotics.library.drive.Mecanum;
 import com.lasarobotics.library.monkeyc.MonkeyC;
 import com.lasarobotics.library.sensor.legacy.hitechnic.Gyroscope;
-import com.qualcomm.ftcrobotcontroller.MyApplication;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
