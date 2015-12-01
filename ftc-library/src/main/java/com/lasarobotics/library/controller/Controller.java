@@ -1,5 +1,6 @@
 package com.lasarobotics.library.controller;
 
+import com.google.gson.annotations.SerializedName;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 /**
@@ -7,31 +8,65 @@ import com.qualcomm.robotcore.hardware.Gamepad;
  */
 public class Controller {
 
-    public int dpad_up;
-    public int dpad_down;
-    public int dpad_left;
-    public int dpad_right;
-    public int a;
-    public int b;
-    public int x;
-    public int y;
-    public int guide;
-    public int start;
-    public int back;
-    public int left_bumper;
-    public int right_bumper;
+    //BUTTONS
+    //Buttons use an integer to identify state, found in controller.ButtonState
+    @SerializedName("du")
+    public int dpad_up;         //Directional pad UP
+    @SerializedName("dd")
+    public int dpad_down;       //Directional pad DOWN
+    @SerializedName("dl")
+    public int dpad_left;       //Directional pad LEFT
+    @SerializedName("dr")
+    public int dpad_right;      //Directional pad RIGHT
+    @SerializedName("a")
+    public int a;               //A button
+    @SerializedName("b")
+    public int b;               //B button
+    @SerializedName("x")
+    public int x;               //X button
+    @SerializedName("y")
+    public int y;               //Y button
+    @SerializedName("g")
+    public int guide;           //Guide button
+    @SerializedName("s")
+    public int start;           //START button
+    @SerializedName("bk")
+    public int back;            //BACK button
+    @SerializedName("bl")
+    public int left_bumper;     //left bumper
+    @SerializedName("br")
+    public int right_bumper;    //right bumper
 
+    //TRIGGERS
     //Triggers use a float for how much they are pressed
-    public float left_trigger;
-    public float right_trigger;
+    @SerializedName("tl")
+    public float left_trigger;  //left trigger
+    @SerializedName("tr")
+    public float right_trigger; //right trigger
 
-    //Joysticks don't have any events
-    public float left_stick_x;
-    public float left_stick_y;
-    public float right_stick_x;
-    public float right_stick_y;
+    //JOYSTICKS
+    //Joysticks don't have any events, just values
+    @SerializedName("lx")
+    public float left_stick_x;  //left joystick X axis
+    @SerializedName("ly")
+    public float left_stick_y;  //left joystick Y axis
+    @SerializedName("rx")
+    public float right_stick_x; //right joystick X axis
+    @SerializedName("ry")
+    public float right_stick_y; //right joystick Y axis
+
+    /**
+     * Initialize a blank controller
+     */
     public Controller() {
+        reset();
     }
+
+    /**
+     * Initialize a controller from another (cloning)
+     *
+     * @param another Another Controller
+     */
     public Controller(Controller another) {
         this.dpad_up = another.dpad_up;
         this.dpad_down = another.dpad_down;
@@ -56,24 +91,88 @@ public class Controller {
         this.right_stick_y = another.right_stick_y;
     }
 
+    /**
+     * Initialize a controller from a Gamepad (FIRST library underlayer)
+     */
     public Controller(Gamepad g) {
         update(g);
     }
 
-    public void update(Gamepad g){
-        dpad_up = handleUpdate(dpad_up,g.dpad_up);
-        dpad_down = handleUpdate(dpad_down,g.dpad_down);
-        dpad_left = handleUpdate(dpad_left,g.dpad_left);
-        dpad_right = handleUpdate(dpad_right,g.dpad_right);
-        a = handleUpdate(a,g.a);
-        b = handleUpdate(b,g.b);
-        x = handleUpdate(x,g.x);
-        y = handleUpdate(y,g.y);
-        guide = handleUpdate(guide,g.guide);
-        start = handleUpdate(start,g.start);
-        back = handleUpdate(back,g.back);
-        left_bumper = handleUpdate(left_bumper,g.left_bumper);
-        right_bumper = handleUpdate(right_bumper,g.right_bumper);
+    public static Controller getZeroController() {
+        Controller a = new Controller();
+        a.reset();
+        return a;
+    }
+
+    public static Controller getPressedController() {
+        Controller a = new Controller();
+        a.dpad_up = ButtonState.HELD;
+        a.dpad_down = ButtonState.HELD;
+        a.dpad_left = ButtonState.HELD;
+        a.dpad_right = ButtonState.HELD;
+        a.a = ButtonState.HELD;
+        a.b = ButtonState.HELD;
+        a.x = ButtonState.HELD;
+        a.y = ButtonState.HELD;
+        a.guide = ButtonState.HELD;
+        a.start = ButtonState.HELD;
+        a.back = ButtonState.HELD;
+        a.left_bumper = ButtonState.HELD;
+        a.right_bumper = ButtonState.HELD;
+
+        a.left_trigger = 1.0f;
+        a.right_trigger = 1.0f;
+
+        a.left_stick_x = 1.0f;
+        a.left_stick_y = 1.0f;
+        a.right_stick_x = 1.0f;
+        a.right_stick_y = 1.0f;
+        return a;
+    }
+
+    public void reset() {
+        dpad_up = ButtonState.NOT_PRESSED;
+        dpad_down = ButtonState.NOT_PRESSED;
+        dpad_left = ButtonState.NOT_PRESSED;
+        dpad_right = ButtonState.NOT_PRESSED;
+        a = ButtonState.NOT_PRESSED;
+        b = ButtonState.NOT_PRESSED;
+        x = ButtonState.NOT_PRESSED;
+        y = ButtonState.NOT_PRESSED;
+        guide = ButtonState.NOT_PRESSED;
+        start = ButtonState.NOT_PRESSED;
+        back = ButtonState.NOT_PRESSED;
+        left_bumper = ButtonState.NOT_PRESSED;
+        right_bumper = ButtonState.NOT_PRESSED;
+
+        left_trigger = 0.0f;
+        right_trigger = 0.0f;
+
+        left_stick_x = 0.0f;
+        left_stick_y = 0.0f;
+        right_stick_x = 0.0f;
+        right_stick_y = 0.0f;
+    }
+
+    /**
+     * Update the Controller states from a Gamepad.
+     * CALL THIS METHOD ON EVERY EVENT LOOP!
+     */
+    //FIXME is Gamepad g necessary?
+    public void update(Gamepad g) {
+        dpad_up = handleUpdate(dpad_up, g.dpad_up);
+        dpad_down = handleUpdate(dpad_down, g.dpad_down);
+        dpad_left = handleUpdate(dpad_left, g.dpad_left);
+        dpad_right = handleUpdate(dpad_right, g.dpad_right);
+        a = handleUpdate(a, g.a);
+        b = handleUpdate(b, g.b);
+        x = handleUpdate(x, g.x);
+        y = handleUpdate(y, g.y);
+        guide = handleUpdate(guide, g.guide);
+        start = handleUpdate(start, g.start);
+        back = handleUpdate(back, g.back);
+        left_bumper = handleUpdate(left_bumper, g.left_bumper);
+        right_bumper = handleUpdate(right_bumper, g.right_bumper);
         left_trigger = g.left_trigger;
         right_trigger = g.right_trigger;
         left_stick_x = g.left_stick_x;
@@ -82,6 +181,13 @@ public class Controller {
         right_stick_y = g.right_stick_y;
     }
 
+    /**
+     * Update an individual button or bumper
+     *
+     * @param b             Variable from Controller
+     * @param updatedstatus Boolean from Gamepad
+     * @return The new state
+     */
     private int handleUpdate(Integer b, boolean updatedstatus) {
         if (updatedstatus) {
             if (b == ButtonState.NOT_PRESSED || b == ButtonState.RELEASED)

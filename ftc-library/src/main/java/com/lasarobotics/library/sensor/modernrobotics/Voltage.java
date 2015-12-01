@@ -8,29 +8,24 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
  * Reads the robot battery voltage
  */
 public class Voltage {
+    public final static int samples = 2000;
     VoltageSensor sensor;
     RollingAverage<Double> average;
 
-    public final static int samples = 2000;
-
-    public Voltage(HardwareMap map)
-    {
-        sensor = (VoltageSensor)map.voltageSensor.iterator().next();
+    public Voltage(HardwareMap map) {
+        sensor = map.voltageSensor.iterator().next();
         average = new RollingAverage<>(samples);
     }
 
-    public void update()
-    {
+    public void update() {
         average.addValue(getVoltageInstantaneous());
     }
 
-    public double getVoltage()
-    {
+    public double getVoltage() {
         return average.getAverage();
     }
 
-    public double getVoltageInstantaneous()
-    {
+    public double getVoltageInstantaneous() {
         return sensor.getVoltage();
     }
 }

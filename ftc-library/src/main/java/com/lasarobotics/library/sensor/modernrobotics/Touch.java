@@ -16,24 +16,26 @@ public class Touch {
 
     /**
      * Update the sensor events - run this every loop()
+     *
      * @param t The current TouchSensor variable
      */
     public void update(TouchSensor t) {
         if (t.isPressed()) {
             if (state == ButtonState.NOT_PRESSED || state == ButtonState.RELEASED)
-                state =  ButtonState.PRESSED;
+                state = ButtonState.PRESSED;
             else
-                state =  ButtonState.HELD;
+                state = ButtonState.HELD;
         } else {
             if (state == ButtonState.PRESSED || state == ButtonState.HELD)
-                state =  ButtonState.RELEASED;
+                state = ButtonState.RELEASED;
             else
-                state =  ButtonState.NOT_PRESSED;
+                state = ButtonState.NOT_PRESSED;
         }
     }
 
     /**
      * Gets the ButtonState instance of this button
+     *
      * @return A ButtonState instance as an integer
      */
     public int getState() {
@@ -42,28 +44,28 @@ public class Touch {
 
     /**
      * Checks if the sensor was JUST PRESSED
+     *
      * @return True if just pressed, false otherwise
      */
-    public boolean isPressed()
-    {
+    public boolean isPressed() {
         return state == ButtonState.PRESSED;
     }
 
     /**
      * Checks if the sensor was JUST RELEASED
+     *
      * @return True if just released, false otherwise
      */
-    public boolean isReleased()
-    {
+    public boolean isReleased() {
         return state == ButtonState.RELEASED;
     }
 
     /**
      * Checks if the sensor is held down
+     *
      * @return True if pressed or held, false otherwise
      */
-    public boolean isHeldDown()
-    {
+    public boolean isHeldDown() {
         return state == ButtonState.PRESSED || state == ButtonState.HELD;
     }
 }
