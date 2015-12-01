@@ -1,4 +1,4 @@
-# FTC Android Library  [![Build Status](https://travis-ci.org/lasarobotics/FTCLibrary.svg?branch=staging)](https://travis-ci.org/lasarobotics/FTCLibrary)
+# FTC Android Library  [![Build Status](https://travis-ci.org/lasarobotics/FTCLibrary.svg?branch=staging)](https://travis-ci.org/lasarobotics/FTCLibrary) [![Documentation Status](https://img.shields.io/badge/documentation-online-blue.svg)](http://ftclib.lasarobotics.org)
 
 ##Introduction
 Welcome to the FTC Android Library! **The goal of this library is to provide a clean, well documented and easy to use library to help all FTC teams.** We encourage you to look around, try out the library, and **submit any issues you find**. For those new to using libraries in Android, we've included a friendly guide below.
@@ -19,6 +19,9 @@ From the Android Studio menu, select `Open an existing Android Studio Project` a
 
 **You can now begin editing the `opmodes` in the sample module to code your robot with the library!** (We've included samples in the `samples/` folder for you to play with.)
 
+##Documentation
+**Documentation for the entire stable API is available at ftclib.lasarobotics.org.** [![Documentation Status](https://img.shields.io/badge/documentation-online-blue.svg)](http://ftclib.lasarobotics.org)
+
 ##Support
 We can provide support to teams who wish to use our library. Please let us know (via the issues tab) if there's anything we can help you with or anything you wish could be improved. We welcome feedback!
 
@@ -27,8 +30,8 @@ Help in any and all areas is welcomed and encouraged. If you would like to help,
 
 **Thank you to the following teams for their participation and use of the library!**
 - **HIgh PHidelity (4290)**
+- **Ultra Violet (5998)**
 - **Static Void (6990)**
-
 
 With :heart: and GitHub,
 
