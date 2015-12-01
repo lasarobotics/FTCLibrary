@@ -1,8 +1,5 @@
 package com.lasarobotics.library.monkeyc;
 
-import android.content.Context;
-
-import com.lasarobotics.library.util.Constants;
 import com.lasarobotics.library.util.Timers;
 
 import java.util.ArrayList;
@@ -18,8 +15,8 @@ public class MonkeyDo {
     private String filename;
     private int commandsRead = 0;
 
-    public MonkeyDo(String filename, Context context) {
-        commands = MonkeyUtil.readFile(filename, context);
+    public MonkeyDo(String filename) {
+        commands = MonkeyUtil.readFile(filename);
         t = new Timers();
         t.startClock("global");
         this.filename = filename;
@@ -37,7 +34,7 @@ public class MonkeyDo {
 
         //If before first patch, override the state of the MonkeyData.hasUpdate() method to return true
         if (currentTime < commands.get(0).getTime()) {
-            return new MonkeyData(null, null, Constants.MONKEYC_STARTING_CONSTANT);
+            return new MonkeyData(null, null, MonkeyUtil.MONKEYC_STARTING_CONSTANT);
         }
         //If there are still more commands to come
         else if (commandsRead + 1 < commands.size()) {
@@ -48,8 +45,7 @@ public class MonkeyDo {
             return commands.get(commandsRead);
         }
         //Get the last one, without an OutOfRangeException!
-        else if (commandsRead + 1 == commands.size())
-        {
+        else if (commandsRead + 1 == commands.size()) {
             commandsRead++;
             return commands.get(commandsRead - 1);
         }

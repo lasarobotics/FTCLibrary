@@ -8,6 +8,9 @@ import java.util.Arrays;
 
 /**
  * Methods for the Swerve drive train
+ * <p/>
+ * WARNING: This class is entirely theoretical and has never, ever been tested.
+ * If you test it, let us know!
  */
 public class Swerve {
     /**

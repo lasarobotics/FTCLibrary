@@ -8,6 +8,17 @@ public class Vector3<T> {
     public final T y;
     public final T z;
 
+    public Vector3(T x, T y, T z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
+
     public static class Builder<T> {
         private T x, y, z;
 
@@ -30,16 +41,5 @@ public class Vector3<T> {
         public Vector3<T> build() {
             return new Vector3<T>(x, y, z);
         }
-    }
-
-    public Vector3(T x, T y, T z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
-
-    @Override
-    public String toString() {
-        return "(" + x + ", " + y + ", " + z + ")";
     }
 }

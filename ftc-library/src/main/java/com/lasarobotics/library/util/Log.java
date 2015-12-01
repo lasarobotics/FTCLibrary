@@ -21,35 +21,6 @@ public class Log {
     private Timers timers;
     private ArrayList<LogData> logEntries;
 
-    public enum FileType {
-        JSON("json"),
-        CSV("csv"),
-        TEXT("txt");
-
-        private String fileType;
-
-        FileType(String deptName) {
-            this.fileType = deptName;
-        }
-
-        @Override
-        public String toString() {
-            return this.fileType;
-        }
-    }
-
-    private class LogData {
-        long time;
-        String tag;
-        String data;
-
-        public LogData(long time, String tag, String data) {
-            this.time = time;
-            this.tag = tag;
-            this.data = data;
-        }
-    }
-
     public Log(String fileDirectory, String fileName) {
         this.fileDirectory = fileDirectory;
         this.fileName = fileName;
@@ -70,8 +41,9 @@ public class Log {
 
     /**
      * Saves a log to fileName specified and with format specified
-     *
+     * <p/>
      * This function will not overwrite an existing log file, but append ".1", ".2", etc. if it already exists
+     *
      * @param fileType Format to write file in
      */
     public void saveAs(FileType fileType) {
@@ -121,5 +93,34 @@ public class Log {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public enum FileType {
+        JSON("json"),
+        CSV("csv"),
+        TEXT("txt");
+
+        private String fileType;
+
+        FileType(String deptName) {
+            this.fileType = deptName;
+        }
+
+        @Override
+        public String toString() {
+            return this.fileType;
+        }
+    }
+
+    private class LogData {
+        long time;
+        String tag;
+        String data;
+
+        public LogData(long time, String tag, String data) {
+            this.time = time;
+            this.tag = tag;
+            this.data = data;
+        }
     }
 }

@@ -1,7 +1,7 @@
 package com.lasarobotics.library.util;
 
 /**
- * OpticalDistance Units for Encoder Counts to OpticalDistance conversion
+ * Distance units for conversion
  */
 public enum DistanceUnit {
     ENCODER_COUNTS,
