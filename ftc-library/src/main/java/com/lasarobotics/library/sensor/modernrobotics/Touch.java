@@ -19,7 +19,6 @@ public class Touch {
      *
      * @param t The current TouchSensor variable
      */
-    //FIXME If TouchSensor t necessary?
     public void update(TouchSensor t) {
         if (t.isPressed()) {
             if (state == ButtonState.NOT_PRESSED || state == ButtonState.RELEASED)

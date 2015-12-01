@@ -16,8 +16,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -110,35 +108,5 @@ public class MonkeyUtil {
     private static Gson getGson() {
         GsonBuilder gb = new GsonBuilder();
         return gb.create();
-    }
-
-    static void callMonkeyMethod(String m) {
-        String methodName = m.substring(m.lastIndexOf('.') + 1);
-        String className = m.substring(0, m.lastIndexOf('.'));
-
-        //GET CLASS
-        Class<?> clas;
-        try {
-            clas = Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
-        //GET METHOD WITHIN CLASS
-        Method method;
-        try {
-            method = clas.getMethod(methodName);//, param1.class, param2.class, ..);
-        } catch (SecurityException | NoSuchMethodException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        //RUN METHOD
-        try {
-            Object obj = clas.newInstance();
-            method.invoke(obj);
-        } catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
-        }
     }
 }

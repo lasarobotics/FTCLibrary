@@ -102,7 +102,7 @@ public class MonkeyData {
         return deltasGamepad1;
     }
 
-    public void setDeltasGamepad1(JsonObject deltasGamepad1) {
+    void setDeltasGamepad1(JsonObject deltasGamepad1) {
         this.deltasGamepad1 = deltasGamepad1;
     }
 
@@ -110,7 +110,7 @@ public class MonkeyData {
         return deltasGamepad2;
     }
 
-    public void setDeltasGamepad2(JsonObject deltasGamepad2) {
+    void setDeltasGamepad2(JsonObject deltasGamepad2) {
         this.deltasGamepad2 = deltasGamepad2;
     }
 
@@ -118,7 +118,7 @@ public class MonkeyData {
         return time;
     }
 
-    public void setTime(long time) {
+    void setTime(long time) {
         this.time = time;
     }
 }
