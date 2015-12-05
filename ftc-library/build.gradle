@@ -15,6 +15,10 @@ android {
         minSdkVersion 16
         targetSdkVersion 21
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 repositories {
@@ -25,14 +29,14 @@ repositories {
 dependencies {
     compile files('libs/android-support-v4.jar')
 
-    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.google.code.gson:gson:2.4'
 
-    compile (name:'RobotCore-release', ext:'aar')
-    compile (name:'Hardware-release', ext:'aar')
-    compile (name:'FtcCommon-release', ext:'aar')
-    compile (name:'ModernRobotics-release', ext:'aar')
-    compile (name:'Analytics-release', ext:'aar')
-    compile (name:'WirelessP2p-release', ext:'aar')
+    compile(name: 'RobotCore-release', ext: 'aar')
+    compile(name: 'Hardware-release', ext: 'aar')
+    compile(name: 'FtcCommon-release', ext: 'aar')
+    compile(name: 'ModernRobotics-release', ext: 'aar')
+    compile(name: 'Analytics-release', ext: 'aar')
+    compile(name: 'WirelessP2p-release', ext: 'aar')
 
     // Unit testing dependencies
     testCompile 'junit:junit:4.12'

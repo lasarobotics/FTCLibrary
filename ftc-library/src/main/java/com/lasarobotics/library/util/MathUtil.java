@@ -6,16 +6,16 @@ package com.lasarobotics.library.util;
 public final class MathUtil {
 
     /**
+     * Double equality epsilon (maximum tolerance for a double)
+     */
+    private final static double EPSILON = 0.000001;
+
+    /**
      * Suppresses constructor for noninstantiability
      */
     private MathUtil() {
         throw new AssertionError();
     }
-
-    /**
-     * Double equality epsilon
-     */
-    private final static double EPSILON = 0.000001;
 
     /**
      * Gives a "deadzone" where any value less
@@ -66,7 +66,7 @@ public final class MathUtil {
 
     /**
      * Forces a numerical value to be between a min
-     * and a max
+     * and a max.
      *
      * @param min   If less than min, returns min
      * @param max   If greater than max, returns max

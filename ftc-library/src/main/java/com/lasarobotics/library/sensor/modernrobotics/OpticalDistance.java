@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 /**
  * Implements the Core Optical OpticalDistance Sensor with advanced methods
- *
+ * <p/>
  * This sensor is only fully accurate UP TO 5 CM
  * Different lighting conditions greatly affect distance read after 5 cm away from the object
  */
@@ -61,7 +61,7 @@ public class OpticalDistance {
      * Gets an approximate distance from the object in centimeters
      * Formula based on empirical measurements in 2700K lighting at room temperature with a white
      * semi-reflective object perpendicular to the beam
-     *
+     * <p/>
      * Please note that these values are only SOMEWHAT ACCURATE between 0.5 and 5 cm!
      *
      * @return An approximate distance in centimeters

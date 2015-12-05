@@ -7,9 +7,9 @@ import java.util.concurrent.TimeUnit;
  * Implements advanced timers with events and precision manipulation.
  */
 public class Timers {
-    private Hashtable<String, Long> store = new Hashtable<String, Long>();
-    private int defaultprecision;
 
+    private Hashtable<String, TimerData> store = new Hashtable<String, TimerData>();
+    private int defaultprecision;
     /**
      * Instantiates the timer class with the default millisecond precision.
      */
@@ -27,12 +27,76 @@ public class Timers {
     }
 
     /**
-     * Start (and create, if nonexistent) a clock with a specified name.
+     * Start or resume (and create, if nonexistent) a clock with a specified name.
      *
      * @param name The clock name
      */
     public void startClock(String name) {
-        store.put(name, System.nanoTime());
+        if (exists(name)) {
+            if (!isRunning(name)) {
+                //resume clock
+                Long delta = store.get(name).time;
+                Long start = System.nanoTime() - delta;
+                store.put(name, new TimerData(start, false));
+            } else {
+                //start clock
+                store.put(name, new TimerData(System.nanoTime(), false));
+            }
+        } else {
+            //start clock
+            store.put(name, new TimerData(System.nanoTime(), false));
+        }
+    }
+
+    /**
+     * Test if a clock exists
+     *
+     * @param name Name of the clock
+     * @return True if the clock exists, false otherwise
+     */
+    public boolean exists(String name) {
+        return store.containsKey(name);
+    }
+
+    /**
+     * Create a clock with a given name. The clock will start PAUSED.
+     * If the clock already exists, no action will be taken
+     *
+     * @param name The clock name
+     */
+    public void createClock(String name) {
+        if (!exists(name)) {
+            store.put(name, new TimerData(0, true));
+        }
+    }
+
+    /**
+     * Pause a clock with a specified name. If a clock is already paused, no action will be taken.
+     * <p/>
+     * Internally, clocks are paused by setting the current clock uptime to it's opposite value.
+     * Therefore, to find if a clock is paused, check if the value is negative
+     *
+     * @param name The clock name
+     */
+    public void pauseClock(String name) {
+        if (exists(name)) {
+            if (isRunning(name)) {
+                long delta = System.nanoTime() - store.get(name).time;
+                store.put(name, new TimerData(delta, true));
+            }
+        } else {
+            throw new IllegalArgumentException("Timer " + name + " does not exist.");
+        }
+    }
+
+    /**
+     * Test if a clock is running
+     *
+     * @param name The clock name
+     * @return True if running, false if paused
+     */
+    public boolean isRunning(String name) {
+        return !store.get(name).paused;
     }
 
     /**
@@ -42,7 +106,20 @@ public class Timers {
      */
     public void resetClock(String name) {
         if (store.containsKey(name)) {
-            store.put(name, System.nanoTime());
+            store.put(name, new TimerData(System.nanoTime(), false));
+        } else {
+            throw new IllegalArgumentException("Timer " + name + " does not exist.");
+        }
+    }
+
+    /**
+     * Reset a clock with the specified name and optionally start paused
+     *
+     * @param name The clock name
+     */
+    public void resetClock(String name, boolean paused) {
+        if (store.containsKey(name)) {
+            store.put(name, new TimerData(System.nanoTime(), paused));
         } else {
             throw new IllegalArgumentException("Timer " + name + " does not exist.");
         }
@@ -55,12 +132,7 @@ public class Timers {
      * @return Value of clock in milliseconds
      */
     public long getClockValue(String name) {
-        if (store.containsKey(name)) {
-            Long start = store.get(name);
-            return TimeUnit.MILLISECONDS.convert(Math.abs(System.nanoTime() - start), TimeUnit.NANOSECONDS);
-        } else {
-            throw new IllegalArgumentException("Timer " + name + " does not exist.");
-        }
+        return getClockValue(name, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -72,9 +144,14 @@ public class Timers {
      */
     public long getClockValue(String name, TimeUnit timeUnit) {
         if (store.containsKey(name)) {
-            Long start = store.get(name);
-            long nanoDiff = Math.abs(System.nanoTime() - start);
-            return timeUnit.convert(nanoDiff, TimeUnit.NANOSECONDS);
+            if (isRunning(name)) {
+                //Running, store returns start time
+                Long start = store.get(name).time;
+                return timeUnit.convert(Math.abs(System.nanoTime() - start), TimeUnit.NANOSECONDS);
+            } else {
+                //Paused, store returns absolute
+                return timeUnit.convert(store.get(name).time, TimeUnit.NANOSECONDS);
+            }
         } else {
             throw new IllegalArgumentException("Timer " + name + " does not exist.");
         }
@@ -88,13 +165,7 @@ public class Timers {
      * @return True if at the target (+- precision), false otherwise
      */
     public boolean isAtTargetMillis(String name, long target) {
-        if (store.containsKey(name)) {
-            Long start = store.get(name);
-            long milliDiff = TimeUnit.MILLISECONDS.convert(Math.abs(target - getClockValue(name)), TimeUnit.NANOSECONDS);
-            return milliDiff < defaultprecision;
-        } else {
-            throw new IllegalArgumentException("Timer " + name + " does not exist.");
-        }
+        return isAtTargetMillis(name, target, defaultprecision);
     }
 
     /**
@@ -107,8 +178,7 @@ public class Timers {
      */
     public boolean isAtTargetMillis(String name, long target, long precision) {
         if (store.containsKey(name)) {
-            Long start = store.get(name);
-            long milliDiff = TimeUnit.MILLISECONDS.convert(Math.abs(target - getClockValue(name)), TimeUnit.NANOSECONDS);
+            long milliDiff = Math.abs(target - getClockValue(name));
             return milliDiff < precision;
         } else {
             throw new IllegalArgumentException("Timer " + name + " does not exist.");
@@ -131,5 +201,15 @@ public class Timers {
      */
     public void setPrecision(int precision) {
         this.defaultprecision = precision;
+    }
+
+    private class TimerData {
+        long time;
+        boolean paused;
+
+        TimerData(long time, boolean paused) {
+            this.time = time;
+            this.paused = paused;
+        }
     }
 }

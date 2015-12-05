@@ -1,48 +1,43 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 
-import com.lasarobotics.library.drive.Mecanum;
+import com.lasarobotics.library.controller.ButtonState;
 import com.lasarobotics.library.controller.Controller;
+import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.monkeyc.MonkeyC;
-import com.lasarobotics.library.sensor.legacy.hitechnic.Gyroscope;
-import com.qualcomm.ftcrobotcontroller.MyApplication;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.GyroSensor;
 
 /**
- * A Test Teleop
+ * MonkeyC2 Write Test
  */
 public class MonkeyCWrite extends OpMode {
     //basic FTC classes
-    DcMotor leftFront;
-    DcMotor rightFront;
-    DcMotor leftBack;
-    DcMotor rightBack;
-    GyroSensor hw_gyro;
+    DcMotor frontLeft, frontRight, backLeft, backRight;
+    Controller one, two;
+
     MonkeyC writer;
-    //advanced FTC classes
-    Controller one = new Controller();
-    Controller two = new Controller();
-    Gyroscope gyro;
 
     @Override
     public void init() {
         gamepad1.setJoystickDeadzone(.1F);
         gamepad2.setJoystickDeadzone(.1F);
-        leftFront = hardwareMap.dcMotor.get("leftFront");
-        rightFront = hardwareMap.dcMotor.get("rightFront");
-        leftBack = hardwareMap.dcMotor.get("leftBack");
-        rightBack = hardwareMap.dcMotor.get("rightBack");
 
+        frontLeft = hardwareMap.dcMotor.get("lf");
+        frontRight = hardwareMap.dcMotor.get("rf");
+        backLeft = hardwareMap.dcMotor.get("lb");
+        backRight = hardwareMap.dcMotor.get("rb");
 
-        leftFront.setDirection(DcMotor.Direction.REVERSE);
-        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        //frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        //frontRight.setDirection(DcMotor.Direction.REVERSE);
 
+        one = new Controller(gamepad1);
+        two = new Controller(gamepad2);
     }
 
     @Override
     public void start() {
+        MonkeyCDo.isTested = false;
         writer = new MonkeyC();
     }
 
@@ -52,13 +47,28 @@ public class MonkeyCWrite extends OpMode {
         one.update(gamepad1);
         two.update(gamepad2);
         writer.add(one, two);
-        telemetry.addData("Status", writer.size() + " commands written");
+
+        if (one.x == ButtonState.PRESSED) {
+            writer.pauseTime();
+            MonkeyCDo.test();
+            writer.waitForController(one, two);
+        }
+
+        if (MonkeyCDo.isTested) {
+            telemetry.addData("X KEY", "PRESSED!");
+        } else {
+            telemetry.addData("X KEY", "Not pressed");
+        }
+
+        telemetry.addData("Status", writer.getCommandsWritten() + " commands written");
+        telemetry.addData("Time", writer.getTime() + " seconds");
+
         //Drive commands go here (must match when playing back)
-        Mecanum.arcade(one.left_stick_y, one.left_stick_x, one.right_stick_x, leftFront, rightFront, leftBack, rightBack);
+        Tank.motor4(frontLeft, frontRight, backLeft, backRight, -one.left_stick_y, one.right_stick_y);
     }
 
     @Override
     public void stop() {
-        writer.write("test.txt", MyApplication.getAppContext());
+        writer.write("test.txt", true);
     }
 }
