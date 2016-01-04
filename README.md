@@ -27,7 +27,7 @@ From the Android Studio menu, select `Open an existing Android Studio Project` a
 We can provide support to teams who wish to use our library. Please let us know (via the issues tab) if there's anything we can help you with or anything you wish could be improved. We welcome feedback!
 
 ##Contributing
-Help in any and all areas is welcomed and encouraged. If you would like to help, please fork the library and pull request changes into the `staging` branch.
+Help in any and all areas is welcomed and encouraged. If you would like to help, please fork the library and pull request changes into the `dev` branch.
 
 **Thank you to the following teams for their participation and use of the library!**
 - **HIgh PHidelity (4290)**
