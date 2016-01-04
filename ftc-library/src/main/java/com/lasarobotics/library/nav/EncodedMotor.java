@@ -1,4 +1,4 @@
-package com.lasarobotics.library.skynet;
+package com.lasarobotics.library.nav;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;

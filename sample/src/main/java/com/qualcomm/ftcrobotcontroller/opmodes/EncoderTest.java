@@ -1,7 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.lasarobotics.library.controller.Controller;
-import com.lasarobotics.library.skynet.EncodedMotor;
+import com.lasarobotics.library.nav.EncodedMotor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 public class EncoderTest extends OpMode {
