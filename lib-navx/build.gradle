@@ -27,20 +27,21 @@ repositories {
     }
 }
 
+
+allprojects {
+    repositories {
+        jcenter()
+        flatDir {
+            dirs 'out'
+        }
+    }
+}
+
 dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/android-support-v4.jar')
-
-    project ':lib-navx'
-
-    compile 'com.google.code.gson:gson:2.4'
-
     compile(name: 'RobotCore-release', ext: 'aar')
+    //compile(name: 'ModernRobotics-release', ext: 'aar')
     compile(name: 'Hardware-release', ext: 'aar')
-    compile(name: 'FtcCommon-release', ext: 'aar')
-    compile(name: 'ModernRobotics-release', ext: 'aar')
-    compile(name: 'Analytics-release', ext: 'aar')
-    compile(name: 'WirelessP2p-release', ext: 'aar')
-
-    // Unit testing dependencies
-    testCompile 'junit:junit:4.12'
+    //compile(name: 'FtcCommon-release', ext: 'aar')
 }

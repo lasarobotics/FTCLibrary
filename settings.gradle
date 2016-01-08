@@ -1,1 +1,3 @@
-include ':ftc-library','sample'
+include ':ftc-library'
+include ':sample'
+include ':lib-navx'
