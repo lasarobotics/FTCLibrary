@@ -28,18 +28,20 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-package com.qualcomm.ftcrobotcontroller.opmodes.navx;
+package com.qualcomm.ftcrobotcontroller.opmodes.navx.kauailabs;
+
+import android.util.Log;
 
 import com.kauailabs.navx.ftc.AHRS;
 import com.kauailabs.navx.ftc.navXPIDController;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.text.DecimalFormat;
 
 /*
- * An example loop op mode where the robot will drive in
+ * An example linear op mode where the robot will drive in
  * a straight line (where the driving direction is guided by
  * the Yaw angle from a navX-Model device).
  *
@@ -53,7 +55,7 @@ import java.text.DecimalFormat;
  * to reduce the frequency of the updates to the drive system.
  */
 
-public class navXDriveStraightPIDLoopOp extends OpMode {
+public class navXDriveStraightPIDLinearOp extends LinearOpMode {
     /* This is the port on the Core Device Interface Module        */
     /* in which the navX-Model Device is connected.  Modify this  */
     /* depending upon which I2C port you are using.               */
@@ -68,14 +70,16 @@ public class navXDriveStraightPIDLoopOp extends OpMode {
     private final double YAW_PID_D = 0.0;
     DcMotor leftMotor;
     DcMotor rightMotor;
-    navXPIDController.PIDResult yawPIDResult;
-    DecimalFormat df;
     private AHRS navx_device;
     private navXPIDController yawPIDController;
     private ElapsedTime runtime = new ElapsedTime();
 
+    public double limit(double a) {
+        return Math.min(Math.max(a, MIN_MOTOR_OUTPUT_VALUE), MAX_MOTOR_OUTPUT_VALUE);
+    }
+
     @Override
-    public void init() {
+    public void runOpMode() throws InterruptedException {
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
 
@@ -103,53 +107,52 @@ public class navXDriveStraightPIDLoopOp extends OpMode {
         yawPIDController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
         yawPIDController.enable(true);
 
-        df = new DecimalFormat("#.##");
-    }
+        waitForStart();
 
-    public double limit(double a) {
-        return Math.min(Math.max(a, MIN_MOTOR_OUTPUT_VALUE), MAX_MOTOR_OUTPUT_VALUE);
-    }
-
-    @Override
-    public void start() {
         /* reset the navX-Model device yaw angle so that whatever direction */
         /* it is currently pointing will be zero degrees.                   */
-        navx_device.zeroYaw();
-        yawPIDResult = new navXPIDController.PIDResult();
-    }
 
-    @Override
-    public void loop() {
+        navx_device.zeroYaw();
+
         /* Wait for new Yaw PID output values, then update the motors
            with the new PID value with each new output value.
          */
 
+        final double TOTAL_RUN_TIME_SECONDS = 10.0;
+        int DEVICE_TIMEOUT_MS = 500;
+        navXPIDController.PIDResult yawPIDResult = new navXPIDController.PIDResult();
+
         /* Drive straight forward at 1/2 of full drive speed */
         double drive_speed = 0.5;
 
-        if (yawPIDController.isNewUpdateAvailable(yawPIDResult)) {
-            if (yawPIDResult.isOnTarget()) {
-                leftMotor.setPower(drive_speed);
-                rightMotor.setPower(drive_speed);
-                telemetry.addData("Motor Output", df.format(drive_speed) + ", " +
-                        df.format(drive_speed));
-            } else {
-                double output = yawPIDResult.getOutput();
-                leftMotor.setPower(limit(drive_speed + output));
-                rightMotor.setPower(limit(drive_speed - output));
-                telemetry.addData("Motor Output", df.format(limit(drive_speed + output)) + ", " +
-                        df.format(limit(drive_speed - output)));
-            }
-        } else {
-            /* No sensor update has been received since the last time  */
-            /* the loop() function was invoked.  Therefore, there's no */
-            /* need to update the motors at this time.                 */
-        }
-        telemetry.addData("Yaw", df.format(navx_device.getYaw()));
-    }
+        DecimalFormat df = new DecimalFormat("#.##");
 
-    @Override
-    public void stop() {
-        navx_device.close();
+        try {
+            while ((runtime.time() < TOTAL_RUN_TIME_SECONDS) &&
+                    !Thread.currentThread().isInterrupted()) {
+                if (yawPIDController.waitForNewUpdate(yawPIDResult, DEVICE_TIMEOUT_MS)) {
+                    if (yawPIDResult.isOnTarget()) {
+                        leftMotor.setPower(drive_speed);
+                        rightMotor.setPower(drive_speed);
+                        telemetry.addData("PIDOutput", df.format(drive_speed) + ", " +
+                                df.format(drive_speed));
+                    } else {
+                        double output = yawPIDResult.getOutput();
+                        leftMotor.setPower(drive_speed + output);
+                        rightMotor.setPower(drive_speed - output);
+                        telemetry.addData("PIDOutput", df.format(limit(drive_speed + output)) + ", " +
+                                df.format(limit(drive_speed - output)));
+                    }
+                    telemetry.addData("Yaw", df.format(navx_device.getYaw()));
+                } else {
+                    /* A timeout occurred */
+                    Log.w("navXDriveStraightOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
+                }
+            }
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        } finally {
+            navx_device.close();
+        }
     }
 }

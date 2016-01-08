@@ -3,6 +3,9 @@ package com.lasarobotics.library.sensor.kauailabs.navx;
 import com.kauailabs.navx.ftc.AHRS;
 import com.lasarobotics.library.util.Vector3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.robocol.Telemetry;
+
+import java.text.DecimalFormat;
 
 /**
  * NavX MXP controller
@@ -19,7 +22,7 @@ public class NavXDevice {
      * @param deviceInterfaceModuleName String name of the device interface module the sensor is on
      * @param i2cPort                   The i2C port the sensor is currently on
      */
-    NavXDevice(HardwareMap map, String deviceInterfaceModuleName, int i2cPort) {
+    public NavXDevice(HardwareMap map, String deviceInterfaceModuleName, int i2cPort) {
         initialize(map, deviceInterfaceModuleName, i2cPort, SensorSpeed.NORMAL_FAST, DataType.PROCESSED_DATA);
     }
 
@@ -31,7 +34,7 @@ public class NavXDevice {
      * @param i2cPort                   The i2C port the sensor is currently on
      * @param speed                     Sensor read speed (recommended anything from VERY_SLOW to VERY_FAST - other values are experimental)
      */
-    NavXDevice(HardwareMap map, String deviceInterfaceModuleName, int i2cPort, SensorSpeed speed) {
+    public NavXDevice(HardwareMap map, String deviceInterfaceModuleName, int i2cPort, SensorSpeed speed) {
         initialize(map, deviceInterfaceModuleName, i2cPort, speed, DataType.PROCESSED_DATA);
     }
 
@@ -57,12 +60,55 @@ public class NavXDevice {
         return ahrs.isMoving();
     }
 
+    public boolean isMagneticDisturbance() {
+        return ahrs.isMagneticDisturbance();
+    }
+
     public boolean isRotating() {
         return ahrs.isRotating() && !ahrs.isMagneticDisturbance();
     }
 
-    public void resetYaw() {
+    public void reset() {
         ahrs.zeroYaw();
+    }
+
+    public void displayTelemetry(Telemetry telemetry) {
+        boolean connected = ahrs.isConnected();
+        telemetry.addData("navX Status", connected ?
+                "Connected" : "Disconnected");
+        String gyrocal, magcal, yaw, pitch, roll, compass_heading;
+        String fused_heading, ypr, cf, motion;
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        if (connected) {
+            gyrocal = (ahrs.isCalibrating() ?
+                    "CALIBRATING" : "Calibration Complete");
+            magcal = (ahrs.isMagnetometerCalibrated() ?
+                    "Calibrated" : "UNCALIBRATED");
+            yaw = df.format(ahrs.getYaw());
+            pitch = df.format(ahrs.getPitch());
+            roll = df.format(ahrs.getRoll());
+            ypr = yaw + ", " + pitch + ", " + roll;
+            compass_heading = df.format(ahrs.getCompassHeading());
+            fused_heading = df.format(ahrs.getFusedHeading());
+            if (!ahrs.isMagnetometerCalibrated()) {
+                compass_heading = "-------";
+            }
+            cf = compass_heading + ", " + fused_heading;
+            if (ahrs.isMagneticDisturbance()) {
+                cf += " (Mag. Disturbance)";
+            }
+            motion = (ahrs.isMoving() ? "Moving" : "Not Moving");
+            if (ahrs.isRotating()) {
+                motion += ", Rotating";
+            }
+
+            telemetry.addData("navX GyroAccel", gyrocal);
+            telemetry.addData("navX Y,P,R", ypr);
+            telemetry.addData("navX Magnetometer", magcal);
+            telemetry.addData("navX Compass,9Axis", cf);
+            telemetry.addData("navX Motion", motion);
+        }
     }
 
     /**
@@ -72,6 +118,15 @@ public class NavXDevice {
      */
     public float getUpdateRate() {
         return (float) ahrs.getActualUpdateRate();
+    }
+
+    /**
+     * Get the number of the current update
+     *
+     * @return The update count
+     */
+    public int getUpdateCount() {
+        return (int) ahrs.getUpdateCount();
     }
 
     /**
@@ -105,7 +160,7 @@ public class NavXDevice {
         return ahrs.getFusedHeading();
     }
 
-    public void destroy() {
+    public void stop() {
         ahrs.close();
     }
 

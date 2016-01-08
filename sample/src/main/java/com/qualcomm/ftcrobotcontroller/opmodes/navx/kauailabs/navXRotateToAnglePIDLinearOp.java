@@ -28,7 +28,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-package com.qualcomm.ftcrobotcontroller.opmodes.navx;
+package com.qualcomm.ftcrobotcontroller.opmodes.navx.kauailabs;
 
 import android.util.Log;
 
@@ -41,27 +41,23 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.text.DecimalFormat;
 
 /*
- * An example linear op mode where the robot will drive in
- * a straight line (where the driving direction is guided by
- * the Yaw angle from a navX-Model device).
+ * An example linear op mode where the robot will rotate
+ * to a specified angle an then stop.
  *
  * This example uses a simple PID controller configuration
  * with a P coefficient, and will likely need tuning in order
  * to achieve optimal performance.
  *
  * Note that for the best accuracy, a reasonably high update rate
- * for the navX-Model sensor should be used.  This example uses
- * the default update rate (50Hz), which may be lowered in order
- * to reduce the frequency of the updates to the drive system.
+ * for the navX-Model sensor should be used.
  */
-
-public class navXDriveStraightPIDLinearOp extends LinearOpMode {
+public class navXRotateToAnglePIDLinearOp extends LinearOpMode {
     /* This is the port on the Core Device Interface Module        */
     /* in which the navX-Model Device is connected.  Modify this  */
     /* depending upon which I2C port you are using.               */
     private final int NAVX_DIM_I2C_PORT = 0;
     private final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
-    private final double TARGET_ANGLE_DEGREES = 0.0;
+    private final double TARGET_ANGLE_DEGREES = 90.0;
     private final double TOLERANCE_DEGREES = 2.0;
     private final double MIN_MOTOR_OUTPUT_VALUE = -1.0;
     private final double MAX_MOTOR_OUTPUT_VALUE = 1.0;
@@ -73,10 +69,6 @@ public class navXDriveStraightPIDLinearOp extends LinearOpMode {
     private AHRS navx_device;
     private navXPIDController yawPIDController;
     private ElapsedTime runtime = new ElapsedTime();
-
-    public double limit(double a) {
-        return Math.min(Math.max(a, MIN_MOTOR_OUTPUT_VALUE), MAX_MOTOR_OUTPUT_VALUE);
-    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -105,49 +97,41 @@ public class navXDriveStraightPIDLinearOp extends LinearOpMode {
         yawPIDController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
         yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
         yawPIDController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
-        yawPIDController.enable(true);
 
         waitForStart();
 
-        /* reset the navX-Model device yaw angle so that whatever direction */
-        /* it is currently pointing will be zero degrees.                   */
-
-        navx_device.zeroYaw();
+        try {
+            yawPIDController.enable(true);
 
         /* Wait for new Yaw PID output values, then update the motors
            with the new PID value with each new output value.
          */
 
-        final double TOTAL_RUN_TIME_SECONDS = 10.0;
-        int DEVICE_TIMEOUT_MS = 500;
-        navXPIDController.PIDResult yawPIDResult = new navXPIDController.PIDResult();
+            final double TOTAL_RUN_TIME_SECONDS = 30.0;
+            int DEVICE_TIMEOUT_MS = 500;
+            navXPIDController.PIDResult yawPIDResult = new navXPIDController.PIDResult();
 
-        /* Drive straight forward at 1/2 of full drive speed */
-        double drive_speed = 0.5;
+            DecimalFormat df = new DecimalFormat("#.##");
 
-        DecimalFormat df = new DecimalFormat("#.##");
-
-        try {
             while ((runtime.time() < TOTAL_RUN_TIME_SECONDS) &&
                     !Thread.currentThread().isInterrupted()) {
                 if (yawPIDController.waitForNewUpdate(yawPIDResult, DEVICE_TIMEOUT_MS)) {
                     if (yawPIDResult.isOnTarget()) {
-                        leftMotor.setPower(drive_speed);
-                        rightMotor.setPower(drive_speed);
-                        telemetry.addData("PIDOutput", df.format(drive_speed) + ", " +
-                                df.format(drive_speed));
+                        leftMotor.setPowerFloat();
+                        rightMotor.setPowerFloat();
+                        telemetry.addData("PIDOutput", df.format(0.00));
                     } else {
                         double output = yawPIDResult.getOutput();
-                        leftMotor.setPower(drive_speed + output);
-                        rightMotor.setPower(drive_speed - output);
-                        telemetry.addData("PIDOutput", df.format(limit(drive_speed + output)) + ", " +
-                                df.format(limit(drive_speed - output)));
+                        leftMotor.setPower(output);
+                        rightMotor.setPower(-output);
+                        telemetry.addData("PIDOutput", df.format(output) + ", " +
+                                df.format(-output));
                     }
-                    telemetry.addData("Yaw", df.format(navx_device.getYaw()));
                 } else {
-                    /* A timeout occurred */
-                    Log.w("navXDriveStraightOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
+                /* A timeout occurred */
+                    Log.w("navXRotateOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
                 }
+                telemetry.addData("Yaw", df.format(navx_device.getYaw()));
             }
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
