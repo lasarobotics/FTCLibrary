@@ -30,7 +30,7 @@ repositories {
 dependencies {
     compile files('libs/android-support-v4.jar')
 
-    project ':lib-navx'
+    compile project(':lib-navx')
 
     compile 'com.google.code.gson:gson:2.4'
 
