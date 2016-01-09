@@ -157,7 +157,7 @@ public class Kalman {
      * @param dt          Time delta since last measuremment
      * @return Latest estimate
      */
-    public double Update(Matrix measurement, double dt) {
+    public double update(Matrix measurement, double dt) {
         // Predict to now, then update.
         // Predict:
         //   X = F*X + H*U
