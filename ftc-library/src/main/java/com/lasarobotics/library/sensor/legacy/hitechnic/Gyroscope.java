@@ -54,7 +54,7 @@ public class Gyroscope {
         velCurr = getRotation();
         dt = timers.getClockValue(clockName, TimeUnit.SECONDS);
 
-        heading += (velPrevious + velCurr) * .5D * dt;
+        heading += (velPrevious + velCurr) * .5D * dt * dt;
 
         //prepare for next values
         timers.resetClock(clockName);
