@@ -1,19 +1,29 @@
 package com.lasarobotics.library.sensor.kauailabs.navx;
 
 import com.kauailabs.navx.ftc.AHRS;
+import com.kauailabs.navx.ftc.IDataArrivalSubscriber;
 import com.lasarobotics.library.util.Vector3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.robocol.Telemetry;
 
+import java.security.InvalidParameterException;
 import java.text.DecimalFormat;
 
 /**
  * NavX MXP controller
  */
-public class NavXDevice {
+public class NavXDevice implements IDataArrivalSubscriber {
 
+    static final DataType dataType = DataType.RAW_AND_PROCESSED;
+    static final int MAX_NUM_CALLBACKS = 3;
     AHRS ahrs;
-    DataType dataType;
+    double last_world_linear_accel_x = 0.0;
+    double last_world_linear_accel_y = 0.0;
+    private double maxJerk = 0.0;
+    private long last_system_timestamp = 0;
+    private long last_sensor_timestamp = 0;
+    private double collisionThreshold = 0.5;
+    private NavXDataReceiver[] callbacks;
 
     /**
      * Initialize a NavX MXP or NavX micro device
@@ -23,7 +33,7 @@ public class NavXDevice {
      * @param i2cPort                   The i2C port the sensor is currently on
      */
     public NavXDevice(HardwareMap map, String deviceInterfaceModuleName, int i2cPort) {
-        initialize(map, deviceInterfaceModuleName, i2cPort, SensorSpeed.NORMAL_FAST, DataType.PROCESSED_DATA);
+        initialize(map, deviceInterfaceModuleName, i2cPort, SensorSpeed.NORMAL_FAST, dataType);
     }
 
     /**
@@ -41,7 +51,8 @@ public class NavXDevice {
     private void initialize(HardwareMap map, String deviceInterfaceModuleName, int i2cPort, SensorSpeed speed, DataType type) {
         ahrs = AHRS.getInstance(map.deviceInterfaceModule.get(deviceInterfaceModuleName),
                 i2cPort, DataType.PROCESSED_DATA.getValue(), speed.getSpeedHertzByte());
-        this.dataType = type;
+        this.callbacks = new NavXDataReceiver[MAX_NUM_CALLBACKS];
+        ahrs.registerCallback(this);
     }
 
     public boolean isCalibrating() {
@@ -162,6 +173,126 @@ public class NavXDevice {
 
     public void stop() {
         ahrs.close();
+        for (int i = 0; i < callbacks.length; i++) {
+            callbacks[i] = null;
+        }
+    }
+
+    public double getCollisionThreshold() {
+        return collisionThreshold;
+    }
+
+    public void setCollisionThreshold(double thresholdGs) {
+        if (thresholdGs <= 0.0)
+            throw new InvalidParameterException("Threshold must be greater than 0 Gs!");
+        this.collisionThreshold = thresholdGs;
+    }
+
+    /**
+     * Test whether the robot has collided - using the set or default threshold
+     *
+     * @return True if collided, false otherwise
+     */
+    public boolean hasCollided() {
+        if (collisionThreshold <= 0.0)
+            throw new InvalidParameterException("Threshold must be greater than 0 Gs!");
+        return maxJerk > collisionThreshold;
+    }
+
+    /**
+     * Test whether the robot has collided
+     *
+     * @param thresholdGs Threshold for collision, in Gs. Default is 0.5 Gs.
+     * @return True if collided, false otherwise
+     */
+    public boolean hasCollided(double thresholdGs) {
+        if (thresholdGs <= 0.0)
+            throw new InvalidParameterException("Threshold must be greater than 0 Gs!");
+        return maxJerk > thresholdGs;
+    }
+
+    /**
+     * Get the instantaneous jerk, in m/s^3.
+     *
+     * @return Jerk (derivative of acceleration, i.e. change in acceleration) in m/s^3.
+     */
+    public double getJerk() {
+        return maxJerk;
+    }
+
+    /**
+     * Registers a callback interface.  This interface
+     * will be called back when new data is available,
+     * based upon a change in the sensor timestamp.
+     * <p/>
+     * Note that this callback will occur within the context of the
+     * device IO thread, which is not the same thread context the
+     * caller typically executes in.
+     */
+    public boolean registerCallback(NavXDataReceiver callback) {
+        boolean registered = false;
+        for (int i = 0; i < this.callbacks.length; i++) {
+            if (this.callbacks[i] == null) {
+                this.callbacks[i] = callback;
+                registered = true;
+                break;
+            }
+        }
+        return registered;
+    }
+
+    /**
+     * Deregisters a previously registered callback interface.
+     * <p/>
+     * Be sure to deregister any callback which have been
+     * previously registered, to ensure that the object
+     * implementing the callback interface does not continue
+     * to be accessed when no longer necessary.
+     */
+    public boolean deregisterCallback(NavXDataReceiver callback) {
+        boolean deregistered = false;
+        for (int i = 0; i < this.callbacks.length; i++) {
+            if (this.callbacks[i] == callback) {
+                this.callbacks[i] = null;
+                deregistered = true;
+                break;
+            }
+        }
+        return deregistered;
+    }
+
+    @Override
+    public void untimestampedDataReceived(long curr_system_timestamp, Object kind) {
+        long system_timestamp_delta = curr_system_timestamp - last_system_timestamp;
+        for (NavXDataReceiver callback : callbacks) {
+            if (callback != null) {
+                callback.dataReceived(system_timestamp_delta);
+            }
+        }
+    }
+
+    @Override
+    public void timestampedDataReceived(long curr_system_timestamp, long curr_sensor_timestamp, Object kind) {
+        //Test for collisions
+        long sensor_timestamp_delta = curr_sensor_timestamp - last_sensor_timestamp;
+        long system_timestamp_delta = curr_system_timestamp - last_system_timestamp;
+        double curr_world_linear_accel_x = ahrs.getWorldLinearAccelX();
+        double currentJerkX = curr_world_linear_accel_x - last_world_linear_accel_x;
+        last_world_linear_accel_x = curr_world_linear_accel_x;
+        double curr_world_linear_accel_y = ahrs.getWorldLinearAccelY();
+        double currentJerkY = curr_world_linear_accel_y - last_world_linear_accel_y;
+        last_world_linear_accel_y = curr_world_linear_accel_y;
+
+        maxJerk = Math.max(Math.abs(currentJerkX), Math.abs(currentJerkY));
+
+        last_sensor_timestamp = curr_sensor_timestamp;
+        last_system_timestamp = curr_system_timestamp;
+
+        for (NavXDataReceiver callback : callbacks) {
+            if (callback != null) {
+                callback.dataReceived(sensor_timestamp_delta);
+            }
+        }
     }
 
 
