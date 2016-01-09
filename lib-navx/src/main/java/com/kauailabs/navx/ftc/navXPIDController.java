@@ -59,6 +59,11 @@ package com.kauailabs.navx.ftc;
 
 public class navXPIDController implements IDataArrivalSubscriber {
 
+    /* Coefficients */
+    protected double p;
+    protected double i;
+    protected double d;
+    protected double ff;
     navXTimestampedDataSource timestamped_src;
     navXUntimestampedDataSource untimestamped_src;
     AHRS navx_device;
@@ -71,11 +76,6 @@ public class navXPIDController implements IDataArrivalSubscriber {
     private double error_current = 0.0;
     private double error_previous = 0.0;
     private double error_total = 0.0;
-    /* Coefficients */
-    private double p;
-    private double i;
-    private double d;
-    private double ff;
     /* Input/Output Clamps */
     private double max_input = 0.0;
     private double min_input = 0.0;
