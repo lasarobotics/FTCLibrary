@@ -2,11 +2,11 @@ package com.qualcomm.ftcrobotcontroller.opmodes.navx;
 
 import com.kauailabs.navx.ftc.navXPIDController;
 import com.lasarobotics.library.controller.Controller;
-import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.nav.EncodedMotor;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDataReceiver;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDevice;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXPIDController;
+import com.lasarobotics.library.util.MathUtil;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import java.text.DecimalFormat;
@@ -15,13 +15,13 @@ import java.text.DecimalFormat;
  * OpMode designed to test extended functionality of the NavX sensor
  * Requires four motors to test PID
  */
-public class NavXRotatePID extends OpMode implements NavXDataReceiver {
+public class NavXDriveForwardPID extends OpMode implements NavXDataReceiver {
 
     private static final String NAVX_DIM = "dim";               //device interface module name
     private static final int NAVX_PORT = 1;                     //port on device interface module
 
     private static final double NAVX_TOLERANCE_DEGREES = 2.0;   //degrees of tolerance for PID controllers
-    private static final double NAVX_TARGET_ANGLE_DEGREES = 600.0;    //target angle for PID
+    private static final double NAVX_TARGET_ANGLE_DEGREES = 180.0;    //target angle for PID
     private static final double NAVX_YAW_PID_P = 0.005;
     private static final double NAVX_YAW_PID_I = 0.0;
     private static final double NAVX_YAW_PID_D = 0.0;
@@ -55,7 +55,7 @@ public class NavXRotatePID extends OpMode implements NavXDataReceiver {
         //Set the target location
         yawPIDController.setSetpoint(NAVX_TARGET_ANGLE_DEGREES);
         //Allow crossing over the bounds (see setContinuous() documentation)
-        yawPIDController.setContinuous(false);
+        yawPIDController.setContinuous(true);
         //Set angle tolerance
         yawPIDController.setTolerance(NavXPIDController.ToleranceType.ABSOLUTE, NAVX_TOLERANCE_DEGREES);
         //Set P,I,D coefficients
@@ -81,18 +81,25 @@ public class NavXRotatePID extends OpMode implements NavXDataReceiver {
         one.update(gamepad1);
         navx.displayTelemetry(telemetry);
 
+        /* Drive straight forward at 1/2 of full drive speed */
+        final double driveSpeed = 0.5;
+
         if (yawPIDController.isUpdateAvailable(yawPIDState)) {
             if (yawPIDState.isOnTarget()) {
-                frontLeft.setPowerFloat();
-                frontRight.setPowerFloat();
-                backLeft.setPowerFloat();
-                backRight.setPowerFloat();
-                telemetry.addData("Motor Power", df.format(0.00));
+                backLeft.setPower(driveSpeed);
+                frontLeft.setPower(driveSpeed);
+                backRight.setPower(driveSpeed);
+                frontRight.setPower(driveSpeed);
+                telemetry.addData("Motor Output", df.format(driveSpeed) + ", " +
+                        df.format(driveSpeed));
             } else {
-                double power = yawPIDState.getOutput();
-                Tank.motor4(frontLeft, frontRight, backLeft, backRight,
-                        power, power);
-                telemetry.addData("Motor Power", df.format(power));
+                double output = yawPIDState.getOutput();
+                backLeft.setPower(MathUtil.coerce(-1, 1, driveSpeed + output));
+                frontLeft.setPower(MathUtil.coerce(-1, 1, driveSpeed + output));
+                backRight.setPower(MathUtil.coerce(-1, 1, driveSpeed - output));
+                frontRight.setPower(MathUtil.coerce(-1, 1, driveSpeed - output));
+                telemetry.addData("Motor Power", df.format(MathUtil.coerce(-1, 1, driveSpeed + output)) + ", " +
+                        df.format(MathUtil.coerce(-1, 1, driveSpeed - output)));
             }
         }
     }

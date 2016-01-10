@@ -1,4 +1,4 @@
-package com.lasarobotics.library.nav.kalman;
+package com.lasarobotics.library.util;
 
 public class Matrix {
     /**

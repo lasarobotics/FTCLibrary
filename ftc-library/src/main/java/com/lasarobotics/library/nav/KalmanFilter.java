@@ -1,4 +1,6 @@
-package com.lasarobotics.library.nav.kalman;
+package com.lasarobotics.library.nav;
+
+import com.lasarobotics.library.util.Matrix;
 
 /**
  * Kalman
@@ -18,9 +20,7 @@ package com.lasarobotics.library.nav.kalman;
  * Derived classes need to perhaps hide certain matrixes to simplify the
  * interface. Also perhaps override: setupFMatrix, predict, Reset or Update.
  */
-public class Kalman {
-    //Last gain determinant, useful for debug
-    public double lastGain;
+public class KalmanFilter {
     /**
      * State matrix (X)
      */
@@ -61,6 +61,15 @@ public class Kalman {
      * by the Kalman filter.
      */
     protected Matrix m_u = new Matrix();
+    private double lastGain;
+
+    /**
+     * Last gain determinant, useful for debug
+     * @return Last gain determinant
+     */
+    public double getLastGain() {
+        return lastGain;
+    }
 
     /**
      * Get the state value at an index
@@ -102,10 +111,10 @@ public class Kalman {
     public void setupFMatrix(double dt) {
         m_f.zero();
 
-        for (int i = 0; i < m_f.rows; i++) {
+        for (int i = 0; i < m_f.getRows(); i++) {
             double m = 1;
             m_f.set(i, i, m);
-            for (int j = i + 1; j < m_f.columns; j++) {
+            for (int j = i + 1; j < m_f.getColumns(); j++) {
                 m *= dt;
                 m_f.set(i, i, m);
             }
@@ -194,7 +203,7 @@ public class Kalman {
         Matrix ht = Matrix.transpose(m_h);
         Matrix tmp = Matrix.multiply(m_p, ht);
         Matrix sinv = Matrix.invert(s);
-        Matrix k = new Matrix(y.rows, m_x.rows);
+        Matrix k = new Matrix(y.getRows(), m_x.getRows());
         if (sinv != null) {
             k = Matrix.multiply(tmp, sinv);
         }
@@ -206,7 +215,7 @@ public class Kalman {
 
         // P = (I – K * H) * P
         Matrix kh = Matrix.multiply(k, m_h);
-        Matrix id = new Matrix(kh.columns, kh.rows);
+        Matrix id = new Matrix(kh.getColumns(), kh.getRows());
         id.makeIdentity();
         id.subtract(kh);
         id.multiply(m_p);

@@ -31,8 +31,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.ftcrobotcontroller.opmodes.navx.NavXDriveForwardPID;
 import com.qualcomm.ftcrobotcontroller.opmodes.navx.NavXRotatePID;
 import com.qualcomm.ftcrobotcontroller.opmodes.navx.NavXSensorTest;
+import com.qualcomm.ftcrobotcontroller.opmodes.navx.kauailabs.navXDriveStraightPIDLoopOp;
 import com.qualcomm.ftcrobotcontroller.opmodes.navx.kauailabs.navXProcessedOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
@@ -58,8 +60,10 @@ public class FtcOpModeRegister implements OpModeRegister {
         manager.register("Options Sample", OptionsSample.class);
         manager.register("Sensors Test", SensorsTest.class);
         manager.register("NavX Official Test", navXProcessedOp.class);
+        manager.register("NavX Official Forward PID Test", navXDriveStraightPIDLoopOp.class);
         manager.register("NavX Sensor Test", NavXSensorTest.class);
         manager.register("NavX Rotate PID Test", NavXRotatePID.class);
+        manager.register("NavX Forward PID Test", NavXDriveForwardPID.class);
         manager.register("Teleop 5998", Teleop5998.class);
     }
 }

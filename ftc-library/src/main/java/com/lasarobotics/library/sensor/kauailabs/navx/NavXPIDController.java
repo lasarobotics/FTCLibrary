@@ -73,6 +73,15 @@ public class NavXPIDController extends navXPIDController {
         return isAvailable;
     }
 
+    /**
+     * Returns the latest output value, selected by the DataSource when creating the controller
+     *
+     * @return Latest output value as a double
+     */
+    public double getOutputValue() {
+        return enableAntistall ? MathUtil.deadband(antistallDeadband, super.get()) : super.get();
+    }
+
     public double getAntistallDeadband() {
         return antistallDeadband;
     }
@@ -81,21 +90,16 @@ public class NavXPIDController extends navXPIDController {
         antistallDeadband = minMotorPower;
     }
 
+    public void setAntistall(boolean enableAntistall) {
+        this.enableAntistall = enableAntistall;
+    }
+
     public void enableAntistall() {
         enableAntistall = true;
     }
 
     public void disableAntistall() {
         enableAntistall = false;
-    }
-
-    /**
-     * Returns the latest output value, selected by the DataSource when creating the controller
-     *
-     * @return Latest output value as a double
-     */
-    public double getOutputValue() {
-        return enableAntistall ? MathUtil.deadband(antistallDeadband, super.get()) : super.get();
     }
 
     public void setTolerance(ToleranceType toleranceType, double tolerance) {
