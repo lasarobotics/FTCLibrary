@@ -6,9 +6,6 @@ package com.lasarobotics.library.util;
 public class Units {
 
     public enum Distance implements Unit {
-        ENCODER_COUNTS(Double.NaN),
-        WHEEL_REVOLUTIONS(Double.NaN),
-        WHEEL_DEGREES(Double.NaN),
         INCHES(0.0254),
         FEET(0.3048),
         CENTIMETERS(1.0 / 100.0),
@@ -20,15 +17,37 @@ public class Units {
             this.conversionFactor = conversionFactor;
         }
 
+        /**
+         * Convert a unit of angle into a unit of distance
+         *
+         * @param value       Angle value
+         * @param wheelRadius Wheel radius
+         * @param radiusUnits Units of wheel radius
+         * @param convertFrom Unit, in Angle, of value
+         * @param convertTo   Unit, in Distance, of value
+         * @return Arc length, or distance the wheel will travel after moving value angles
+         */
+        public static double convertToAngle(double value, double wheelRadius,
+                                            Units.Distance radiusUnits, Units.Distance convertFrom,
+                                            Units.Angle convertTo) {
+            //1 radian = 1 arc length = 1 Circumference / 2PI
+            //Distance Traveled = radians * wheel radius in meters * conversion unit
+            //Radians = Distance traveled / wheel radius in meters / conversion unit
+            //Radians = m traveled / m radius
+
+            //s = r * theta
+            //theta = s / r
+            double revolutions = convertFrom.convertTo(Distance.METERS, value) /
+                    radiusUnits.convertTo(Distance.METERS, wheelRadius);
+            return Angle.REVOLUTIONS.convertTo(convertTo, revolutions);
+        }
+
         @Override
         public double getConversionFactor() {
             return conversionFactor;
         }
 
-        @Override
-        public double convertTo(Unit other, double value) throws DistanceManualConversionException {
-            if (other.getConversionFactor() == Double.NaN || this.getConversionFactor() == Double.NaN)
-                throw new DistanceManualConversionException();
+        public double convertTo(Distance other, double value) {
             value *= conversionFactor;
             value /= other.getConversionFactor();
             return value;
@@ -38,17 +57,13 @@ public class Units {
         public Unit getDefaultUnit() {
             return METERS;
         }
-
-        @Override
-        public boolean isConvertable() {
-            return conversionFactor != Double.NaN;
-        }
     }
 
     public enum Angle implements Unit {
         DEGREES(1),
-        RADIANS(180 / Math.PI),
-        ENCODER_COUNTS(4); //encoders have 1440 resolutions / rotation, so 1 count = 1/4 degree
+        RADIANS(180.0 / Math.PI),
+        REVOLUTIONS(360.0),
+        ENCODER_COUNTS(4.0); //encoders have 1440 resolutions / rotation, so 1 count = 1/4 degree
 
         protected double conversionFactor;
 
@@ -56,21 +71,39 @@ public class Units {
             this.conversionFactor = conversionFactor;
         }
 
+        /**
+         * Convert a unit of angle into a unit of distance
+         *
+         * @param value       Angle value
+         * @param wheelRadius Wheel radius
+         * @param radiusUnits Units of wheel radius
+         * @param convertFrom Unit, in Angle, of value
+         * @param convertTo   Unit, in Distance, of value
+         * @return Arc length, or distance the wheel will travel after moving value angles
+         */
+        public static double convertToDistance(double value, double wheelRadius,
+                                               Units.Distance radiusUnits, Units.Angle convertFrom,
+                                               Units.Distance convertTo) {
+            //1 radian = 1 arc length = 1 Circumference / 2PI
+            //Distance Traveled = radians * wheel radius in meters * conversion unit
+            //s = r * theta
+
+            double revolutions = convertFrom.convertTo(Angle.REVOLUTIONS, value);
+            return radiusUnits.convertTo(convertTo, revolutions * wheelRadius);
+
+            //return convertFrom.convertTo(Units.Angle.RADIANS, value) * wheelRadius *
+            //        radiusUnits.convertTo(convertTo, 1);
+        }
+
         @Override
         public double getConversionFactor() {
             return conversionFactor;
         }
 
-        @Override
-        public double convertTo(Unit other, double value) throws DistanceManualConversionException {
+        public double convertTo(Angle other, double value) {
             value *= conversionFactor;
             value /= other.getConversionFactor();
             return value;
-        }
-
-        @Override
-        public boolean isConvertable() {
-            return true;
         }
 
         public Angle getDefaultUnit() {
@@ -99,26 +132,7 @@ public class Units {
          * @param other Another units
          * @param value Value to convert
          * @return Converted value, if possible
-         * @throws DistanceManualConversionException Method will throw exception if the unit
-         *                                           requested or the current unit are not inter-convertible because some information
-         *                                           is lacking. e.g. we need wheel radius to convert inches into wheel revolutions.
          */
-        double convertTo(Unit other, double value) throws DistanceManualConversionException;
-
-        /**
-         * Test whether a unit is convertable and therefore will not throw an error if converted from/to
-         *
-         * @return True if convertable, false otherwise
-         */
-        boolean isConvertable();
-    }
-
-    /**
-     * Exception that throws when more data is necessary to convert from one
-     */
-    public static class DistanceManualConversionException extends Exception {
-        DistanceManualConversionException() {
-            super("Unable to convert to this unit due to unknown information! Manually convert.");
-        }
+        //double convertTo(Unit other, double value);
     }
 }

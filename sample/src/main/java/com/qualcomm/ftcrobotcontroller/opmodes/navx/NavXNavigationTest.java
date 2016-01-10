@@ -2,11 +2,11 @@ package com.qualcomm.ftcrobotcontroller.opmodes.navx;
 
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.drive.Tank;
-import com.lasarobotics.library.nav.EncodedMotor;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDataReceiver;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDevice;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXPIDController;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.text.DecimalFormat;
 
@@ -27,18 +27,18 @@ public class NavXNavigationTest extends OpMode implements NavXDataReceiver {
 
     private static final DecimalFormat df = new DecimalFormat("#.##");
 
-    EncodedMotor frontLeft, frontRight, backLeft, backRight; //make sure these have encoders!
+    DcMotor frontLeft, frontRight, backLeft, backRight; //make sure these have encoders!
     Controller one;
     NavXDevice navx;
     NavXPIDController yawPIDController;
     NavXPIDController.PIDState yawPIDState;
 
     public void init() {
-        //Create motors WITH ENCODERS (important!)
-        frontLeft = new EncodedMotor(hardwareMap.dcMotor.get("frontLeft"));
-        frontRight = new EncodedMotor(hardwareMap.dcMotor.get("frontRight"));
-        backLeft = new EncodedMotor(hardwareMap.dcMotor.get("backLeft"));
-        backRight = new EncodedMotor(hardwareMap.dcMotor.get("backRight"));
+        //Create motors PREFERABLY WITH ENCODERS (important!)
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
+        frontRight = hardwareMap.dcMotor.get("frontRight");
+        backLeft = hardwareMap.dcMotor.get("backLeft");
+        backRight = hardwareMap.dcMotor.get("backRight");
 
         //Instantiate controllers
         one = new Controller(gamepad1);

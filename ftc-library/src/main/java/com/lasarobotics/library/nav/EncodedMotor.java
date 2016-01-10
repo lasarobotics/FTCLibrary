@@ -38,11 +38,7 @@ public class EncodedMotor extends DcMotor {
     }
 
     private void calculateRadius(double wheelRadius, Units.Distance radiusUnit) {
-        try {
-            this.wheelRadius = radiusUnit.convertTo(Units.Distance.METERS, wheelRadius);
-        } catch (Units.DistanceManualConversionException e) {
-            throw new RuntimeException("Cannot convert from this unit!");
-        }
+        this.wheelRadius = radiusUnit.convertTo(Units.Distance.METERS, wheelRadius);
     }
 
     /**
@@ -57,7 +53,7 @@ public class EncodedMotor extends DcMotor {
         if (distance == 0)
             return;
 
-        resetEncoder();
+        reset();
 
         if (distance < 0)
             super.setDirection(Direction.REVERSE);
@@ -76,6 +72,18 @@ public class EncodedMotor extends DcMotor {
      */
     public boolean hasReachedPosition(double position) {
         return Math.abs(getCurrentPosition()) >= Math.abs(position);
+    }
+
+    /**
+     * Test if the encoder has reached a specific position in a unit
+     * After reaching the position, it is recommended to reset the encoders.
+     *
+     * @param position Position, in units
+     * @param unit     Unit of position
+     * @return True if reached the expected position, false otherwise
+     */
+    public boolean hasReachedPosition(double position, Units.Distance unit) {
+        return Math.abs(getCurrentPosition(unit)) >= Math.abs(position);
     }
 
     public void enableEncoder() {
@@ -101,13 +109,14 @@ public class EncodedMotor extends DcMotor {
         if (encodersResetting && super.getCurrentPosition() == 0) {
             encodersResetting = false;
             encoderOffset = 0;
+            enableEncoder();
         }
     }
 
     /**
      * Reset encoders.
      */
-    public void resetEncoder() {
+    public void reset() {
         if (encodersResetting)
             return;
 
@@ -121,6 +130,20 @@ public class EncodedMotor extends DcMotor {
     @Override
     public void setTargetPosition(int position) {
         super.setTargetPosition(position + encoderOffset);
+    }
+
+    public void setTargetPosition(double position, Units.Distance unit) {
+        setTargetPosition((int) convertDistanceToEncoderCounts(position, unit));
+    }
+
+    public double convertDistanceToEncoderCounts(double distance, Units.Distance unit) {
+        return Units.Distance.convertToAngle(distance, wheelRadius, Units.Distance.METERS,
+                unit, Units.Angle.ENCODER_COUNTS);
+    }
+
+    public double convertEncoderCountsToDistance(double encoderCounts, Units.Distance unit) {
+        return Units.Angle.convertToDistance(encoderCounts, wheelRadius, Units.Distance.METERS,
+                Units.Angle.ENCODER_COUNTS, unit);
     }
 
     /**
@@ -138,5 +161,9 @@ public class EncodedMotor extends DcMotor {
         if (encodersResetting)
             return 0;
         return super.getCurrentPosition() + encoderOffset;
+    }
+
+    public double getCurrentPosition(Units.Distance unit) {
+        return convertEncoderCountsToDistance(getCurrentPosition(), unit);
     }
 }

@@ -7,6 +7,7 @@ import com.lasarobotics.library.nav.EncodedMotor;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDataReceiver;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDevice;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXPIDController;
+import com.lasarobotics.library.util.Units;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import java.text.DecimalFormat;
@@ -26,6 +27,9 @@ public class NavXRotatePID extends OpMode implements NavXDataReceiver {
     private static final double NAVX_YAW_PID_I = 0.0;
     private static final double NAVX_YAW_PID_D = 0.0;
 
+    private static final double WHEEL_RADIUS = 2;
+    private static final Units.Distance WHEEL_RADIUS_UNIT = Units.Distance.INCHES;
+
     private static final DecimalFormat df = new DecimalFormat("#.##");
 
     EncodedMotor frontLeft, frontRight, backLeft, backRight; //make sure these have encoders!
@@ -35,11 +39,11 @@ public class NavXRotatePID extends OpMode implements NavXDataReceiver {
     NavXPIDController.PIDState yawPIDState;
 
     public void init() {
-        //Create motors WITH ENCODERS (important!)
-        frontLeft = new EncodedMotor(hardwareMap.dcMotor.get("frontLeft"));
-        frontRight = new EncodedMotor(hardwareMap.dcMotor.get("frontRight"));
-        backLeft = new EncodedMotor(hardwareMap.dcMotor.get("backLeft"));
-        backRight = new EncodedMotor(hardwareMap.dcMotor.get("backRight"));
+        //Create motors WITH ENCODERS (highly preferable)
+        frontLeft = new EncodedMotor(hardwareMap.dcMotor.get("frontLeft"), WHEEL_RADIUS, WHEEL_RADIUS_UNIT);
+        frontRight = new EncodedMotor(hardwareMap.dcMotor.get("frontRight"), WHEEL_RADIUS, WHEEL_RADIUS_UNIT);
+        backLeft = new EncodedMotor(hardwareMap.dcMotor.get("backLeft"), WHEEL_RADIUS, WHEEL_RADIUS_UNIT);
+        backRight = new EncodedMotor(hardwareMap.dcMotor.get("backRight"), WHEEL_RADIUS, WHEEL_RADIUS_UNIT);
 
         //Instantiate controllers
         one = new Controller(gamepad1);
