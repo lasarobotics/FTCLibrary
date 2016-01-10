@@ -19,26 +19,22 @@ public class EncodedMotor extends DcMotor {
      *
      * @param motor DcMotor instance.
      */
-    public EncodedMotor(DcMotor motor, double wheelRadius, Units.Distance radiusUnits) {
+    public EncodedMotor(DcMotor motor, MotorInfo info) {
         super(motor.getController(), motor.getPortNumber(), motor.getDirection());
         enableEncoder();
-        calculateRadius(wheelRadius, radiusUnits);
+        this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
     }
 
-    protected EncodedMotor(DcMotorController controller, int portNumber, double wheelRadius, Units.Distance radiusUnits) {
+    protected EncodedMotor(DcMotorController controller, int portNumber, MotorInfo info) {
         super(controller, portNumber);
         enableEncoder();
-        calculateRadius(wheelRadius, radiusUnits);
+        this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
     }
 
-    protected EncodedMotor(DcMotorController controller, int portNumber, Direction direction, double wheelRadius, Units.Distance radiusUnits) {
+    protected EncodedMotor(DcMotorController controller, int portNumber, MotorInfo info, Direction direction) {
         super(controller, portNumber, direction);
         enableEncoder();
-        calculateRadius(wheelRadius, radiusUnits);
-    }
-
-    private void calculateRadius(double wheelRadius, Units.Distance radiusUnit) {
-        this.wheelRadius = radiusUnit.convertTo(Units.Distance.METERS, wheelRadius);
+        this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
     }
 
     /**

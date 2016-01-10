@@ -3,6 +3,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.nav.EncodedMotor;
+import com.lasarobotics.library.nav.MotorInfo;
 import com.lasarobotics.library.nav.PID;
 import com.lasarobotics.library.util.MathUtil;
 import com.lasarobotics.library.util.Units;
@@ -13,6 +14,8 @@ public class EncoderTest extends OpMode {
 
     private static final double WHEEL_RADIUS = 2;
     private static final Units.Distance WHEEL_RADIUS_UNIT = Units.Distance.INCHES;
+    private static final double WHEEL_MECHANICAL_ADVANTAGE = 2;
+
     DcMotor frontLeft, frontRight, backRight;
     EncodedMotor backLeft;
     Controller one;
@@ -24,7 +27,7 @@ public class EncoderTest extends OpMode {
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         frontRight = hardwareMap.dcMotor.get("frontRight");
         backLeft = new EncodedMotor(hardwareMap.dcMotor.get("backLeft"),
-                WHEEL_RADIUS, WHEEL_RADIUS_UNIT); //set wheel radius for distance calculations
+                new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE)); //set wheel radius for distance calculations
         backRight = hardwareMap.dcMotor.get("backRight");
 
         one = new Controller(gamepad1);
@@ -36,7 +39,8 @@ public class EncoderTest extends OpMode {
 
         //Create PID looper
         pidBackLeft = new PID();
-        pidBackLeft.setSetpoint(1000);
+        pidBackLeft.setSetpoint(Units.Distance.convertToAngle(1, WHEEL_RADIUS, WHEEL_RADIUS_UNIT,
+                Units.Distance.FEET, Units.Angle.ENCODER_COUNTS));
     }
 
     public void init_loop() {
