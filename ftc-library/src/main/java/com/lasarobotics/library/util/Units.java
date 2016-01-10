@@ -47,7 +47,8 @@ public class Units {
 
     public enum Angle implements Unit {
         DEGREES(1),
-        RADIANS(180 / Math.PI);
+        RADIANS(180 / Math.PI),
+        ENCODER_COUNTS(4); //encoders have 1440 resolutions / rotation, so 1 count = 1/4 degree
 
         protected double conversionFactor;
 

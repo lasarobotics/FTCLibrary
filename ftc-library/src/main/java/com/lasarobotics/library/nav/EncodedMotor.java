@@ -1,5 +1,6 @@
 package com.lasarobotics.library.nav;
 
+import com.lasarobotics.library.util.Units;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
  * Drive encoder support
  */
 public class EncodedMotor extends DcMotor {
+    protected double wheelRadius;   //wheel radius in meters
     private boolean isEncoderEnabled = true;
     private boolean encodersResetting = false;
     private int encoderOffset = 0;
@@ -17,28 +19,41 @@ public class EncodedMotor extends DcMotor {
      *
      * @param motor DcMotor instance.
      */
-    public EncodedMotor(DcMotor motor) {
+    public EncodedMotor(DcMotor motor, double wheelRadius, Units.Distance radiusUnits) {
         super(motor.getController(), motor.getPortNumber(), motor.getDirection());
         enableEncoder();
+        calculateRadius(wheelRadius, radiusUnits);
     }
 
-    protected EncodedMotor(DcMotorController controller, int portNumber) {
+    protected EncodedMotor(DcMotorController controller, int portNumber, double wheelRadius, Units.Distance radiusUnits) {
         super(controller, portNumber);
         enableEncoder();
+        calculateRadius(wheelRadius, radiusUnits);
     }
 
-    protected EncodedMotor(DcMotorController controller, int portNumber, Direction direction) {
+    protected EncodedMotor(DcMotorController controller, int portNumber, Direction direction, double wheelRadius, Units.Distance radiusUnits) {
         super(controller, portNumber, direction);
         enableEncoder();
+        calculateRadius(wheelRadius, radiusUnits);
+    }
+
+    private void calculateRadius(double wheelRadius, Units.Distance radiusUnit) {
+        try {
+            this.wheelRadius = radiusUnit.convertTo(Units.Distance.METERS, wheelRadius);
+        } catch (Units.DistanceManualConversionException e) {
+            throw new RuntimeException("Cannot convert from this unit!");
+        }
     }
 
     /**
      * Move a certain distance, in encoder counts
      * If the distance is negative, the wheel will move in reverse - forward otherwise
      *
+     * It is assumed that there are 1440 encoder counts in a full rotation.
+     *
      * @param distance The distance to move, in encoder counts
      */
-    public void moveDistance(int distance) {
+    public void moveDistance(double distance) {
         if (distance == 0)
             return;
 
@@ -49,7 +64,7 @@ public class EncodedMotor extends DcMotor {
         else
             super.setDirection(Direction.FORWARD);
 
-        setTargetPosition(Math.abs(distance));
+        setTargetPosition(Math.abs((int) distance));
     }
 
     /**
