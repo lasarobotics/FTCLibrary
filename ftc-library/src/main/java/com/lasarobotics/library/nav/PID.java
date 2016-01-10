@@ -27,6 +27,7 @@ public class PID {
     public void addMeasurement(double measuredValue, double timeDelta) {
         this.processValue = measuredValue;
         this.dt = timeDelta;
+        update();
     }
 
     /**
@@ -85,34 +86,13 @@ public class PID {
         return output;
     }
 
-    /*This represents the speed at which electronics could actualy
-        sample the process values.. and do any work on them.
-     * [most industrial batching processes are SLOW, on the order of minutes.
-     *  but were going to deal in times 10ms to 1 second.
-     *  Most PLC's have relativly slow data busses, and would sample
-     *  temperatures on the order of 100's of milliseconds. So our
-     *  starting time interval is 100ms]
-     */
-    private void tmrPID_Ctrl_Tick(object sender, EventArgs e) {   /*
-             * Pseudocode from Wikipedia
-             *
-                previous_error = 0
-                integral = 0
-            start:
-                error = setpoint - PV(actual_position)
-                integral = integral + error*dt
-                derivative = (error - previous_error)/dt
-                output = Kp*error + Ki*integral + Kd*derivative
-                previous_error = error
-                wait(dt)
-                goto start
-             */
+    private void update() {
         // calculate the difference between the desired value and the actual value
-        error = setpoint - PV;
+        error = setpoint - processValue;
         // track error over time, scaled to the timer interval
-        integral = integral + (error * Dt);
+        integral = integral + (error * dt);
         // determin the amount of change from the last time checked
-        derivative = (error - previousError) / Dt;
+        derivative = (error - previousError) / dt;
 
         // calculate how much drive the output in order to get to the
         // desired setpoint.
@@ -120,26 +100,5 @@ public class PID {
 
         // remember the error for the next time around.
         previousError = error;
-
-    }
-
-    //This timer updates the process data. it needs to be the fastest
-    // interval in the system.
-    private void tmrPV_Tick(object sender, EventArgs e) {
-            /* this my version of cruise control.
-             * PV = PV + (output * .2) - (PV*.10);
-             * The equation contains values for speed, efficiency,
-             *  and wind resistance.
-               Here 'PV' is the speed of the car.
-               'output' is the amount of gas supplied to the engine.
-             * (It is only 20% efficient in this example)
-               And it looses energy at 10% of the speed. (The faster the
-               car moves the more PV will be reduced.)
-             * Noise is added randomly if checked, otherwise noise is 0.0
-             * (Noise doesn't relate to the cruise control, but can be useful
-             *  when modeling other processes.)
-             */
-        PV = PV + (output * 0.20) - (PV * 0.10) + noise;
-        // change the above equation to fit your aplication
     }
 }
