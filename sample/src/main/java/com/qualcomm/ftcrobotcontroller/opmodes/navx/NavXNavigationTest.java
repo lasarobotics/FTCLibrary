@@ -14,13 +14,13 @@ import java.text.DecimalFormat;
  * OpMode designed to test extended functionality of the NavX sensor
  * Requires four motors to test PID
  */
-public class NavXFullNavigation extends OpMode implements NavXDataReceiver {
+public class NavXNavigationTest extends OpMode implements NavXDataReceiver {
 
     private static final String NAVX_DIM = "dim";               //device interface module name
     private static final int NAVX_PORT = 1;                     //port on device interface module
 
-    private static final double NAVX_TOLERANCE_DEGREES = 2.0;   //degrees of tolerance for PID controllers
-    private static final double NAVX_TARGET_ANGLE_DEGREES = 90.0;    //target angle for PID
+    private static final double NAVX_TOLERANCE_DEGREES = 2.0;       //degrees of tolerance for PID controllers
+    private static final double NAVX_TARGET_ANGLE_DEGREES = 0.0;    //target angle for PID
     private static final double NAVX_YAW_PID_P = 0.005;
     private static final double NAVX_YAW_PID_I = 0.0;
     private static final double NAVX_YAW_PID_D = 0.0;

@@ -49,7 +49,7 @@ public class EncodedMotor extends DcMotor {
         else
             super.setDirection(Direction.FORWARD);
 
-        setTargetPosition(distance);
+        setTargetPosition(Math.abs(distance));
     }
 
     /**
@@ -60,19 +60,19 @@ public class EncodedMotor extends DcMotor {
      * @return True if the robot has reached the position
      */
     public boolean hasReachedPosition(double position) {
-        return Math.abs(getCurrentPosition()) > Math.abs(position);
+        return Math.abs(getCurrentPosition()) >= Math.abs(position);
     }
 
     public void enableEncoder() {
         //This command requires (at least ?) one execution loop to reset the encoders
-        super.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
         isEncoderEnabled = true;
     }
 
     public void disableEncoder() {
         //This command requires (at least ?) one execution loop to reset the encoders
-        super.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
         isEncoderEnabled = false;
     }
@@ -97,7 +97,7 @@ public class EncodedMotor extends DcMotor {
             return;
 
         //This command requires (at least ?) one execution loop to reset the encoders
-        super.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
         encodersResetting = true;
         encoderOffset = -super.getCurrentPosition();

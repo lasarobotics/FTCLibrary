@@ -23,6 +23,13 @@ import com.lasarobotics.library.util.Vector3;
  * Movement supports by 2D and 3D movement, as well as rotation.
  * <p/>
  * The Navigator currently supports only navX-based controllers.
+ *
+ *
+ * The current idea is to use:
+ * 1. the yaw-/z-axis PID controller as a precise rotation mechanism and self-correcting drive.
+ * 2. motor encoders to calculate distance traveled in the direction - more encoders give better positioning data
+ * Possibly even:
+ * 3. x and y accelorometers to measure (approximate) position
  */
 public class Navigator {
 
