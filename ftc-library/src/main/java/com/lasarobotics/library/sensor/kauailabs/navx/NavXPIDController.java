@@ -3,13 +3,16 @@ package com.lasarobotics.library.sensor.kauailabs.navx;
 import android.util.Log;
 
 import com.kauailabs.navx.ftc.navXPIDController;
+import com.lasarobotics.library.util.MathUtil;
 
 /**
  * PID Controller designed for the navX MXP or micro
  */
 public class NavXPIDController extends navXPIDController {
 
-    private final static int waitTimeout = 50; //wait timeout in ms
+    private final static int waitTimeout = 50;      //wait timeout in ms
+    private double antistallDeadband = 0.03; //minimum motor power - prevents stalls
+    private boolean enableAntistall = false;  //true to enable antistall deadband
 
     public NavXPIDController(NavXDevice navX, DataSource dataSource) {
         super(navX.ahrs, dataSource.val);
@@ -31,6 +34,10 @@ public class NavXPIDController extends navXPIDController {
 
     public double getCoefficientFastForward() {
         return ff;
+    }
+
+    public String getCoefficientString() {
+        return "p: " + p + ", i: " + i + ", d: " + d + ", ff: " + ff;
     }
 
     public void reset() {
@@ -59,9 +66,28 @@ public class NavXPIDController extends navXPIDController {
     }
 
     public boolean isUpdateAvailable(PIDState state) {
-        return isNewUpdateAvailable(state);
+        boolean isAvailable = isNewUpdateAvailable(state);
+        if (isAvailable) {
+            state.output = MathUtil.deadband(antistallDeadband, state.output);
+        }
+        return isAvailable;
     }
 
+    public double getAntistallDeadband() {
+        return antistallDeadband;
+    }
+
+    public void setAntistallDeadband(double minMotorPower) {
+        antistallDeadband = minMotorPower;
+    }
+
+    public void enableAntistall() {
+        enableAntistall = true;
+    }
+
+    public void disableAntistall() {
+        enableAntistall = false;
+    }
 
     /**
      * Returns the latest output value, selected by the DataSource when creating the controller
@@ -69,7 +95,7 @@ public class NavXPIDController extends navXPIDController {
      * @return Latest output value as a double
      */
     public double getOutputValue() {
-        return super.get();
+        return enableAntistall ? MathUtil.deadband(antistallDeadband, super.get()) : super.get();
     }
 
     public void setTolerance(ToleranceType toleranceType, double tolerance) {

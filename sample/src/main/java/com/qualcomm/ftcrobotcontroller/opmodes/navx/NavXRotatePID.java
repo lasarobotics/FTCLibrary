@@ -1,5 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.navx;
 
+import com.kauailabs.navx.ftc.navXPIDController;
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.nav.EncodedMotor;
@@ -59,9 +60,18 @@ public class NavXRotatePID extends OpMode implements NavXDataReceiver {
         yawPIDController.setTolerance(NavXPIDController.ToleranceType.ABSOLUTE, NAVX_TOLERANCE_DEGREES);
         //Set P,I,D coefficients
         yawPIDController.setPID(NAVX_YAW_PID_P, NAVX_YAW_PID_I, NAVX_YAW_PID_D);
+        //Enable antistall (less accurate, but prevents motors from stalling)
+        yawPIDController.enableAntistall();
+        yawPIDController.setAntistallDeadband(0.02);
+        //Making the tolerance very small makes the robot work hard to get to get to a very close estimate
+        yawPIDController.setTolerance(navXPIDController.ToleranceType.NONE, 0);
+        //Set PID variables
+        //Incresing P increases "jerkiness", D can make the device under/over-shoot, and I would not mess with I
+        yawPIDController.setPID(0.005, 0, 0);
         //Start data collection
         yawPIDController.start();
 
+        //Initiate blank PID state
         yawPIDState = new NavXPIDController.PIDState();
     }
 
@@ -97,7 +107,7 @@ public class NavXRotatePID extends OpMode implements NavXDataReceiver {
 
     @Override
     public void dataReceived(long timeDelta) {
-        telemetry.addData("NavX Collision", navx.hasCollided() ? "COLLIDED!" : "No collision");
-        telemetry.addData("NavX Jerk", navx.getJerk());
+        telemetry.addData("navX Collision", navx.hasCollided() ? "COLLIDED!" : "No collision");
+        telemetry.addData("navX Jerk", df.format(navx.getJerk()));
     }
 }

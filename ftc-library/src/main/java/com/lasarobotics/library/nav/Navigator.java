@@ -1,5 +1,7 @@
 package com.lasarobotics.library.nav;
 
+import android.util.Log;
+
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDevice;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXPIDController;
 import com.lasarobotics.library.util.Vector2;
@@ -23,6 +25,12 @@ import com.lasarobotics.library.util.Vector3;
  */
 public class Navigator {
 
+    static NavXPIDController accelX;
+    static NavXPIDController accelY;
+    static NavXPIDController accelZ;
+    static NavXPIDController rotX;
+    static NavXPIDController rotY;
+    static NavXPIDController rotZ;
     /***
      * INITIALIZATION
      ***/
@@ -35,12 +43,6 @@ public class Navigator {
      ***/
 
     NavXDevice navx;
-    NavXPIDController accelX;
-    NavXPIDController accelY;
-    NavXPIDController accelZ;
-    NavXPIDController rotX;
-    NavXPIDController rotY;
-    NavXPIDController rotZ;
 
     public Navigator(NavXDevice navx, boolean omnidirectionalDrive) {
         this.omnidirectionalDrive = omnidirectionalDrive;
@@ -81,5 +83,38 @@ public class Navigator {
         rotX = new NavXPIDController(navx, NavXPIDController.DataSource.PITCH);
         rotY = new NavXPIDController(navx, NavXPIDController.DataSource.ROLL);
         rotZ = new NavXPIDController(navx, NavXPIDController.DataSource.YAW);
+    }
+
+    public void setPID(Controller controller, double p, double i, double d) {
+        controller.getController().setPID(p, i, d);
+        Log.d("Navigator PID", controller.getController().getCoefficientString());
+    }
+
+    public enum Controller {
+        ACCEL_X,
+        ACCEL_Y,
+        ACCEL_Z,
+        GYRO_X,
+        GYRO_Y,
+        GYRO_Z;
+
+        public NavXPIDController getController() {
+            switch (this) {
+                case ACCEL_X:
+                    return accelX;
+                case ACCEL_Y:
+                    return accelY;
+                case ACCEL_Z:
+                    return accelZ;
+                case GYRO_X:
+                    return rotX;
+                case GYRO_Y:
+                    return rotY;
+                case GYRO_Z:
+                    return rotZ;
+                default:
+                    throw new RuntimeException("No such instance!");
+            }
+        }
     }
 }

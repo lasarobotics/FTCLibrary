@@ -59,7 +59,7 @@ public class FtcOpModeRegister implements OpModeRegister {
         manager.register("Sensors Test", SensorsTest.class);
         manager.register("NavX Official Test", navXProcessedOp.class);
         manager.register("NavX Sensor Test", NavXSensorTest.class);
-        manager.register("NavX Move forward PID", NavXRotatePID.class);
+        manager.register("NavX Rotate PID Test", NavXRotatePID.class);
         manager.register("Teleop 5998", Teleop5998.class);
     }
 }
