@@ -5,7 +5,7 @@ package com.lasarobotics.library.nav;
  */
 public class PID {
     protected double setpoint = 0;
-    protected double processValue = 0;  // actual possition (Process Value)
+    protected double processValue = 0;  // actual position (Process Value)
     protected double error = 0;   // how much SP and PV are diff (SP - PV)
     protected double integral = 0; // curIntegral + (error * Delta Time)
     protected double derivative = 0;  //(error - prev error) / Delta time
@@ -14,6 +14,11 @@ public class PID {
     protected double dt = 100.0; // delta time
     protected double output = 0; // the drive amount that effects the PV.
 
+    public PID() {
+        this.Kp = 0.005;
+        this.Ki = 0;
+        this.Kd = 0;
+    }
     public PID(double p, double i, double d) {
         this.Kp = p;
         this.Ki = i;

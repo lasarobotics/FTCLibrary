@@ -63,6 +63,10 @@ public class EncodedMotor extends DcMotor {
         setTargetPosition(Math.abs((int) distance));
     }
 
+    public void moveDistance(double distance, Units.Distance unit) {
+        moveDistance(convertDistanceToEncoderCounts(distance, unit));
+    }
+
     /**
      * Checks if the robot has reached the expected encoder position.
      * After reaching the position, it is recommended to reset the encoders.
@@ -127,13 +131,22 @@ public class EncodedMotor extends DcMotor {
         encoderOffset = -super.getCurrentPosition();
     }
 
+    public void setTargetPosition(double position, Units.Distance unit) {
+        setTargetPosition((int) convertDistanceToEncoderCounts(position, unit));
+    }
+
+    @Override
+    public int getTargetPosition() {
+        return super.getTargetPosition() - encoderOffset;
+    }
+
     @Override
     public void setTargetPosition(int position) {
         super.setTargetPosition(position + encoderOffset);
     }
 
-    public void setTargetPosition(double position, Units.Distance unit) {
-        setTargetPosition((int) convertDistanceToEncoderCounts(position, unit));
+    public double getTargetPosition(Units.Distance unit) {
+        return convertEncoderCountsToDistance(getTargetPosition(), unit);
     }
 
     public double convertDistanceToEncoderCounts(double distance, Units.Distance unit) {
