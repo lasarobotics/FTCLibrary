@@ -1,5 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.kauailabs.navx.ftc.navXPIDController;
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.nav.EncodedMotor;
@@ -44,6 +45,7 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     PID pidBackLeft;
 
     long lastTime = 0;
+    int phase = 0;
 
     public void init() {
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
@@ -86,13 +88,13 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         //Allow crossing over the bounds (see setContinuous() documentation)
         yawPIDController.setContinuous(true);
         //Set angle tolerance
-        yawPIDController.setTolerance(NavXPIDController.ToleranceType.ABSOLUTE, NAVX_TOLERANCE_DEGREES);
+        //yawPIDController.setTolerance(NavXPIDController.ToleranceType.ABSOLUTE, NAVX_TOLERANCE_DEGREES);
         //Set P,I,D coefficients
         yawPIDController.setPID(NAVX_YAW_PID_P, NAVX_YAW_PID_I, NAVX_YAW_PID_D);
         //Disable antistall (more accurate, and since this is only used for compensation, we can ignore the stalls)
         yawPIDController.disableAntistall();
         //Making the tolerance very small makes the robot work hard to get to get to a very close estimate
-        //yawPIDController.setTolerance(navXPIDController.ToleranceType.NONE, 0);
+        yawPIDController.setTolerance(navXPIDController.ToleranceType.NONE, 0);
         //Start data collection
         yawPIDController.start();
 
@@ -130,12 +132,46 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         //2 Move and rotate to angle
         //3 Rotate to angle
 
-        int phase = 0;
-
         double left = 0;
         double right = 0;
 
+        switch (phase) {
+            case 0: //rotate to angle
+            case 2:
+                left = coerce(powerCompensation);
+                right = coerce(powerCompensation);
 
+                if (MathUtil.equal(powerCompensation, 0)) {
+                    if (backLeft.hasReachedPosition(DISTANCE_FEET, Units.Distance.FEET))
+                        phase = 3;
+                    else
+                        phase = 1;
+                } else
+                    break;
+            case 1: //move and rotate
+                if (phase != 3) {
+                    left = MathUtil.coerce(-1, 1, power) +
+                            Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
+                    right = MathUtil.coerce(-1, 1, power) -
+                            Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
+                    left = coerce(left);
+                    right = coerce(right);
+
+                    if (backLeft.hasReachedPosition(DISTANCE_FEET, Units.Distance.FEET)) {
+                        phase = 2;
+                        break;
+                    }
+                    //TODO fix this - must go back to 2 immediately
+                    else
+                        break;
+                }
+            case 3: //coast
+                frontLeft.setPowerFloat();
+                frontRight.setPowerFloat();
+                backLeft.setPowerFloat();
+                backRight.setPowerFloat();
+                return;
+        }
 
         /*if (backLeft.hasReachedPosition(DISTANCE_FEET, Units.Distance.FEET)) {
             frontLeft.setPowerFloat();
@@ -147,10 +183,6 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         {*/
         telemetry.addData("Original Power: ", power);
 
-        left = MathUtil.coerce(-1, 1, power) +
-                Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
-        right = MathUtil.coerce(-1, 1, power) -
-                Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
 
         //Only problem is if power = 0
 
