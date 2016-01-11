@@ -28,6 +28,6 @@ public class MotorInfo {
     }
 
     public double getEffectiveWheelRadius(Units.Distance unit) {
-        return getWheelRadius(unit) * mechanicalAdvantage;
+        return getWheelRadius(unit) / mechanicalAdvantage;
     }
 }

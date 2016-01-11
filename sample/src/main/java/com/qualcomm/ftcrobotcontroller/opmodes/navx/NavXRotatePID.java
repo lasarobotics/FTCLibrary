@@ -4,6 +4,7 @@ import com.kauailabs.navx.ftc.navXPIDController;
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.nav.EncodedMotor;
+import com.lasarobotics.library.nav.MotorInfo;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDataReceiver;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDevice;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXPIDController;
@@ -40,10 +41,10 @@ public class NavXRotatePID extends OpMode implements NavXDataReceiver {
 
     public void init() {
         //Create motors WITH ENCODERS (highly preferable)
-        frontLeft = new EncodedMotor(hardwareMap.dcMotor.get("frontLeft"), WHEEL_RADIUS, WHEEL_RADIUS_UNIT);
-        frontRight = new EncodedMotor(hardwareMap.dcMotor.get("frontRight"), WHEEL_RADIUS, WHEEL_RADIUS_UNIT);
-        backLeft = new EncodedMotor(hardwareMap.dcMotor.get("backLeft"), WHEEL_RADIUS, WHEEL_RADIUS_UNIT);
-        backRight = new EncodedMotor(hardwareMap.dcMotor.get("backRight"), WHEEL_RADIUS, WHEEL_RADIUS_UNIT);
+        frontLeft = new EncodedMotor(hardwareMap.dcMotor.get("frontLeft"), new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT));
+        frontRight = new EncodedMotor(hardwareMap.dcMotor.get("frontRight"), new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT));
+        backLeft = new EncodedMotor(hardwareMap.dcMotor.get("backLeft"), new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT));
+        backRight = new EncodedMotor(hardwareMap.dcMotor.get("backRight"), new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT));
 
         //Instantiate controllers
         one = new Controller(gamepad1);

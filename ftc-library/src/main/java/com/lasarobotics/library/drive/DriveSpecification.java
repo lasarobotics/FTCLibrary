@@ -14,7 +14,7 @@ public class DriveSpecification {
      *
      * @param drive       Current drive train
      * @param wheelRadius Wheel radius
-     * @param radiusUnit  Unit of whell radius
+     * @param radiusUnit  Unit of wheel radius
      */
     DriveSpecification(Drivetrain drive, double wheelRadius, Units.Distance radiusUnit) {
         this.drive = drive;

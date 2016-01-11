@@ -1,5 +1,7 @@
 package com.lasarobotics.library.nav;
 
+import com.lasarobotics.library.util.MathUtil;
+
 /**
  * PID Targeting
  */
@@ -13,6 +15,10 @@ public class PID {
     protected double Kp = 0.2, Ki = 0.01, Kd = 1; // PID constant multipliers
     protected double dt = 100.0; // delta time
     protected double output = 0; // the drive amount that effects the PV.
+    protected double outputLast = 0; // last output power
+    protected double maxChange = 0; // maximum change in output per second
+    protected double minOutput = -1; // maximum change in output per second
+    protected double maxOutput = 1; // maximum change in output per second
 
     public PID() {
         this.Kp = 0.005;
@@ -91,6 +97,19 @@ public class PID {
         return output;
     }
 
+    public void setOutputRange(double min, double max) {
+        this.minOutput = min;
+        this.maxOutput = max;
+    }
+
+    public double getMaxAcceleration() {
+        return maxChange;
+    }
+
+    public void setMaxAcceleration(double maxChange) {
+        this.maxChange = maxChange;
+    }
+
     private void update() {
         // calculate the difference between the desired value and the actual value
         error = setpoint - processValue;
@@ -103,7 +122,17 @@ public class PID {
         // desired setpoint.
         output = (Kp * error) + (Ki * integral) + (Kd * derivative);
 
-        // remember the error for the next time around.
+        //Clamp output
+        output = MathUtil.coerce(minOutput, maxOutput, output);
+
+        //Make sure the system does not move too fast
+        if ((output - outputLast) > maxChange)
+            output = outputLast + (maxChange);
+        else if ((outputLast - output) > maxChange)
+            output = outputLast - (maxChange);
+
+        // remember the error and output for the next time around.
         previousError = error;
+        outputLast = output;
     }
 }
