@@ -1,6 +1,5 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.kauailabs.navx.ftc.navXPIDController;
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.nav.EncodedMotor;
@@ -25,8 +24,8 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     private static final String NAVX_DIM = "dim";               //device interface module name
     private static final int NAVX_PORT = 1;                     //port on device interface module
 
-    private static final double NAVX_TOLERANCE_DEGREES = 2.0;   //degrees of tolerance for PID controllers
-    private static final double NAVX_TARGET_ANGLE_DEGREES = 0.0;    //target angle for PID
+    private static final double NAVX_TOLERANCE_DEGREES = 10.0;   //degrees of tolerance for PID controllers
+    private static final double NAVX_TARGET_ANGLE_DEGREES = 90.0;    //target angle for PID
     private static final double NAVX_YAW_PID_P = 0.05;
     private static final double NAVX_YAW_PID_I = 0.0;
     private static final double NAVX_YAW_PID_D = 0.0;
@@ -52,6 +51,9 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         backLeft = new EncodedMotor(hardwareMap.dcMotor.get("backLeft"),
                 new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE)); //set wheel radius for distance calculations
         backRight = hardwareMap.dcMotor.get("backRight");
+
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
 
         backRight.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -84,13 +86,13 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         //Allow crossing over the bounds (see setContinuous() documentation)
         yawPIDController.setContinuous(true);
         //Set angle tolerance
-        //yawPIDController.setTolerance(NavXPIDController.ToleranceType.ABSOLUTE, NAVX_TOLERANCE_DEGREES);
+        yawPIDController.setTolerance(NavXPIDController.ToleranceType.ABSOLUTE, NAVX_TOLERANCE_DEGREES);
         //Set P,I,D coefficients
         yawPIDController.setPID(NAVX_YAW_PID_P, NAVX_YAW_PID_I, NAVX_YAW_PID_D);
         //Disable antistall (more accurate, and since this is only used for compensation, we can ignore the stalls)
         yawPIDController.disableAntistall();
         //Making the tolerance very small makes the robot work hard to get to get to a very close estimate
-        yawPIDController.setTolerance(navXPIDController.ToleranceType.NONE, 0);
+        //yawPIDController.setTolerance(navXPIDController.ToleranceType.NONE, 0);
         //Start data collection
         yawPIDController.start();
 
@@ -123,8 +125,17 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
             }
         }
 
+        //Divide test into 3 segments
+        //1 Rotate to angle
+        //2 Move and rotate to angle
+        //3 Rotate to angle
+
+        int phase = 0;
+
         double left = 0;
         double right = 0;
+
+
 
         /*if (backLeft.hasReachedPosition(DISTANCE_FEET, Units.Distance.FEET)) {
             frontLeft.setPowerFloat();
@@ -136,21 +147,25 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         {*/
         telemetry.addData("Original Power: ", power);
 
-            /*left = MathUtil.coerce(-1, 1, power) -
-                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
-            right = MathUtil.coerce(-1, 1, power) +
-                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2); */
+        left = MathUtil.coerce(-1, 1, power) +
+                Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
+        right = MathUtil.coerce(-1, 1, power) -
+                Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
 
-        left = MathUtil.coerce(-1, 1, 0.5 + power);
-        right = MathUtil.coerce(-1, 1, 0.5 - power);
+        //Only problem is if power = 0
+
+        //Take the directional power compensation and multiply it by the power
+
+        //left = MathUtil.coerce(-1, 1, -1 + powerCompensation);
+        //right = MathUtil.coerce(-1, 1, 1 + powerCompensation);
 
         //double[] result = MathUtil.normalize(left, right, 1, true);
         //double powerFactor = power >= 1 ? 1 : MathUtil.coerce(-1, 1, Math.abs(power));
         //double powerFactor = 1;
         //left = coerce(result[0] * powerFactor);
         //right = coerce(result[1] * powerFactor);
-        //left = coerce(left);
-        //right = coerce(right);
+        left = coerce(left);
+        right = coerce(right);
         //}
 
         Tank.motor4(frontLeft, frontRight, backLeft, backRight, left, right);

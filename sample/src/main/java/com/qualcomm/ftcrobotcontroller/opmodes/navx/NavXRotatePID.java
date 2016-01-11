@@ -96,7 +96,7 @@ public class NavXRotatePID extends OpMode implements NavXDataReceiver {
             } else {
                 double power = yawPIDState.getOutput();
                 Tank.motor4(frontLeft, frontRight, backLeft, backRight,
-                        power, power);
+                        power, -power);
                 telemetry.addData("Motor Power", df.format(power));
             }
         }
