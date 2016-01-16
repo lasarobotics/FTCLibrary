@@ -20,18 +20,24 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
 
     private static final double WHEEL_RADIUS = 2;
     private static final Units.Distance WHEEL_RADIUS_UNIT = Units.Distance.INCHES;
-    private static final double WHEEL_MECHANICAL_ADVANTAGE = 2;
+    private static final double WHEEL_MECHANICAL_ADVANTAGE = 1;
 
     private static final String NAVX_DIM = "dim";               //device interface module name
     private static final int NAVX_PORT = 1;                     //port on device interface module
 
     private static final double NAVX_TOLERANCE_DEGREES = 10.0;   //degrees of tolerance for PID controllers
-    private static final double NAVX_TARGET_ANGLE_DEGREES = 90.0;    //target angle for PID
+    private static final double NAVX_TARGET_ANGLE_DEGREES = 0.0;    //target angle for PID
     private static final double NAVX_YAW_PID_P = 0.05;
-    private static final double NAVX_YAW_PID_I = 0.0;
-    private static final double NAVX_YAW_PID_D = 0.0;
+    private static final double NAVX_YAW_PID_I = 0.01;
+    private static final double NAVX_YAW_PID_D = 0.005;
 
-    private static final double DISTANCE_FEET = 1;              //distance in feet
+    private static final double PID_P = 0.05;
+    private static final double PID_I = 0.01;
+    private static final double PID_D = 0.005;
+    private static final double PID_MAX_ACCEL = 100000;
+
+    private static final double DISTANCE_FEET = 10;              //distance in feet
+    private static final double MIN_POWER = 0;              //distance in feet
 
     private static final DecimalFormat df = new DecimalFormat("#.##");
 
@@ -39,24 +45,26 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     NavXPIDController yawPIDController;
     NavXPIDController.PIDState yawPIDState;
 
-    DcMotor frontLeft, frontRight, backRight;
-    EncodedMotor backLeft;
+    EncodedMotor frontLeft, frontRight, backLeft, backRight;
     Controller one;
-    PID pidBackLeft;
+    PID pidLeft;
+    PID pidRight;
 
     long lastTime = 0;
     int phase = 0;
 
     public void init() {
-        frontLeft = hardwareMap.dcMotor.get("frontLeft");
-        frontRight = hardwareMap.dcMotor.get("frontRight");
+        frontLeft = new EncodedMotor(hardwareMap.dcMotor.get("frontLeft"),
+                new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE));
+        frontRight = new EncodedMotor(hardwareMap.dcMotor.get("frontRight"),
+                new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE));
         backLeft = new EncodedMotor(hardwareMap.dcMotor.get("backLeft"),
                 new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE)); //set wheel radius for distance calculations
-        backRight = hardwareMap.dcMotor.get("backRight");
+        backRight = new EncodedMotor(hardwareMap.dcMotor.get("backRight"),
+                new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE));
 
         backLeft.setDirection(DcMotor.Direction.FORWARD);
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
-
         backRight.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
 
@@ -65,14 +73,24 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         //TODO these are all currently ASYNCHRONOUS
         //TODO meaning that they can only really be called from init() or a state machine
         backLeft.setTargetPosition(DISTANCE_FEET, Units.Distance.FEET);
-        backLeft.reset();
+        backRight.setTargetPosition(DISTANCE_FEET, Units.Distance.FEET);
+        frontLeft.setTargetPosition(DISTANCE_FEET, Units.Distance.FEET);
+        frontRight.setTargetPosition(DISTANCE_FEET, Units.Distance.FEET);
 
         //Create PID looper
-        pidBackLeft = new PID();
-        pidBackLeft.setSetpoint(Units.Distance.convertToAngle(DISTANCE_FEET,
+        pidLeft = new PID();
+        pidLeft.setSetpoint(Units.Distance.convertToAngle(DISTANCE_FEET,
                 WHEEL_RADIUS / WHEEL_MECHANICAL_ADVANTAGE,
                 WHEEL_RADIUS_UNIT, Units.Distance.FEET, Units.Angle.ENCODER_COUNTS));
-        pidBackLeft.setMaxAcceleration(0.02);
+        pidLeft.setMaxAcceleration(PID_MAX_ACCEL);
+        pidLeft.setCoefficients(PID_P, PID_I, PID_D);
+
+        pidRight = new PID();
+        pidRight.setSetpoint(Units.Distance.convertToAngle(DISTANCE_FEET,
+                WHEEL_RADIUS / WHEEL_MECHANICAL_ADVANTAGE,
+                WHEEL_RADIUS_UNIT, Units.Distance.FEET, Units.Angle.ENCODER_COUNTS));
+        pidRight.setMaxAcceleration(PID_MAX_ACCEL);
+        pidRight.setCoefficients(PID_P, PID_I, PID_D);
 
         //Initialize the navX controller
         //Make sure to implement NavXDataReceiver
@@ -107,7 +125,7 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     }
 
     private double coerce(double power) {
-        return MathUtil.deadband(0.02, MathUtil.coerce(-1, 1, power));
+        return MathUtil.deadband(MIN_POWER, MathUtil.coerce(-1, 1, power));
     }
 
     public void loop() {
@@ -115,9 +133,19 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         double timeDelta = (time - lastTime) / 1000000000.0;
         one.update(gamepad1);
         backLeft.update();
-        pidBackLeft.addMeasurement(Math.abs(backLeft.getCurrentPosition()), timeDelta);
+        backRight.update();
+        frontLeft.update();
+        frontRight.update();
 
-        double power = pidBackLeft.getOutputValue();
+        double leftPos = Math.abs(backLeft.getCurrentPosition()) +
+                Math.abs(frontLeft.getCurrentPosition());
+        double rightPos = Math.abs(backRight.getCurrentPosition()) +
+                Math.abs(frontRight.getCurrentPosition());
+
+        pidLeft.addMeasurement(leftPos, timeDelta);
+        pidRight.addMeasurement(rightPos, timeDelta);
+
+        double power = (pidLeft.getOutputValue() + pidRight.getOutputValue()) / 2;
         double powerCompensation = 0;
 
         navx.displayTelemetry(telemetry);
@@ -135,10 +163,26 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         double left = 0;
         double right = 0;
 
-        switch (phase) {
+        //x(t) = x(0) +
+
+        /*if (!backLeft.hasReachedPosition(DISTANCE_FEET, Units.Distance.FEET)) {
+            left = MathUtil.coerce(-1, 1, power) +
+                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
+            right = MathUtil.coerce(-1, 1, power) -
+                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
+            left = coerce(left);
+            right = coerce(right);
+        }
+        else
+        {
+            left = 0;
+            right = 0;
+        }*/
+
+        /*switch (phase) {
             case 0: //rotate to angle
             case 2:
-                left = coerce(powerCompensation);
+                left = coerce(-powerCompensation);
                 right = coerce(powerCompensation);
 
                 if (MathUtil.equal(powerCompensation, 0)) {
@@ -170,8 +214,7 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
                 frontRight.setPowerFloat();
                 backLeft.setPowerFloat();
                 backRight.setPowerFloat();
-                return;
-        }
+        }*/
 
         /*if (backLeft.hasReachedPosition(DISTANCE_FEET, Units.Distance.FEET)) {
             frontLeft.setPowerFloat();
@@ -196,14 +239,25 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         //double powerFactor = 1;
         //left = coerce(result[0] * powerFactor);
         //right = coerce(result[1] * powerFactor);
+
+
+        //left = power;
+        //right = power;
+
+        left = MathUtil.coerce(-1, 1, power) +
+                Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
+        right = MathUtil.coerce(-1, 1, power) -
+                Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
+
         left = coerce(left);
         right = coerce(right);
-        //}
 
+
+        //if (phase != 3)
         Tank.motor4(frontLeft, frontRight, backLeft, backRight, left, right);
 
-        telemetry.addData("Back Left (counts): ", backLeft.getCurrentPosition());
-        telemetry.addData("Back Left (feet): ", backLeft.getCurrentPosition(Units.Distance.FEET));
+        telemetry.addData("Left (counts): ", leftPos);
+        telemetry.addData("Right (counts): ", rightPos);
         telemetry.addData("Motor Power: ", power);
         telemetry.addData("Actual Power: ", left + ", " + right);
         telemetry.addData("Time Delta: ", timeDelta);

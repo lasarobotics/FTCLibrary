@@ -26,6 +26,10 @@ public class PID {
         this.Kd = 0;
     }
     public PID(double p, double i, double d) {
+        setCoefficients(p, i, d);
+    }
+
+    public void setCoefficients(double p, double i, double d) {
         this.Kp = p;
         this.Ki = i;
         this.Kd = d;
@@ -126,10 +130,10 @@ public class PID {
         output = MathUtil.coerce(minOutput, maxOutput, output);
 
         //Make sure the system does not move too fast
-        if ((output - outputLast) > maxChange)
-            output = outputLast + (maxChange);
-        else if ((outputLast - output) > maxChange)
-            output = outputLast - (maxChange);
+        if ((output - outputLast) > maxChange * dt)
+            output = outputLast + (maxChange * dt);
+        else if ((outputLast - output) > maxChange * dt)
+            output = outputLast - (maxChange * dt);
 
         // remember the error and output for the next time around.
         previousError = error;

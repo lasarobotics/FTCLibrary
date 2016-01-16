@@ -22,18 +22,21 @@ public class EncodedMotor extends DcMotor {
     public EncodedMotor(DcMotor motor, MotorInfo info) {
         super(motor.getController(), motor.getPortNumber(), motor.getDirection());
         enableEncoder();
+        reset();
         this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
     }
 
     protected EncodedMotor(DcMotorController controller, int portNumber, MotorInfo info) {
         super(controller, portNumber);
         enableEncoder();
+        reset();
         this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
     }
 
     protected EncodedMotor(DcMotorController controller, int portNumber, MotorInfo info, Direction direction) {
         super(controller, portNumber, direction);
         enableEncoder();
+        reset();
         this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
     }
 
