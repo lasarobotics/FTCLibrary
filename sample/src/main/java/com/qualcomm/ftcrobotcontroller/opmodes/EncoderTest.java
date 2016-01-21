@@ -27,16 +27,16 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
 
     private static final double NAVX_TOLERANCE_DEGREES = 10.0;   //degrees of tolerance for PID controllers
     private static final double NAVX_TARGET_ANGLE_DEGREES = 0.0;    //target angle for PID
-    private static final double NAVX_YAW_PID_P = 0.05;
-    private static final double NAVX_YAW_PID_I = 0.01;
-    private static final double NAVX_YAW_PID_D = 0.005;
+    private static final double NAVX_YAW_PID_P = 0.005;
+    private static final double NAVX_YAW_PID_I = 0;
+    private static final double NAVX_YAW_PID_D = 0;
 
     private static final double PID_P = 0.05;
     private static final double PID_I = 0.01;
     private static final double PID_D = 0.005;
-    private static final double PID_MAX_ACCEL = 100000;
+    private static final double PID_MAX_ACCEL = 1;
 
-    private static final double DISTANCE_FEET = 10;              //distance in feet
+    private static final double DISTANCE_FEET = 5;              //distance in feet
     private static final double MIN_POWER = 0;              //distance in feet
 
     private static final DecimalFormat df = new DecimalFormat("#.##");
@@ -163,23 +163,8 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         double left = 0;
         double right = 0;
 
-        //x(t) = x(0) +
 
-        /*if (!backLeft.hasReachedPosition(DISTANCE_FEET, Units.Distance.FEET)) {
-            left = MathUtil.coerce(-1, 1, power) +
-                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
-            right = MathUtil.coerce(-1, 1, power) -
-                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
-            left = coerce(left);
-            right = coerce(right);
-        }
-        else
-        {
-            left = 0;
-            right = 0;
-        }*/
-
-        /*switch (phase) {
+        switch (phase) {
             case 0: //rotate to angle
             case 2:
                 left = coerce(-powerCompensation);
@@ -214,40 +199,14 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
                 frontRight.setPowerFloat();
                 backLeft.setPowerFloat();
                 backRight.setPowerFloat();
-        }*/
-
-        /*if (backLeft.hasReachedPosition(DISTANCE_FEET, Units.Distance.FEET)) {
-            frontLeft.setPowerFloat();
-            frontRight.setPowerFloat();
-            backLeft.setPowerFloat();
-            backRight.setPowerFloat();
         }
-        else
-        {*/
         telemetry.addData("Original Power: ", power);
 
 
-        //Only problem is if power = 0
-
-        //Take the directional power compensation and multiply it by the power
-
-        //left = MathUtil.coerce(-1, 1, -1 + powerCompensation);
-        //right = MathUtil.coerce(-1, 1, 1 + powerCompensation);
-
-        //double[] result = MathUtil.normalize(left, right, 1, true);
-        //double powerFactor = power >= 1 ? 1 : MathUtil.coerce(-1, 1, Math.abs(power));
-        //double powerFactor = 1;
-        //left = coerce(result[0] * powerFactor);
-        //right = coerce(result[1] * powerFactor);
-
-
-        //left = power;
-        //right = power;
-
-        left = MathUtil.coerce(-1, 1, power) +
-                Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
-        right = MathUtil.coerce(-1, 1, power) -
-                Math.sin(MathUtil.coerce(-1, 1, powerCompensation) * Math.PI / 2);
+//        left = MathUtil.coerce(-1, 1, power) +
+//                Math.sin(MathUtil.coerce(-1, 1, powerCompensation * 2) * Math.PI / 2);
+//        right = MathUtil.coerce(-1, 1, power) -
+//                Math.sin(MathUtil.coerce(-1, 1, powerCompensation * 2) * Math.PI / 2);
 
         left = coerce(left);
         right = coerce(right);
