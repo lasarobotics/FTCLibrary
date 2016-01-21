@@ -33,9 +33,11 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import android.util.Log;
 
 import com.kauailabs.navx.ftc.navXPIDController;
+import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDevice;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXPIDController;
 import com.lasarobotics.library.util.MathUtil;
+import com.lasarobotics.library.util.RollingAverage;
 import com.lasarobotics.library.util.Timers;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -65,20 +67,23 @@ public class NavXAutoTest extends LinearOpMode {
     /* depending upon which I2C port you are using.               */
     private final int NAVX_DIM_I2C_PORT = 1;
     private final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
-    private final double TOLERANCE_DEGREES = 0.1;
-    private final double MIN_MOTOR_OUTPUT_VALUE = -.5;
-    private final double MAX_MOTOR_OUTPUT_VALUE = .5;
-    private final double YAW_PID_P = 0.1;
+    private final double TOLERANCE_DEGREES = 1.0;
+    private final double MIN_MOTOR_OUTPUT_VALUE = -1;
+    private final double MAX_MOTOR_OUTPUT_VALUE = 1;
+    private final double MIN_DRIVE_POWER = 0.0;
+    private final double YAW_PID_P = 0.05;
     private final double YAW_PID_I = 0;
-    private final double YAW_PID_D = 12;
+    private final double YAW_PID_D = 0;
     DcMotor frontLeft, frontRight, backLeft, backRight, intake;
     int DEVICE_TIMEOUT_MS = 500;
+
     Timers mTimers = new Timers();
+    DecimalFormat df = new DecimalFormat("#.##");
     private NavXDevice navx;
     private ElapsedTime runtime = new ElapsedTime();
 
     public double limit(double a) {
-        return Math.min(Math.max(a, MIN_MOTOR_OUTPUT_VALUE), MAX_MOTOR_OUTPUT_VALUE);
+        return MathUtil.deadband(MIN_DRIVE_POWER, MathUtil.coerce(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE, a));
     }
 
     @Override
@@ -96,9 +101,9 @@ public class NavXAutoTest extends LinearOpMode {
 
         waitForStart();
         //driveForEncoderCounts(4500, .5);
-        turnToDeg(90, 1);
-        //blockForMs(500);
-        //driveForEncoderCounts(3900, .5);
+        turnToDeg(40, 1);
+        blockForMs(500);
+        driveForEncoderCounts(3900, .5);
         //turnToDeg(90);
         //blockForMs(500);
         //driveForEncoderCounts(500, .5);
@@ -111,7 +116,7 @@ public class NavXAutoTest extends LinearOpMode {
 
     private void blockForMs(int ms) throws InterruptedException {
         mTimers.startClock("delay");
-        while (mTimers.getClockValue("delay") < ms) {
+        while (mTimers.getClockValue("delay") < ms && opModeIsActive()) {
             waitOneFullHardwareCycle();
         }
         waitOneFullHardwareCycle();
@@ -136,11 +141,10 @@ public class NavXAutoTest extends LinearOpMode {
         yawPIDController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
         yawPIDController.enable(true);
         navXPIDController.PIDResult yawPIDResult = new navXPIDController.PIDResult();
-        DecimalFormat df = new DecimalFormat("#.##");
 
         try {
             while (backLeft.getCurrentPosition() < encoderCounts &&
-                    !Thread.currentThread().isInterrupted()) {
+                    !Thread.currentThread().isInterrupted() && opModeIsActive()) {
                 telemetry.addData("Encoder", backLeft.getCurrentPosition());
                 if (yawPIDController.waitForNewUpdate(yawPIDResult, DEVICE_TIMEOUT_MS)) {
                     if (yawPIDResult.isOnTarget()) {
@@ -177,20 +181,40 @@ public class NavXAutoTest extends LinearOpMode {
     }
 
     private void turnToDeg(int deg, double power) throws InterruptedException {
-        blockForMs(500);
         Log.d("navx", "started turn for " + deg);
-        while (Math.abs(navx.getRotation().x - deg) > TOLERANCE_DEGREES) {
+
+        NavXPIDController yawPIDController = new NavXPIDController(navx, NavXPIDController.DataSource.YAW);
+        navx.reset(); //reset the NavX yaw
+
+        /* Configure the PID controller */
+        yawPIDController.setSetpoint(deg);
+        yawPIDController.setContinuous(true);
+        yawPIDController.setOutputRange(MIN_MOTOR_OUTPUT_VALUE, MAX_MOTOR_OUTPUT_VALUE);
+        yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, TOLERANCE_DEGREES);
+        yawPIDController.setPID(YAW_PID_P, YAW_PID_I, YAW_PID_D);
+        yawPIDController.enable(true);
+        navXPIDController.PIDResult yawPIDResult = new navXPIDController.PIDResult();
+
+        RollingAverage<Double> average = new RollingAverage<>(100);
+        double lastValue = 0.0;
+
+        while ((Math.abs(navx.getRotation().x - deg) > TOLERANCE_DEGREES ||
+                !(average.getAverage() < 0.01 * power && average.getSize() >= 20)) //&& abs(power) < some value
+                && opModeIsActive()) {
             Log.d("navx", "current yaw " + navx.getRotation().x);
-            if (deg > 0) {
-                frontLeft.setPower(-power);
-                backLeft.setPower(-power);
-                frontRight.setPower(power);
-                backRight.setPower(power);
+
+            if (yawPIDController.waitForNewUpdate(yawPIDResult, DEVICE_TIMEOUT_MS)) {
+                double output = yawPIDResult.getOutput();
+                Tank.motor4(frontLeft, frontRight, backLeft, backRight, limit(-output * power), limit(output * power));
+                telemetry.addData("Yaw", df.format(navx.getRotation().x));
+                telemetry.addData("PID Power", df.format(output));
+                telemetry.addData("PID Average", df.format(average.getAverage()));
+
+                average.addValue(Math.abs(output - lastValue));
+                lastValue = output;
             } else {
-                frontLeft.setPower(power);
-                backLeft.setPower(power);
-                frontRight.setPower(-power);
-                backRight.setPower(-power);
+                /* A timeout occurred */
+                Log.w("navXDriveStraightOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
             }
         }
         Log.d("navx", "ended turn for " + deg);
@@ -198,7 +222,6 @@ public class NavXAutoTest extends LinearOpMode {
         frontRight.setPower(0);
         backRight.setPower(0);
         backLeft.setPower(0);
-        blockForMs(500);
     }
 //    private void turnToDeg(int deg) throws InterruptedException {
 //        Log.d("navx","started turn for " +deg);

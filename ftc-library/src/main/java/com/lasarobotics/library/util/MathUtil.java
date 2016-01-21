@@ -136,4 +136,32 @@ public final class MathUtil {
             result[i] = vals[i] * factor;
         return result;
     }
+
+    /**
+     * Sum an array of values
+     *
+     * @param vals Values to sum
+     * @return Sum of values
+     */
+    public static double sum(double[] vals) {
+        double sum = 0.0;
+        for (double d : vals) {
+            sum += d;
+        }
+        return sum;
+    }
+
+    /**
+     * Average an array of values
+     *
+     * @param vals Values to average
+     * @return Average of values
+     */
+    public static double average(double[] vals) {
+        double sum = 0.0;
+        for (double d : vals) {
+            sum += d;
+        }
+        return sum / vals.length;
+    }
 }
