@@ -35,14 +35,18 @@ public class PID {
         this.Kd = d;
     }
 
-    public void setSetpoint(double setpoint) {
-        this.setpoint = setpoint;
-    }
-
     public void addMeasurement(double measuredValue, double timeDelta) {
         this.processValue = measuredValue;
         this.dt = timeDelta;
         update();
+    }
+
+    public double getSetpoint() {
+        return this.setpoint;
+    }
+
+    public void setSetpoint(double setpoint) {
+        this.setpoint = setpoint;
     }
 
     /**

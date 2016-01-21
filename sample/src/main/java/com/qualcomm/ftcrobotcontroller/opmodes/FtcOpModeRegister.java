@@ -55,7 +55,7 @@ public class FtcOpModeRegister implements OpModeRegister {
         //manager.register("Logging Sample", LoggingSample.class);
         //manager.register("Options Sample", OptionsSample.class);
         //manager.register("Sensors Test", SensorsTest.class);
-        //manager.register("Encoder Test", EncoderTest.class);
+        manager.register("NavX Encoder Test", EncoderTest.class);
         //manager.register("NavX Official Test", navXProcessedOp.class);
         //manager.register("NavX Official Forward PID Test", navXDriveStraightPIDLoopOp.class);
         manager.register("NavX Sensor Test", NavXSensorTest.class);

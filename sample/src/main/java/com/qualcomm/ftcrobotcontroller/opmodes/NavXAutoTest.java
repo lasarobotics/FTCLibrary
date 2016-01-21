@@ -103,7 +103,7 @@ public class NavXAutoTest extends LinearOpMode {
         //driveForEncoderCounts(4500, .5);
         turnToDeg(40, 1);
         blockForMs(500);
-        driveForEncoderCounts(3900, .5);
+        driveForEncoderCounts(3900, -.5);
         //turnToDeg(90);
         //blockForMs(500);
         //driveForEncoderCounts(500, .5);
@@ -152,16 +152,12 @@ public class NavXAutoTest extends LinearOpMode {
                         frontRight.setPower(drive_speed);
                         backLeft.setPower(drive_speed);
                         backRight.setPower(drive_speed);
-                        telemetry.addData("PIDOutput", df.format(drive_speed) + ", " +
-                                df.format(drive_speed));
                     } else {
                         double output = yawPIDResult.getOutput();
-                        backLeft.setPower(MathUtil.coerce(-1, 1, drive_speed - output));
-                        frontLeft.setPower(MathUtil.coerce(-1, 1, drive_speed - output));
-                        backRight.setPower(MathUtil.coerce(-1, 1, drive_speed + output));
-                        frontRight.setPower(MathUtil.coerce(-1, 1, drive_speed + output));
-                        telemetry.addData("PIDOutput", df.format(limit(drive_speed + output)) + ", " +
-                                df.format(limit(drive_speed - output)));
+                        backLeft.setPower(MathUtil.coerce(-1, 1, drive_speed - (output * Math.signum(drive_speed))));
+                        frontLeft.setPower(MathUtil.coerce(-1, 1, drive_speed - (output * Math.signum(drive_speed))));
+                        backRight.setPower(MathUtil.coerce(-1, 1, drive_speed + (output * Math.signum(drive_speed))));
+                        frontRight.setPower(MathUtil.coerce(-1, 1, drive_speed + (output * Math.signum(drive_speed))));
                     }
                     telemetry.addData("Yaw", df.format(navx.getRotation().x));
                 } else {

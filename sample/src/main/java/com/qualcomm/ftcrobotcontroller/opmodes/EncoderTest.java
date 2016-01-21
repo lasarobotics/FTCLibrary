@@ -164,7 +164,7 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         double right = 0;
 
 
-        switch (phase) {
+        /*switch (phase) {
             case 0: //rotate to angle
             case 2:
                 left = coerce(-powerCompensation);
@@ -199,21 +199,29 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
                 frontRight.setPowerFloat();
                 backLeft.setPowerFloat();
                 backRight.setPowerFloat();
-        }
+        }*/
         telemetry.addData("Original Power: ", power);
 
+        double avgDist = Math.abs(pidLeft.getOutputValue() - pidLeft.getSetpoint()) + Math.abs(pidRight.getOutputValue() - pidRight.getSetpoint());
+        avgDist /= 2;
+        if (avgDist < 500) {
+            backLeft.setPowerFloat();
+            backRight.setPowerFloat();
+            frontLeft.setPowerFloat();
+            frontRight.setPowerFloat();
+        } else {
 
-//        left = MathUtil.coerce(-1, 1, power) +
-//                Math.sin(MathUtil.coerce(-1, 1, powerCompensation * 2) * Math.PI / 2);
-//        right = MathUtil.coerce(-1, 1, power) -
-//                Math.sin(MathUtil.coerce(-1, 1, powerCompensation * 2) * Math.PI / 2);
+            left = MathUtil.coerce(-1, 1, power) +
+                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation * 2) * Math.PI / 2);
+            right = MathUtil.coerce(-1, 1, power) -
+                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation * 2) * Math.PI / 2);
 
-        left = coerce(left);
-        right = coerce(right);
+            left = coerce(left);
+            right = coerce(right);
 
-
-        //if (phase != 3)
-        Tank.motor4(frontLeft, frontRight, backLeft, backRight, left, right);
+            //if (phase != 3)
+            Tank.motor4(frontLeft, frontRight, backLeft, backRight, left, right);
+        }
 
         telemetry.addData("Left (counts): ", leftPos);
         telemetry.addData("Right (counts): ", rightPos);
