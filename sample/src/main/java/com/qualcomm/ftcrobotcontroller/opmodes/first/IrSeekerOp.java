@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 
 /**
  * Follow an IR Beacon
- * <p/>
+ * <p>
  * How to use: <br>
  * Make sure the Modern Robotics IR beacon is off. <br>
  * Set it to 1200 at 180.  <br>
@@ -47,67 +47,67 @@ import com.qualcomm.robotcore.hardware.IrSeekerSensor;
  */
 public class IrSeekerOp extends OpMode {
 
-    final static double MOTOR_POWER = 0.15; // Higher values will cause the robot to move faster
+  final static double MOTOR_POWER = 0.15; // Higher values will cause the robot to move faster
 
-    final static double HOLD_IR_SIGNAL_STRENGTH = 0.20; // Higher values will cause the robot to follow closer
+  final static double HOLD_IR_SIGNAL_STRENGTH = 0.20; // Higher values will cause the robot to follow closer
 
-    IrSeekerSensor irSeeker;
-    DcMotor motorRight;
-    DcMotor motorLeft;
+  IrSeekerSensor irSeeker;
+  DcMotor motorRight;
+  DcMotor motorLeft;
 
-    @Override
-    public void init() {
-        irSeeker = hardwareMap.irSeekerSensor.get("ir_seeker");
-        motorRight = hardwareMap.dcMotor.get("motor_2");
-        motorLeft = hardwareMap.dcMotor.get("motor_1");
+  @Override
+  public void init() {
+    irSeeker = hardwareMap.irSeekerSensor.get("ir_seeker");
+    motorRight = hardwareMap.dcMotor.get("motor_2");
+    motorLeft = hardwareMap.dcMotor.get("motor_1");
+  }
+
+  @Override
+  public void start() {
+
+    motorLeft.setDirection(DcMotor.Direction.REVERSE);
+  }
+
+  @Override
+  public void loop() {
+    double angle = 0;
+    double strength = 0;
+
+    // Is an IR signal detected?
+    if (irSeeker.signalDetected()) {
+      // an IR signal is detected
+
+      // Get the angle and strength of the signal
+      angle = irSeeker.getAngle();
+      strength = irSeeker.getStrength();
+
+      // which direction should we move?
+      if (angle < -20) {
+        // we need to move to the left
+        motorRight.setPower(MOTOR_POWER);
+        motorLeft.setPower(-MOTOR_POWER);
+      } else if (angle > 20) {
+        // we need to move to the right
+        motorRight.setPower(-MOTOR_POWER);
+        motorLeft.setPower(MOTOR_POWER);
+      } else if (strength < HOLD_IR_SIGNAL_STRENGTH) {
+        // the IR signal is weak, approach
+        motorRight.setPower(MOTOR_POWER);
+        motorLeft.setPower(MOTOR_POWER);
+      } else {
+        // the IR signal is strong, stay here
+        motorRight.setPower(0.0);
+        motorLeft.setPower(0.0);
+      }
+    } else {
+      // no IR signal is detected
+      motorRight.setPower(0.0);
+      motorLeft.setPower(0.0);
     }
 
-    @Override
-    public void start() {
+    telemetry.addData("angle", angle);
+    telemetry.addData("strength", strength);
 
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
-    }
-
-    @Override
-    public void loop() {
-        double angle = 0;
-        double strength = 0;
-
-        // Is an IR signal detected?
-        if (irSeeker.signalDetected()) {
-            // an IR signal is detected
-
-            // Get the angle and strength of the signal
-            angle = irSeeker.getAngle();
-            strength = irSeeker.getStrength();
-
-            // which direction should we move?
-            if (angle < -20) {
-                // we need to move to the left
-                motorRight.setPower(MOTOR_POWER);
-                motorLeft.setPower(-MOTOR_POWER);
-            } else if (angle > 20) {
-                // we need to move to the right
-                motorRight.setPower(-MOTOR_POWER);
-                motorLeft.setPower(MOTOR_POWER);
-            } else if (strength < HOLD_IR_SIGNAL_STRENGTH) {
-                // the IR signal is weak, approach
-                motorRight.setPower(MOTOR_POWER);
-                motorLeft.setPower(MOTOR_POWER);
-            } else {
-                // the IR signal is strong, stay here
-                motorRight.setPower(0.0);
-                motorLeft.setPower(0.0);
-            }
-        } else {
-            // no IR signal is detected
-            motorRight.setPower(0.0);
-            motorLeft.setPower(0.0);
-        }
-
-        telemetry.addData("angle", angle);
-        telemetry.addData("strength", strength);
-
-        DbgLog.msg(irSeeker.toString());
-    }
+    DbgLog.msg(irSeeker.toString());
+  }
 }
