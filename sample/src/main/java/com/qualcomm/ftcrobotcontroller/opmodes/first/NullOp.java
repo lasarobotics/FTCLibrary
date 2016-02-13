@@ -29,29 +29,46 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package com.qualcomm.ftcrobotcontroller.opmodes.first;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
-import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
- * Register Op Modes
+ * TeleOp Mode
+ * <p/>
+ * Enables control of the robot via the gamepad
  */
-public class FtcOpModeRegister implements OpModeRegister {
+public class NullOp extends OpMode {
 
-    /**
-     * The Op Mode Manager will call this method when it wants a list of all
-     * available op modes. Add your op mode to the list to enable it.
-     *
-     * @param manager op mode manager
+    private String startDate;
+    private ElapsedTime runtime = new ElapsedTime();
+
+    @Override
+    public void init() {
+    }
+
+    /*
+       * Code to run when the op mode is first enabled goes here
+       * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
+       */
+    @Override
+    public void init_loop() {
+        startDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
+        runtime.reset();
+        telemetry.addData("Null Op Init Loop", runtime.toString());
+    }
+
+    /*
+     * This method will be called repeatedly in a loop
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
      */
-    public void register(OpModeManager manager) {
-        //Custom op modes
-        manager.register("Null", NullOp.class);
-        //manager.register("Mecanum Prototype", MecanumPrototypeTeleop.class);
-        //manager.register("MonkeyC Do", MonkeyCDo.class);
-        //manager.register("MonkeyC Write", MonkeyCWrite.class);
-        //manager.register("LoggingSample", LoggingSample.class);
-        //manager.register("OptionsSample", OptionsSample.class);
+    @Override
+    public void loop() {
+        telemetry.addData("1 Start", "NullOp started at " + startDate);
+        telemetry.addData("2 Status", "running for " + runtime.toString());
     }
 }
