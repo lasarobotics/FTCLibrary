@@ -48,6 +48,8 @@ public class FtcOpModeRegister implements OpModeRegister {
     public void register(OpModeManager manager) {
         //Custom op modes
         manager.register("Null", NullOp.class);
+        manager.register("Teleop 5998", Teleop5998.class);
+        //manager.register("Basic Encoder Test", BasicEncoderTest.class);
         //manager.register("Mecanum Prototype", MecanumPrototypeTeleop.class);
         //manager.register("MonkeyC Do", MonkeyCDo.class);
         //manager.register("MonkeyC Write", MonkeyCWrite.class);
