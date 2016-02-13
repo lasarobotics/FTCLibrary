@@ -6,26 +6,25 @@ import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 //
 // PushBotTelemetrySensors
 //
-
 /**
  * Provide telemetry provided by the PushBotHardwareSensors class.
- * <p/>
+ *
  * Insert this class between a custom op-mode and the PushBotHardwareSensors
  * class to display telemetry available from the hardware sensor class.
  *
  * @author SSI Robotics
  * @version 2015-08-02-13-57
- *          <p/>
- *          Telemetry Keys
- *          12 - The position of the touch sensor (true=pressed/false=not pressed).
- *          13 - The angle returned by the IR seeker class, which indicates the
+ *
+ * Telemetry Keys
+ *     12 - The position of the touch sensor (true=pressed/false=not pressed).
+ *     13 - The angle returned by the IR seeker class, which indicates the
  *          direction of the IR beacon.
- *          14 - The strength of the IR beacon.
- *          14 - The angle and strength returned by the IR seeker's first internal
+ *     14 - The strength of the IR beacon.
+ *     14 - The angle and strength returned by the IR seeker's first internal
  *          sensor.
- *          15 - The angle and strength returned by the IR seeker's second internal
+ *     15 - The angle and strength returned by the IR seeker's second internal
  *          sensor.
- *          17 - The value returned by the optical distance sensor class, which
+ *     17 - The value returned by the optical distance sensor class, which
  *          indicates the amount of reflected light detected by the sensor.
  */
 public class PushBotTelemetrySensors extends PushBotHardwareSensors
@@ -35,10 +34,9 @@ public class PushBotTelemetrySensors extends PushBotHardwareSensors
     //
     // PushBotTelemetrySensors
     //
-
     /**
      * Construct the class.
-     * <p/>
+     *
      * The system calls this member when the class is instantiated.
      */
     public PushBotTelemetrySensors()
@@ -60,7 +58,6 @@ public class PushBotTelemetrySensors extends PushBotHardwareSensors
     //
     // update_telemetry
     //
-
     /**
      * Update the telemetry with current values from the base class.
      */
