@@ -131,7 +131,7 @@ public class NavXAutoTest extends LinearOpMode {
         backLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
         NavXPIDController yawPIDController = new NavXPIDController(navx, NavXPIDController.DataSource.YAW);
-        navx.reset(); //reset the NavX raw
+        navx.reset(); //requestReset the NavX raw
 
         /* Configure the PID controller */
         yawPIDController.setSetpoint(0.0);
@@ -180,7 +180,7 @@ public class NavXAutoTest extends LinearOpMode {
         Log.d("navx", "started turn for " + deg);
 
         NavXPIDController yawPIDController = new NavXPIDController(navx, NavXPIDController.DataSource.YAW);
-        navx.reset(); //reset the NavX yaw
+        navx.reset(); //requestReset the NavX yaw
 
         /* Configure the PID controller */
         yawPIDController.setSetpoint(deg);

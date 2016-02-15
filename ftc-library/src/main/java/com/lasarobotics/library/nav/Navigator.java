@@ -206,7 +206,7 @@ public class Navigator {
         /**
          * Instantiate a navigator target with a target position in field coordinates and a target heading
          *
-         * @param targetPosition Target position, in field coordinates. These coordinates can be reset().
+         * @param targetPosition Target position, in field coordinates. These coordinates can be requestReset().
          * @param heading        Target heading, or direction to face. 0 is North, -90 or 270 is West, etc. Relative to robot.
          */
         public NavigatorTarget(Vector2<Double> targetPosition, double heading) {

@@ -109,7 +109,7 @@ public class navXDriveStraightPIDLinearOp extends LinearOpMode {
 
         waitForStart();
 
-        /* reset the navX-Model device yaw angle so that whatever direction */
+        /* requestReset the navX-Model device yaw angle so that whatever direction */
         /* it is currently pointing will be zero degrees.                   */
 
         navx_device.zeroYaw();

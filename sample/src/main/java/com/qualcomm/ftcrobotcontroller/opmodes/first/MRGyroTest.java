@@ -74,9 +74,9 @@ public class MRGyroTest extends LinearOpMode {
     }
 
     while (opModeIsActive()) {
-      // if the A and B buttons are pressed, reset Z heading.
+      // if the A and B buttons are pressed, requestReset Z heading.
       if (gamepad1.a && gamepad1.b) {
-        // reset heading.
+        // requestReset heading.
         sensorGyro.resetZAxisIntegrator();
       }
 

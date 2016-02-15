@@ -133,11 +133,13 @@ public class PID {
         //Clamp output
         output = MathUtil.coerce(minOutput, maxOutput, output);
 
-        //Make sure the system does not move too fast
-        if ((output - outputLast) > maxChange * dt)
-            output = outputLast + (maxChange * dt);
-        else if ((outputLast - output) > maxChange * dt)
-            output = outputLast - (maxChange * dt);
+        if (maxChange > 0) {
+            //Make sure the system does not move too fast
+            if ((output - outputLast) > maxChange * dt)
+                output = outputLast + (maxChange * dt);
+            else if ((outputLast - output) > maxChange * dt)
+                output = outputLast - (maxChange * dt);
+        }
 
         // remember the error and output for the next time around.
         previousError = error;

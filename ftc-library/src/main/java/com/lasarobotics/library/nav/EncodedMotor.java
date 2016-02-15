@@ -11,6 +11,7 @@ public class EncodedMotor extends DcMotor {
     protected double wheelRadius;   //wheel radius in meters
     private boolean isEncoderEnabled = true;
     private boolean encodersResetting = false;
+    private boolean requestReset = false;
     private int encoderOffset = 0;
 
     /**
@@ -22,21 +23,21 @@ public class EncodedMotor extends DcMotor {
     public EncodedMotor(DcMotor motor, MotorInfo info) {
         super(motor.getController(), motor.getPortNumber(), motor.getDirection());
         enableEncoder();
-        reset();
+        requestReset();
         this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
     }
 
     protected EncodedMotor(DcMotorController controller, int portNumber, MotorInfo info) {
         super(controller, portNumber);
         enableEncoder();
-        reset();
+        requestReset();
         this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
     }
 
     protected EncodedMotor(DcMotorController controller, int portNumber, MotorInfo info, Direction direction) {
         super(controller, portNumber, direction);
         enableEncoder();
-        reset();
+        requestReset();
         this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
     }
 
@@ -52,7 +53,7 @@ public class EncodedMotor extends DcMotor {
         if (distance == 0)
             return;
 
-        reset();
+        requestReset();
 
         if (distance < 0)
             super.setDirection(Direction.REVERSE);
@@ -68,7 +69,7 @@ public class EncodedMotor extends DcMotor {
 
     /**
      * Checks if the robot has reached the expected encoder position.
-     * After reaching the position, it is recommended to reset the encoders.
+     * After reaching the position, it is recommended to requestReset the encoders.
      *
      * @param position Expected position, in encoder counts
      * @return True if the robot has reached the position
@@ -79,7 +80,7 @@ public class EncodedMotor extends DcMotor {
 
     /**
      * Test if the encoder has reached a specific position in a unit
-     * After reaching the position, it is recommended to reset the encoders.
+     * After reaching the position, it is recommended to requestReset the encoders.
      *
      * @param position Position, in units
      * @param unit     Unit of position
@@ -90,14 +91,14 @@ public class EncodedMotor extends DcMotor {
     }
 
     public void enableEncoder() {
-        //This command requires (at least ?) one execution loop to reset the encoders
+        //This command requires (at least ?) one execution loop to requestReset the encoders
         setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
         isEncoderEnabled = true;
     }
 
     public void disableEncoder() {
-        //This command requires (at least ?) one execution loop to reset the encoders
+        //This command requires (at least ?) one execution loop to requestReset the encoders
         setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
 
         isEncoderEnabled = false;
@@ -108,7 +109,9 @@ public class EncodedMotor extends DcMotor {
     }
 
     public void update() {
-        //Check for encoder reset
+        //Check for encoder requestReset
+        if (requestReset && !encodersResetting)
+            resetEncoder();
         if (encodersResetting && super.getCurrentPosition() == 0) {
             encodersResetting = false;
             encoderOffset = 0;
@@ -116,18 +119,33 @@ public class EncodedMotor extends DcMotor {
         }
     }
 
-    /**
-     * Reset encoders.
-     */
-    public void reset() {
-        if (encodersResetting)
-            return;
-
-        //This command requires (at least ?) one execution loop to reset the encoders
+    private void resetEncoder() {
+        //This command requires (at least ?) one execution loop to requestReset the encoders
         setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
         encodersResetting = true;
+        requestReset = false;
         encoderOffset = -super.getCurrentPosition();
+    }
+
+    /**
+     * Reset encoder asynchronously
+     *
+     * (May take two frames for full effect)
+     */
+    public void requestReset() {
+        if (encodersResetting)
+            return;
+
+        requestReset = true;
+    }
+
+    /**
+     * Reset encoder immediately
+     * (May take one frame for full effect)
+     */
+    public void resetNow() {
+        resetEncoder();
     }
 
     public void setTargetPosition(double position, Units.Distance unit) {
@@ -159,10 +177,10 @@ public class EncodedMotor extends DcMotor {
     }
 
     /**
-     * Tests if the encoder has reset.
-     * Note that encoders take at least one execution loop to fully reset.
+     * Tests if the encoder has requestReset.
+     * Note that encoders take at least one execution loop to fully requestReset.
      *
-     * @return True for reset, false for not reset.
+     * @return True for requestReset, false for not requestReset.
      */
     public boolean hasEncoderReset() {
         return getCurrentPosition() == 0;

@@ -123,7 +123,6 @@ public class Teleop5998 extends OpMode {
         } else if (secondController.back == ButtonState.PRESSED) {
             climber.setPosition(1);
         }
-
     }
 
     public void stop() { // make sure nothing moves after the end of the match

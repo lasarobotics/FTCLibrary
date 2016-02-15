@@ -18,9 +18,9 @@ import java.text.DecimalFormat;
 
 public class EncoderTest extends OpMode implements NavXDataReceiver {
 
-    private static final double WHEEL_RADIUS = 2;
+    private static final double WHEEL_RADIUS = 3.75 / 2.0;
     private static final Units.Distance WHEEL_RADIUS_UNIT = Units.Distance.INCHES;
-    private static final double WHEEL_MECHANICAL_ADVANTAGE = 1;
+    private static final double WHEEL_MECHANICAL_ADVANTAGE = 2;
 
     private static final String NAVX_DIM = "dim";               //device interface module name
     private static final int NAVX_PORT = 1;                     //port on device interface module
@@ -31,12 +31,12 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     private static final double NAVX_YAW_PID_I = 0;
     private static final double NAVX_YAW_PID_D = 0;
 
-    private static final double PID_P = 0.05;
-    private static final double PID_I = 0.01;
-    private static final double PID_D = 0.005;
-    private static final double PID_MAX_ACCEL = 1;
+    private static final double PID_P = 0.0009;
+    private static final double PID_I = 0.0;
+    private static final double PID_D = 0.0;
+    private static final double PID_MAX_ACCEL = 0;
 
-    private static final double DISTANCE_FEET = 5;              //distance in feet
+    private static final double DISTANCE_FEET = 1;              //distance in feet
     private static final double MIN_POWER = 0;              //distance in feet
 
     private static final DecimalFormat df = new DecimalFormat("#.##");
@@ -54,13 +54,13 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     int phase = 0;
 
     public void init() {
-        frontLeft = new EncodedMotor(hardwareMap.dcMotor.get("frontLeft"),
+        frontLeft = new EncodedMotor(hardwareMap.dcMotor.get("lf"),
                 new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE));
-        frontRight = new EncodedMotor(hardwareMap.dcMotor.get("frontRight"),
+        frontRight = new EncodedMotor(hardwareMap.dcMotor.get("rf"),
                 new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE));
-        backLeft = new EncodedMotor(hardwareMap.dcMotor.get("backLeft"),
+        backLeft = new EncodedMotor(hardwareMap.dcMotor.get("lb"),
                 new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE)); //set wheel radius for distance calculations
-        backRight = new EncodedMotor(hardwareMap.dcMotor.get("backRight"),
+        backRight = new EncodedMotor(hardwareMap.dcMotor.get("rb"),
                 new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE));
 
         backLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -137,10 +137,10 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
         frontLeft.update();
         frontRight.update();
 
-        double leftPos = Math.abs(backLeft.getCurrentPosition()) +
-                Math.abs(frontLeft.getCurrentPosition());
-        double rightPos = Math.abs(backRight.getCurrentPosition()) +
-                Math.abs(frontRight.getCurrentPosition());
+        double leftPos = (backLeft.getCurrentPosition() +
+                frontLeft.getCurrentPosition()) / 2;
+        double rightPos = (backRight.getCurrentPosition() +
+                frontRight.getCurrentPosition()) / 2;
 
         pidLeft.addMeasurement(leftPos, timeDelta);
         pidRight.addMeasurement(rightPos, timeDelta);
@@ -211,9 +211,9 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
             frontRight.setPowerFloat();
         } else {
 
-            left = MathUtil.coerce(-1, 1, power) +
+            left = MathUtil.coerce(-1, 1, power) -
                     Math.sin(MathUtil.coerce(-1, 1, powerCompensation * 2) * Math.PI / 2);
-            right = MathUtil.coerce(-1, 1, power) -
+            right = MathUtil.coerce(-1, 1, power) +
                     Math.sin(MathUtil.coerce(-1, 1, powerCompensation * 2) * Math.PI / 2);
 
             left = coerce(left);
