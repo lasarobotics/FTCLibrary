@@ -15,8 +15,10 @@ public class PID {
     protected double Kp = 0.2, Ki = 0.01, Kd = 1; // PID constant multipliers
     protected double dt = 100.0; // delta time
     protected double output = 0; // the drive amount that effects the PV.
+    protected double outputFlattened = 0; // drive power flattened by the accel and decel
     protected double outputLast = 0; // last output power
-    protected double maxChange = 0; // maximum change in output per second
+    protected double maxChangePositive = 0; // maximum change in output per second
+    protected double maxChangeNegative = 0; // maximum change in output per second
     protected double minOutput = -1; // maximum change in output per second
     protected double maxOutput = 1; // maximum change in output per second
 
@@ -102,6 +104,10 @@ public class PID {
     }
 
     public double getOutputValue() {
+        return outputFlattened;
+    }
+
+    public double getOutputValueRaw() {
         return output;
     }
 
@@ -111,11 +117,19 @@ public class PID {
     }
 
     public double getMaxAcceleration() {
-        return maxChange;
+        return maxChangePositive;
     }
 
     public void setMaxAcceleration(double maxChange) {
-        this.maxChange = maxChange;
+        this.maxChangePositive = maxChange;
+    }
+
+    public double getMaxDeceleration() {
+        return maxChangeNegative;
+    }
+
+    public void setMaxDeceleration(double maxChange) {
+        this.maxChangeNegative = Math.abs(maxChange);
     }
 
     private void update() {
@@ -132,17 +146,19 @@ public class PID {
 
         //Clamp output
         output = MathUtil.coerce(minOutput, maxOutput, output);
+        outputFlattened = output;
 
-        if (maxChange > 0) {
-            //Make sure the system does not move too fast
-            if ((output - outputLast) > maxChange * dt)
-                output = outputLast + (maxChange * dt);
-            else if ((outputLast - output) > maxChange * dt)
-                output = outputLast - (maxChange * dt);
-        }
+        //Make sure the system does not move too fast
+        if ((outputFlattened - outputLast) > maxChangePositive * dt && maxChangePositive > 0)
+            outputFlattened = outputLast + (maxChangePositive * dt);
+        else if ((outputLast - outputFlattened) > maxChangeNegative * dt && maxChangeNegative > 0)
+            outputFlattened = outputLast - (maxChangeNegative * dt);
+
+        //Clamp the flattened output
+        outputFlattened = MathUtil.coerce(minOutput, maxOutput, outputFlattened);
 
         // remember the error and output for the next time around.
         previousError = error;
-        outputLast = output;
+        outputLast = outputFlattened;
     }
 }

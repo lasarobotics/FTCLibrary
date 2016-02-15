@@ -35,9 +35,12 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     private static final double PID_I = 0.0;
     private static final double PID_D = 0.0;
     private static final double PID_MAX_ACCEL = 0;
+    private static final double PID_MAX_DECEL = 0;
 
     private static final double DISTANCE_FEET = 1;              //distance in feet
     private static final double MIN_POWER = 0;              //distance in feet
+
+    private static final double FORWARD_ROTATION_FEROCITY = 2; //how ferociously should we rotate?
 
     private static final DecimalFormat df = new DecimalFormat("#.##");
 
@@ -83,6 +86,7 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
                 WHEEL_RADIUS / WHEEL_MECHANICAL_ADVANTAGE,
                 WHEEL_RADIUS_UNIT, Units.Distance.FEET, Units.Angle.ENCODER_COUNTS));
         pidLeft.setMaxAcceleration(PID_MAX_ACCEL);
+        pidLeft.setMaxDeceleration(PID_MAX_DECEL);
         pidLeft.setCoefficients(PID_P, PID_I, PID_D);
 
         pidRight = new PID();
@@ -90,6 +94,7 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
                 WHEEL_RADIUS / WHEEL_MECHANICAL_ADVANTAGE,
                 WHEEL_RADIUS_UNIT, Units.Distance.FEET, Units.Angle.ENCODER_COUNTS));
         pidRight.setMaxAcceleration(PID_MAX_ACCEL);
+        pidRight.setMaxDeceleration(PID_MAX_DECEL);
         pidRight.setCoefficients(PID_P, PID_I, PID_D);
 
         //Initialize the navX controller
@@ -204,17 +209,18 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
 
         double avgDist = Math.abs(pidLeft.getOutputValue() - pidLeft.getSetpoint()) + Math.abs(pidRight.getOutputValue() - pidRight.getSetpoint());
         avgDist /= 2;
+        telemetry.addData("avgDist", avgDist);
         if (avgDist < 500) {
-            backLeft.setPowerFloat();
+            telemetry.addData("DONE", "COASTING...");
+            /*backLeft.setPowerFloat();
             backRight.setPowerFloat();
             frontLeft.setPowerFloat();
-            frontRight.setPowerFloat();
+            frontRight.setPowerFloat();*/
         } else {
-
             left = MathUtil.coerce(-1, 1, power) -
-                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation * 2) * Math.PI / 2);
+                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation * FORWARD_ROTATION_FEROCITY) * Math.PI / 2);
             right = MathUtil.coerce(-1, 1, power) +
-                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation * 2) * Math.PI / 2);
+                    Math.sin(MathUtil.coerce(-1, 1, powerCompensation * FORWARD_ROTATION_FEROCITY) * Math.PI / 2);
 
             left = coerce(left);
             right = coerce(right);
