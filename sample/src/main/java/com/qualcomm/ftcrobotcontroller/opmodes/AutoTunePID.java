@@ -138,6 +138,8 @@ public class AutoTunePID extends LinearOpMode {
             left = -right;
             setRightPower(right);
             setLeftPower(left);
+            DbgLog.error(String.format("kP: %.4f", kP));
+            DbgLog.error(time_displacement.toString());
             DbgLog.error(String.format("k*error: %.2f, error: %.2f", kP * error, error));
             DbgLog.error(String.format("gyro:%.2f, target:%.2f, PID (right):%.2f", getGyroYaw(), target_heading, PID_change));
         }
@@ -147,13 +149,13 @@ public class AutoTunePID extends LinearOpMode {
             return false;
         double max = Double.MIN_VALUE;
         double min = Double.MAX_VALUE;
-        Iterator<Double> it = time_displacement.keySet().iterator();
-        while (it.hasNext()) {
-            double next = Math.abs(time_displacement.get(it.next())); // measuring amplitude differentials.
+        for (Double aDouble : time_displacement.keySet()) {
+            double next = Math.abs(time_displacement.get(aDouble)); // measuring amplitude differentials.
             max = Math.max(max, next);
             min = Math.min(min, next);
         }
-        return max - min <= 1;
+        DbgLog.error(String.format("max-min: %.2f", max - min));
+        return max - min <= 2;
     }
 
     void setLeftPower(double power) {
@@ -176,8 +178,13 @@ public class AutoTunePID extends LinearOpMode {
         motorFL = hardwareMap.dcMotor.get("lf");
         motorBL = hardwareMap.dcMotor.get("lb");
         navx = new NavXDevice(hardwareMap, "dim", 0);
+        waitForStart();
         tune_PID(120);
-        DbgLog.error("kP: %.2f, kI: %.2f, kD: %.2f", kP, kI, kD);
-        telemetry.addData("hi", String.format(" kP: %.2f, kI: %.2f, kD: %.2f", kP, kI, kD));
+
+        DbgLog.error("kP: %.5f, kI: %.5f, kD: %.5f", kP, kI, kD);
+        telemetry.addData("hi", String.format(" kP: %.5f, kI: %.5f, kD: %.5f", kP, kI, kD));
+        //kP = 0.01061
+        //kI = 0.02116
+        //kD = 0.00133
     }
 }
