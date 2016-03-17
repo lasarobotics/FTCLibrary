@@ -4,6 +4,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes.first;
 //
 // PushBotAuto
 //
+
 /**
  * Provide a basic autonomous operational mode that uses the left and right
  * drive motors and associated encoders implemented using a state machine for
@@ -32,9 +33,10 @@ public class PushBotAuto extends PushBotTelemetry
     //
     // start
     //
+
     /**
      * Construct the class.
-     *
+     * <p/>
      * The system calls this member when the class is instantiated.
      */
     public PushBotAuto()
@@ -59,7 +61,7 @@ public class PushBotAuto extends PushBotTelemetry
 
     /**
      * Perform any actions that are necessary when the OpMode is enabled.
-     *
+     * <p/>
      * The system calls this member once when the OpMode is enabled.
      */
     @Override
@@ -87,7 +89,7 @@ public class PushBotAuto extends PushBotTelemetry
      * Implement a state machine that controls the robot during auto-operation.
      * The state machine uses a class member and encoder input to transition
      * between states.
-     *
+     * <p/>
      * The system calls this member repeatedly while the OpMode is running.
      */
     @Override
