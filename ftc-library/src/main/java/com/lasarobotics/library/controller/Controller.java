@@ -187,32 +187,27 @@ public class Controller {
      * Update the Controller states from a Gamepad.
      * CALL THIS METHOD ON EVERY EVENT LOOP!
      */
+    //FIXME is Gamepad g necessary?
     public void update(Gamepad g) {
-        try {
-            dpad_up = handleUpdate(dpad_up, g.dpad_up);
-            dpad_down = handleUpdate(dpad_down, g.dpad_down);
-            dpad_left = handleUpdate(dpad_left, g.dpad_left);
-            dpad_right = handleUpdate(dpad_right, g.dpad_right);
-            a = handleUpdate(a, g.a);
-            b = handleUpdate(b, g.b);
-            x = handleUpdate(x, g.x);
-            y = handleUpdate(y, g.y);
-            guide = handleUpdate(guide, g.guide);
-            start = handleUpdate(start, g.start);
-            back = handleUpdate(back, g.back);
-            left_bumper = handleUpdate(left_bumper, g.left_bumper);
-            right_bumper = handleUpdate(right_bumper, g.right_bumper);
-            left_trigger = g.left_trigger;
-            right_trigger = g.right_trigger;
-            left_stick_x = g.left_stick_x;
-            left_stick_y = g.left_stick_y;
-            right_stick_x = g.right_stick_x;
-            right_stick_y = g.right_stick_y;
-            initialized = true;
-        } catch (NullPointerException e) {
-            initialized = false;
-            reset();
-        }
+        dpad_up = handleUpdate(dpad_up, g.dpad_up);
+        dpad_down = handleUpdate(dpad_down, g.dpad_down);
+        dpad_left = handleUpdate(dpad_left, g.dpad_left);
+        dpad_right = handleUpdate(dpad_right, g.dpad_right);
+        a = handleUpdate(a, g.a);
+        b = handleUpdate(b, g.b);
+        x = handleUpdate(x, g.x);
+        y = handleUpdate(y, g.y);
+        guide = handleUpdate(guide, g.guide);
+        start = handleUpdate(start, g.start);
+        back = handleUpdate(back, g.back);
+        left_bumper = handleUpdate(left_bumper, g.left_bumper);
+        right_bumper = handleUpdate(right_bumper, g.right_bumper);
+        left_trigger = g.left_trigger;
+        right_trigger = g.right_trigger;
+        left_stick_x = g.left_stick_x;
+        left_stick_y = g.left_stick_y;
+        right_stick_x = g.right_stick_x;
+        right_stick_y = g.right_stick_y;
     }
 
     /**
@@ -222,7 +217,7 @@ public class Controller {
      * @param updatedstatus Boolean from Gamepad
      * @return The new state
      */
-    private int handleUpdate(Integer b, boolean updatedstatus) throws NullPointerException {
+    private int handleUpdate(Integer b, boolean updatedstatus) {
         if (updatedstatus) {
             if (b == ButtonState.NOT_PRESSED || b == ButtonState.RELEASED)
                 return ButtonState.PRESSED;

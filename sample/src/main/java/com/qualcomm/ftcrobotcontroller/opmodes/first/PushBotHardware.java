@@ -11,10 +11,11 @@ import com.qualcomm.robotcore.util.Range;
 //
 // PushBotHardware
 //
+
 /**
  * Provides a single hardware access point between custom op-modes and the
  * OpMode class for the Push Bot.
- *
+ * <p/>
  * This class prevents the custom op-mode from throwing an exception at runtime.
  * If any hardware fails to map, a warning will be shown via telemetry data,
  * calls to methods will fail, but will not cause the application to crash.
@@ -92,9 +93,10 @@ public class PushBotHardware extends OpMode
     //
     // stop
     //
+
     /**
      * Construct the class.
-     *
+     * <p/>
      * The system calls this member when the class is instantiated.
      */
     public PushBotHardware()
@@ -119,7 +121,7 @@ public class PushBotHardware extends OpMode
 
     /**
      * Perform any actions that are necessary when the OpMode is enabled.
-     *
+     * <p/>
      * The system calls this member once when the OpMode is enabled.
      */
     @Override
@@ -243,7 +245,7 @@ public class PushBotHardware extends OpMode
     /**
      * Mutate the warning message by ADDING the specified message to the current
      * message; set the warning indicator to true.
-     *
+     * <p/>
      * A comma will be added before the specified message if the message isn't
      * empty.
      */
@@ -265,7 +267,7 @@ public class PushBotHardware extends OpMode
 
     /**
      * Perform any actions that are necessary when the OpMode is enabled.
-     *
+     * <p/>
      * The system calls this member once when the OpMode is enabled.
      */
     @Override
@@ -288,7 +290,7 @@ public class PushBotHardware extends OpMode
 
     /**
      * Perform any actions that are necessary while the OpMode is running.
-     *
+     * <p/>
      * The system calls this member repeatedly while the OpMode is running.
      */
     @Override
@@ -311,7 +313,7 @@ public class PushBotHardware extends OpMode
 
     /**
      * Perform any actions that are necessary when the OpMode is disabled.
-     *
+     * <p/>
      * The system calls this member once when the OpMode is disabled.
      */
     @Override

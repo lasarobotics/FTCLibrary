@@ -4,6 +4,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes.first;
 //
 // PushBotIrEvent
 //
+
 /**
  * Provide a basic autonomous operational mode that demonstrates the use of an
  * IR seeker implemented using a state machine for the Push Bot.
@@ -18,9 +19,10 @@ public class PushBotIrEvent extends PushBotTelemetrySensors
     //
     // PushBotIrEvent
     //
+
     /**
      * Construct the class.
-     *
+     * <p/>
      * The system calls this member when the class is instantiated.
      */
     public PushBotIrEvent()
@@ -42,9 +44,10 @@ public class PushBotIrEvent extends PushBotTelemetrySensors
     //
     // loop
     //
+
     /**
      * Implement a state machine that controls the robot during auto-operation.
-     *
+     * <p/>
      * The system calls this member repeatedly while the OpMode is running.
      */
     @Override
