@@ -25,7 +25,7 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     private static final String NAVX_DIM = "dim";               //device interface module name
     private static final int NAVX_PORT = 0;                     //port on device interface module
 
-    private static final double NAVX_TARGET_ANGLE_DEGREES = 180.0;    //target angle for PID
+    private static final double NAVX_TARGET_ANGLE_DEGREES = 90.0;    //target angle for PID
     private static final double NAVX_YAW_PID_P = 0.009; //.01
     private static final double NAVX_YAW_PID_I = 0.0002; //.0005
     private static final double NAVX_YAW_PID_D = 0.11; //.05
