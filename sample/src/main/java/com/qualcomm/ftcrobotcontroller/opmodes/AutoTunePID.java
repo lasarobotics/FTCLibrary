@@ -171,7 +171,13 @@ public class AutoTunePID extends LinearOpMode {
     }
 
     public void runOpMode() throws InterruptedException {
+        motorFR = hardwareMap.dcMotor.get("rf");
+        motorBR = hardwareMap.dcMotor.get("rb");
+        motorFL = hardwareMap.dcMotor.get("lf");
+        motorBL = hardwareMap.dcMotor.get("lb");
         navx = new NavXDevice(hardwareMap, "dim", 0);
         tune_PID(120);
+        DbgLog.error("kP: %.2f, kI: %.2f, kD: %.2f", kP, kI, kD);
+        telemetry.addData("hi", String.format(" kP: %.2f, kI: %.2f, kD: %.2f", kP, kI, kD));
     }
 }
