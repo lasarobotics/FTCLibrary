@@ -11,6 +11,7 @@ import com.lasarobotics.library.sensor.kauailabs.navx.NavXDevice;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXPIDController;
 import com.lasarobotics.library.util.MathUtil;
 import com.lasarobotics.library.util.Units;
+import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -21,20 +22,18 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     //Figure out how many encoder counts you need to go one unit of distance
     private static final double ENCODER_COUNTS_PER_UNIT_DISTANCE = 1010.0;
 
-
     private static final String NAVX_DIM = "dim";               //device interface module name
     private static final int NAVX_PORT = 0;                     //port on device interface module
 
-    private static final double NAVX_TOLERANCE_DEGREES = 10.0;   //degrees of tolerance for PID controllers
-    private static final double NAVX_TARGET_ANGLE_DEGREES = 0.0;    //target angle for PID
-    private static final double NAVX_YAW_PID_P = 0.005;
-    private static final double NAVX_YAW_PID_I = 0;
-    private static final double NAVX_YAW_PID_D = 0;
+    private static final double NAVX_TARGET_ANGLE_DEGREES = 90.0;    //target angle for PID
+    private static final double NAVX_YAW_PID_P = 0.005; //0.009; //.01
+    private static final double NAVX_YAW_PID_I = 0.0; //0.0002; //.0005
+    private static final double NAVX_YAW_PID_D = 0.0; //0.11; //.05
 
     private static final double PID_P = 0.0009;
     private static final double PID_I = 0.0;
     private static final double PID_D = 0.0;
-    private static final double PID_MAX_ACCEL = 3;
+    private static final double PID_MAX_ACCEL = 0; //3
     private static final double PID_MAX_DECEL = 0;
 
     private static final double DISTANCE_FEET = 1;              //distance in feet
@@ -148,6 +147,8 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
 
         navx.displayTelemetry(telemetry);
         if (yawPIDController.isUpdateAvailable(yawPIDState)) {
+            telemetry.addData("NavX Debug Coefficients", yawPIDController.getCoefficientDebug());
+            DbgLog.error(yawPIDController.getCoefficientDebug());
             if (!yawPIDState.isOnTarget()) {
                 powerCompensation = yawPIDState.getOutput();
             }

@@ -64,6 +64,11 @@ public class navXPIDController implements IDataArrivalSubscriber {
     protected double i;
     protected double d;
     protected double ff;
+    /* Error statistics */
+    protected double error_current = 0.0;
+    protected double error_previous = 0.0;
+    protected double error_total = 0.0;
+    protected double error_d = 0;
     navXTimestampedDataSource timestamped_src;
     navXUntimestampedDataSource untimestamped_src;
     AHRS navx_device;
@@ -72,14 +77,10 @@ public class navXPIDController implements IDataArrivalSubscriber {
     double tolerance_amount;
     private Object sync_event = new Object();
     private boolean timestamped = true;
-    /* Error statistics */
-    private double error_current = 0.0;
-    private double error_previous = 0.0;
-    private double error_total = 0.0;
     /* Input/Output Clamps */
     private double max_input = 0.0;
     private double min_input = 0.0;
-    private double max_output = 1.0;
+    private double max_output = 1;
     private double min_output = -1.0;
     private ToleranceType tolerance_type;
     /* Behavior */
@@ -384,6 +385,7 @@ public class navXPIDController implements IDataArrivalSubscriber {
             }
 
             /* Calculate result w/P, I, D & F terms */
+            error_d = error_current - error_previous;
             result = p * error_current +
                     i_adj * error_total +
                     d_adj * (error_current - error_previous) +
