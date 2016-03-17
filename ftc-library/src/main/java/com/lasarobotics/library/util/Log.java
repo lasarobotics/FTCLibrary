@@ -40,6 +40,26 @@ public class Log {
     }
 
     /**
+     * Add an entry to the log
+     *
+     * @param tag  Tag associated with the data point
+     * @param data Data for log entry
+     */
+    public void add(String tag, Double data) {
+        add(tag, Double.toString(data));
+    }
+
+    /**
+     * Add an entry to the log
+     *
+     * @param tag  Tag associated with the data point
+     * @param data Data for log entry
+     */
+    public void add(String tag, long data) {
+        add(tag, Long.toString(data));
+    }
+
+    /**
      * Saves a log to fileName specified and with format specified
      * <p/>
      * This function will not overwrite an existing log file, but append ".1", ".2", etc. if it already exists
@@ -47,9 +67,20 @@ public class Log {
      * @param fileType Format to write file in
      */
     public void saveAs(FileType fileType) {
+        saveAs(fileType, false);
+    }
+
+    /**
+     * Saves a log to fileName specified and with format specified
+     * <p/>
+     * This function will not overwrite an existing log file, but append ".1", ".2", etc. if it already exists
+     *
+     * @param fileType Format to write file in
+     */
+    public void saveAs(FileType fileType, boolean overwrite) {
         try {
             //Use correct filename for requested file type
-            File f = Util.createFileOnDevice(fileDirectory, fileName + "." + fileType.toString(), false);
+            File f = Util.createFileOnDevice(fileDirectory, fileName + "." + fileType.toString(), overwrite);
             String out = "";
             switch (fileType) {
                 case JSON:

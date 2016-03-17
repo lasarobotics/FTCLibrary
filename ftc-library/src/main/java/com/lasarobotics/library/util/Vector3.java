@@ -3,7 +3,7 @@ package com.lasarobotics.library.util;
 /**
  * 3D Vector : Immutable
  */
-public class Vector3<T> {
+public class Vector3<T extends Number> {
     public final T x;
     public final T y;
     public final T z;
@@ -19,7 +19,7 @@ public class Vector3<T> {
         return "(" + x + ", " + y + ", " + z + ")";
     }
 
-    public static class Builder<T> {
+    public static class Builder<T extends Number> {
         private T x, y, z;
 
         public Builder<T> x(T n) {

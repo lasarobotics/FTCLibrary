@@ -119,7 +119,7 @@ public class PushBotAutoSensors extends PushBotTelemetrySensors
             //
             case 0:
                 //
-                // Wait for the encoders to reset.  This might take multiple cycles.
+                // Wait for the encoders to requestReset.  This might take multiple cycles.
                 //
                 if (have_drive_encoders_reset()) {
                     //
@@ -167,7 +167,7 @@ public class PushBotAutoSensors extends PushBotTelemetrySensors
             //
             case 2:
                 //
-                // Wait for the encoders to reset.  This might take multiple cycles.
+                // Wait for the encoders to requestReset.  This might take multiple cycles.
                 //
                 if (have_drive_encoders_reset()) {
                     //
@@ -209,7 +209,7 @@ public class PushBotAutoSensors extends PushBotTelemetrySensors
             //
             case 4:
                 //
-                // As soon as the drive encoders reset, begin the next state.
+                // As soon as the drive encoders requestReset, begin the next state.
                 //
                 if (have_drive_encoders_reset()) {
                     //

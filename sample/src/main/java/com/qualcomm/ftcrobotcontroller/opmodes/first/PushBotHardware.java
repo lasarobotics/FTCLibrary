@@ -824,7 +824,7 @@ public class PushBotHardware extends OpMode
     //
 
     /**
-     * Indicate whether the left drive encoder has been completely reset.
+     * Indicate whether the left drive encoder has been completely requestReset.
      */
     boolean has_left_drive_encoder_reset() {
         //
@@ -855,7 +855,7 @@ public class PushBotHardware extends OpMode
     //
 
     /**
-     * Indicate whether the left drive encoder has been completely reset.
+     * Indicate whether the left drive encoder has been completely requestReset.
      */
     boolean has_right_drive_encoder_reset() {
         //
@@ -886,7 +886,7 @@ public class PushBotHardware extends OpMode
     //
 
     /**
-     * Indicate whether the encoders have been completely reset.
+     * Indicate whether the encoders have been completely requestReset.
      */
     boolean have_drive_encoders_reset() {
         //
