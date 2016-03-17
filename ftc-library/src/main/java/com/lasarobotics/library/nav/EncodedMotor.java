@@ -13,6 +13,7 @@ public class EncodedMotor extends DcMotor {
     private boolean encodersResetting = false;
     private boolean requestReset = false;
     private int encoderOffset = 0;
+    private MotorInfo motorInfo;
 
     /**
      * Initialize the encoded motor. You will need to run this during the init() method and run
@@ -25,6 +26,7 @@ public class EncodedMotor extends DcMotor {
         enableEncoder();
         requestReset();
         this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
+        this.motorInfo = info;
     }
 
     protected EncodedMotor(DcMotorController controller, int portNumber, MotorInfo info) {
@@ -32,6 +34,7 @@ public class EncodedMotor extends DcMotor {
         enableEncoder();
         requestReset();
         this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
+        this.motorInfo = info;
     }
 
     protected EncodedMotor(DcMotorController controller, int portNumber, MotorInfo info, Direction direction) {
@@ -39,6 +42,7 @@ public class EncodedMotor extends DcMotor {
         enableEncoder();
         requestReset();
         this.wheelRadius = info.getEffectiveWheelRadius(Units.Distance.METERS);
+        this.motorInfo = info;
     }
 
     /**
@@ -150,6 +154,10 @@ public class EncodedMotor extends DcMotor {
 
     public void setTargetPosition(double position, Units.Distance unit) {
         setTargetPosition((int) convertDistanceToEncoderCounts(position, unit));
+    }
+
+    public MotorInfo getMotorInfo() {
+        return motorInfo;
     }
 
     @Override

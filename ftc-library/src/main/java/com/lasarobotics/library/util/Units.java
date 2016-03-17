@@ -63,7 +63,8 @@ public class Units {
         DEGREES(1),
         RADIANS(180.0 / Math.PI),
         REVOLUTIONS(360.0),
-        ENCODER_COUNTS(4.0); //encoders have 1440 resolutions / rotation, so 1 count = 1/4 degree
+        ENCODER_COUNTS(2.0); //encoders have 1440 resolutions / rotation, so 1 count = 1/4 degree
+        // (encoder counts updated to 2 for new motors)
 
         protected double conversionFactor;
 
@@ -111,7 +112,7 @@ public class Units {
         }
     }
 
-    interface Unit {
+    private interface Unit {
         /**
          * Default unit. All conversion factors are relative to converting to this unit
          *

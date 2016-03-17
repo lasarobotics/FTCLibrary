@@ -52,6 +52,7 @@ public class FtcOpModeRegister implements OpModeRegister {
         manager.register("Teleop PurpleBot", TeleopPurpleBot.class);
         manager.register("Basic Encoder Test", BasicEncoderTest.class);
         manager.register("Encoder Test", EncoderTest.class);
+        manager.register("Navigation Test", NavigationTest.class);
         //manager.register("Mecanum Prototype", MecanumPrototypeTeleop.class);
         //manager.register("MonkeyC Do", MonkeyCDo.class);
         //manager.register("MonkeyC Write", MonkeyCWrite.class);

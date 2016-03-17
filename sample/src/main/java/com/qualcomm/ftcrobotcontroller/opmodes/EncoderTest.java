@@ -18,12 +18,12 @@ import java.text.DecimalFormat;
 
 public class EncoderTest extends OpMode implements NavXDataReceiver {
 
-    private static final double WHEEL_RADIUS = 3.75 / 2.0;
-    private static final Units.Distance WHEEL_RADIUS_UNIT = Units.Distance.INCHES;
-    private static final double WHEEL_MECHANICAL_ADVANTAGE = 2;
+    //Figure out how many encoder counts you need to go one unit of distance
+    private static final double ENCODER_COUNTS_PER_UNIT_DISTANCE = 1010.0;
+
 
     private static final String NAVX_DIM = "dim";               //device interface module name
-    private static final int NAVX_PORT = 1;                     //port on device interface module
+    private static final int NAVX_PORT = 0;                     //port on device interface module
 
     private static final double NAVX_TOLERANCE_DEGREES = 10.0;   //degrees of tolerance for PID controllers
     private static final double NAVX_TARGET_ANGLE_DEGREES = 0.0;    //target angle for PID
@@ -34,13 +34,13 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     private static final double PID_P = 0.0009;
     private static final double PID_I = 0.0;
     private static final double PID_D = 0.0;
-    private static final double PID_MAX_ACCEL = 0;
+    private static final double PID_MAX_ACCEL = 3;
     private static final double PID_MAX_DECEL = 0;
 
     private static final double DISTANCE_FEET = 1;              //distance in feet
     private static final double MIN_POWER = 0;              //distance in feet
 
-    private static final double FORWARD_ROTATION_FEROCITY = 2; //how ferociously should we rotate?
+    private static final double FORWARD_ROTATION_FEROCITY = 4; //how ferociously should we rotate? - lower if oscillating
 
     private static final DecimalFormat df = new DecimalFormat("#.##");
 
@@ -57,14 +57,11 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
     int phase = 0;
 
     public void init() {
-        frontLeft = new EncodedMotor(hardwareMap.dcMotor.get("lf"),
-                new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE));
-        frontRight = new EncodedMotor(hardwareMap.dcMotor.get("rf"),
-                new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE));
-        backLeft = new EncodedMotor(hardwareMap.dcMotor.get("lb"),
-                new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE)); //set wheel radius for distance calculations
-        backRight = new EncodedMotor(hardwareMap.dcMotor.get("rb"),
-                new MotorInfo(WHEEL_RADIUS, WHEEL_RADIUS_UNIT, WHEEL_MECHANICAL_ADVANTAGE));
+        MotorInfo motorInfo = new MotorInfo(ENCODER_COUNTS_PER_UNIT_DISTANCE, Units.Distance.FEET);
+        frontLeft = new EncodedMotor(hardwareMap.dcMotor.get("lf"), motorInfo);
+        frontRight = new EncodedMotor(hardwareMap.dcMotor.get("rf"), motorInfo);
+        backLeft = new EncodedMotor(hardwareMap.dcMotor.get("lb"), motorInfo); //set wheel radius for distance calculations
+        backRight = new EncodedMotor(hardwareMap.dcMotor.get("rb"), motorInfo);
 
         backLeft.setDirection(DcMotor.Direction.FORWARD);
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -82,17 +79,13 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
 
         //Create PID looper
         pidLeft = new PID();
-        pidLeft.setSetpoint(Units.Distance.convertToAngle(DISTANCE_FEET,
-                WHEEL_RADIUS / WHEEL_MECHANICAL_ADVANTAGE,
-                WHEEL_RADIUS_UNIT, Units.Distance.FEET, Units.Angle.ENCODER_COUNTS));
+        pidLeft.setSetpointDistance(backLeft.getMotorInfo(), DISTANCE_FEET, Units.Distance.FEET);
         pidLeft.setMaxAcceleration(PID_MAX_ACCEL);
         pidLeft.setMaxDeceleration(PID_MAX_DECEL);
         pidLeft.setCoefficients(PID_P, PID_I, PID_D);
 
         pidRight = new PID();
-        pidRight.setSetpoint(Units.Distance.convertToAngle(DISTANCE_FEET,
-                WHEEL_RADIUS / WHEEL_MECHANICAL_ADVANTAGE,
-                WHEEL_RADIUS_UNIT, Units.Distance.FEET, Units.Angle.ENCODER_COUNTS));
+        pidRight.setSetpointDistance(backRight.getMotorInfo(), DISTANCE_FEET, Units.Distance.FEET);
         pidRight.setMaxAcceleration(PID_MAX_ACCEL);
         pidRight.setMaxDeceleration(PID_MAX_DECEL);
         pidRight.setCoefficients(PID_P, PID_I, PID_D);
@@ -206,11 +199,14 @@ public class EncoderTest extends OpMode implements NavXDataReceiver {
                 backRight.setPowerFloat();
         }*/
         telemetry.addData("Original Power: ", power);
+        telemetry.addData("Target: ", pidLeft.getSetpoint());
+        telemetry.addData("Wheel Radius (m): ", frontLeft.getMotorInfo().getEffectiveWheelRadius(Units.Distance.METERS));
+        telemetry.addData("Wheel Radius (in): ", frontLeft.getMotorInfo().getEffectiveWheelRadius(Units.Distance.INCHES));
 
         double avgDist = Math.abs(pidLeft.getOutputValue() - pidLeft.getSetpoint()) + Math.abs(pidRight.getOutputValue() - pidRight.getSetpoint());
         avgDist /= 2;
         telemetry.addData("avgDist", avgDist);
-        if (avgDist < 500) {
+        if (false && avgDist < 500) {
             telemetry.addData("DONE", "COASTING...");
             /*backLeft.setPowerFloat();
             backRight.setPowerFloat();

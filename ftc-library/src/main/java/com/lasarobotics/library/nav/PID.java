@@ -1,6 +1,7 @@
 package com.lasarobotics.library.nav;
 
 import com.lasarobotics.library.util.MathUtil;
+import com.lasarobotics.library.util.Units;
 
 /**
  * PID Targeting
@@ -21,12 +22,14 @@ public class PID {
     protected double maxChangeNegative = 0; // maximum change in output per second
     protected double minOutput = -1; // maximum change in output per second
     protected double maxOutput = 1; // maximum change in output per second
+    protected double minPower = 0; // minimum power for anti-stall protection
 
     public PID() {
         this.Kp = 0.005;
         this.Ki = 0;
         this.Kd = 0;
     }
+
     public PID(double p, double i, double d) {
         setCoefficients(p, i, d);
     }
@@ -49,6 +52,12 @@ public class PID {
 
     public void setSetpoint(double setpoint) {
         this.setpoint = setpoint;
+    }
+
+    public void setSetpointDistance(MotorInfo motorInfo, double distance, Units.Distance distanceUnit) {
+        setSetpoint(Units.Distance.convertToAngle(distance,
+                motorInfo.getEffectiveWheelRadius(distanceUnit),
+                distanceUnit, Units.Distance.FEET, Units.Angle.ENCODER_COUNTS));
     }
 
     /**
@@ -132,6 +141,14 @@ public class PID {
         this.maxChangeNegative = Math.abs(maxChange);
     }
 
+    public double getAntistallMinimumPower() {
+        return minPower;
+    }
+
+    public void setAntistallMinimumPower(double minPower) {
+        this.minPower = minPower;
+    }
+
     private void update() {
         // calculate the difference between the desired value and the actual value
         error = setpoint - processValue;
@@ -154,8 +171,8 @@ public class PID {
         else if ((outputLast - outputFlattened) > maxChangeNegative * dt && maxChangeNegative > 0)
             outputFlattened = outputLast - (maxChangeNegative * dt);
 
-        //Clamp the flattened output
-        outputFlattened = MathUtil.coerce(minOutput, maxOutput, outputFlattened);
+        //Clamp and deadband the flattened output
+        outputFlattened = MathUtil.deadband(minPower, MathUtil.coerce(minOutput, maxOutput, outputFlattened));
 
         // remember the error and output for the next time around.
         previousError = error;
