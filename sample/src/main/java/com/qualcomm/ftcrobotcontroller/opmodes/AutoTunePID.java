@@ -157,14 +157,14 @@ public class AutoTunePID extends LinearOpMode {
     }
 
     void setLeftPower(double power) {
-        if (opModeIsActive())
+        if (!opModeIsActive())
             return;
         motorBL.setPower(Range.clip(-power, -1, 1));
         motorFL.setPower(Range.clip(-power, -1, 1));
     }
 
     void setRightPower(double power) {
-        if (opModeIsActive())
+        if (!opModeIsActive())
             return;
         motorBR.setPower(Range.clip(power, -1, 1));
         motorFR.setPower(Range.clip(power, -1, 1));
