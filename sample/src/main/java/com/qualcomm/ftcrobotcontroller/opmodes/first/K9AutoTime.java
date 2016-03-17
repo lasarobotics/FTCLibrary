@@ -155,7 +155,7 @@ public class K9AutoTime extends OpMode {
         }
 
 		/*
-		 * set the motor power
+         * set the motor power
 		 */
         motorRight.setPower(left);
         motorLeft.setPower(right);

@@ -1,14 +1,11 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.lasarobotics.library.controller.ButtonState;
 import com.lasarobotics.library.controller.Controller;
 import com.lasarobotics.library.drive.Tank;
 import com.lasarobotics.library.monkeyc.MonkeyData;
 import com.lasarobotics.library.monkeyc.MonkeyDo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
-import android.util.Log;
 
 /**
  * MonkeyC Do Test

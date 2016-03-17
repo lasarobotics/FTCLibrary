@@ -105,7 +105,7 @@ public class Controller {
         y = g.y ? ButtonState.HELD : ButtonState.NOT_PRESSED;
         guide = g.guide ? ButtonState.HELD : ButtonState.NOT_PRESSED;
         start = g.start ? ButtonState.HELD : ButtonState.NOT_PRESSED;
-        back =  g.back ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        back = g.back ? ButtonState.HELD : ButtonState.NOT_PRESSED;
         left_bumper = g.left_bumper ? ButtonState.HELD : ButtonState.NOT_PRESSED;
         right_bumper = g.right_bumper ? ButtonState.HELD : ButtonState.NOT_PRESSED;
         right_trigger = g.right_trigger;

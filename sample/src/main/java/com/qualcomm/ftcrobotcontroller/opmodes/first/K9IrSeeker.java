@@ -38,40 +38,40 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * TeleOp Mode
- * <p>
+ * <p/>
  * Enables control of the robot via the gamepad
  */
 public class K9IrSeeker extends OpMode {
 
-	final static double MOTOR_POWER = 0.15; // Higher values will cause the robot to move faster
-	final static double HOLD_IR_SIGNAL_STRENGTH = 0.50; // Higher values will cause the robot to follow closer
+    final static double MOTOR_POWER = 0.15; // Higher values will cause the robot to move faster
+    final static double HOLD_IR_SIGNAL_STRENGTH = 0.50; // Higher values will cause the robot to follow closer
 
-	double armPosition;
-	double clawPosition;
+    double armPosition;
+    double clawPosition;
 
-	DcMotor motorRight;
-	DcMotor motorLeft;
-	Servo claw;
-	Servo arm;
-	IrSeekerSensor irSeeker;
+    DcMotor motorRight;
+    DcMotor motorLeft;
+    Servo claw;
+    Servo arm;
+    IrSeekerSensor irSeeker;
 
-	/**
-	 * Constructor
-	 */
-	public K9IrSeeker() {
+    /**
+     * Constructor
+     */
+    public K9IrSeeker() {
 
-	}
+    }
 
-	/*
-	 * Code to run when the op mode is first enabled goes here
-	 *
-	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
-	 */
-	@Override
-	public void init() {
+    /*
+     * Code to run when the op mode is first enabled goes here
+     *
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
+     */
+    @Override
+    public void init() {
 
 		/*
-		 * Use the hardwareMap to get the dc motors and servos by name.
+         * Use the hardwareMap to get the dc motors and servos by name.
 		 * Note that the names of the devices must match the names used
 		 * when you configured your robot and created the configuration file.
 		 */
@@ -86,44 +86,44 @@ public class K9IrSeeker extends OpMode {
 		 *    "servo_1" controls the arm joint of the manipulator.
 		 *    "servo_6" controls the claw joint of the manipulator.
 		 */
-		motorRight = hardwareMap.dcMotor.get("motor_2");
-		motorLeft = hardwareMap.dcMotor.get("motor_1");
-		motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorRight = hardwareMap.dcMotor.get("motor_2");
+        motorLeft = hardwareMap.dcMotor.get("motor_1");
+        motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
-		arm = hardwareMap.servo.get("servo_1");
-		claw = hardwareMap.servo.get("servo_6");
+        arm = hardwareMap.servo.get("servo_1");
+        claw = hardwareMap.servo.get("servo_6");
 
-		// set the starting position of the wrist and claw
-		armPosition = 0.1;
-		clawPosition = 0.25;
+        // set the starting position of the wrist and claw
+        armPosition = 0.1;
+        clawPosition = 0.25;
 
 		/*
 		 * We also assume that we have a Hitechnic IR Seeker v2 sensor
 		 * with a name of "ir_seeker" configured for our robot.
 		 */
-		irSeeker = hardwareMap.irSeekerSensor.get("ir_seeker");
-	}
+        irSeeker = hardwareMap.irSeekerSensor.get("ir_seeker");
+    }
 
-	/*
-	 * This method will be called repeatedly in a loop
-	 *
-	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#run()
-	 */
-	@Override
-	public void loop() {
-		double angle = 0.0;
-		double strength = 0.0;
-		double left, right = 0.0;
+    /*
+     * This method will be called repeatedly in a loop
+     *
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#run()
+     */
+    @Override
+    public void loop() {
+        double angle = 0.0;
+        double strength = 0.0;
+        double left, right = 0.0;
 
-		// keep manipulator out of the way.
-		arm.setPosition(armPosition);
-		claw.setPosition(clawPosition);
+        // keep manipulator out of the way.
+        arm.setPosition(armPosition);
+        claw.setPosition(clawPosition);
 
 		/*
 		 * Do we detect an IR signal?
 		 */
-		if (irSeeker.signalDetected())  {
-			/*
+        if (irSeeker.signalDetected()) {
+            /*
 			 * Signal was detected. Follow it.
 			 */
 
@@ -133,11 +133,11 @@ public class K9IrSeeker extends OpMode {
 			 * A negative angle implies that the source is to the left.
 			 * A positive angle implies that the source is to the right.
 			 */
-			angle = irSeeker.getAngle();
-			strength = irSeeker.getStrength();
+            angle = irSeeker.getAngle();
+            strength = irSeeker.getStrength();
 
-			if (angle < -60) {
-				/*
+            if (angle < -60) {
+                /*
 				 * IR source is to the way left.
                  * Point turn to the left.
                  */
@@ -161,30 +161,30 @@ public class K9IrSeeker extends OpMode {
 				 * Signal is dead ahead but weak.
 				 * Move forward towards signal
 				 */
-				left = MOTOR_POWER;
-				right = MOTOR_POWER;
-			} else {
-				/*
+                left = MOTOR_POWER;
+                right = MOTOR_POWER;
+            } else {
+                /*
 				 * Signal is dead ahead and strong.
 				 * Stop motors.
 				 */
-				left = 0.0;
-				right = 0.0;
-			}
-		} else {
-			/*
+                left = 0.0;
+                right = 0.0;
+            }
+        } else {
+            /*
 			 * Signal was not detected.
 			 * Shut off motors
 			 */
-			left = 0.0;
-			right = 0.0;
-		}
+            left = 0.0;
+            right = 0.0;
+        }
 
 		/*
 		 * set the motor power
 		 */
-		motorRight.setPower(right);
-		motorLeft.setPower(left);
+        motorRight.setPower(right);
+        motorLeft.setPower(left);
 
 		/*
 		 * Send telemetry data back to driver station. Note that if we are using
@@ -193,21 +193,21 @@ public class K9IrSeeker extends OpMode {
 		 * are currently write only.
 		 */
 
-		telemetry.addData("Text", "*** Robot Data***");
-		telemetry.addData("angle", "angle:  " + Double.toString(angle));
-		telemetry.addData("strength", "sig strength: " + Double.toString(strength));
-		telemetry.addData("left tgt pwr", "left  pwr: " + Double.toString(left));
-		telemetry.addData("right tgt pwr", "right pwr: " + Double.toString(right));
-	}
+        telemetry.addData("Text", "*** Robot Data***");
+        telemetry.addData("angle", "angle:  " + Double.toString(angle));
+        telemetry.addData("strength", "sig strength: " + Double.toString(strength));
+        telemetry.addData("left tgt pwr", "left  pwr: " + Double.toString(left));
+        telemetry.addData("right tgt pwr", "right pwr: " + Double.toString(right));
+    }
 
-	/*
-	 * Code to run when the op mode is first disabled goes here
-	 *
-	 * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
-	 */
-	@Override
-	public void stop() {
+    /*
+     * Code to run when the op mode is first disabled goes here
+     *
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#stop()
+     */
+    @Override
+    public void stop() {
 
-	}
+    }
 
 }
