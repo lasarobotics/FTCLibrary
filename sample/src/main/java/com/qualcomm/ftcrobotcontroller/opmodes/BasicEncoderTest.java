@@ -14,19 +14,19 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Basic navigational test - driving forward and rotation
  */
 public class BasicEncoderTest extends OpMode {
-    private static final double WHEEL_RADIUS = 3.75 / 2.0;
+    private static final double WHEEL_RADIUS = 4.0 / 2.0;
     private static final Units.Distance WHEEL_RADIUS_UNIT = Units.Distance.INCHES;
-    private static final double WHEEL_MECHANICAL_ADVANTAGE = 2;
+    private static final double WHEEL_MECHANICAL_ADVANTAGE = 1; //2;
 
     //private static final double PID_PU = 0.001; //0.006 //decrease to increase smoothness
     //private static final double PID_TU = 346.0; //0.108 //increase to decrease oscillation
 
     //lower P to increase smoothness of approach
     //do NOT mess with I - you don't want this term at all
-    private static final double PID_P = 0.0009;//PID_PU * 0.5;  //0.05
+    private static final double PID_P = 0.0009;//0.0009 PID_PU * 0.5;  //0.05
     private static final double PID_I = 0.0;//1.2 * PID_P / PID_TU;  //0.01
     private static final double PID_D = 0.0;//PID_P * PID_TU / 8.0;  //0.005
-    private static final double DISTANCE = 1; //distance in feet
+    private static final double DISTANCE = 1.5; //distance in feet
     private static final Units.Distance DISTANCE_UNIT = Units.Distance.FEET;
     private static final double MIN_POWER = 0;
 

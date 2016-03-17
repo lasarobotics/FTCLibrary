@@ -40,6 +40,10 @@ public class NavXPIDController extends navXPIDController {
         return "p: " + p + ", i: " + i + ", d: " + d + ", ff: " + ff;
     }
 
+    public String getCoefficientDebug() {
+        return "p: " + p * error_current + ", i: " + i * error_total + ", d: " + d * error_d;
+    }
+
     public void reset() {
         super.reset();
     }
