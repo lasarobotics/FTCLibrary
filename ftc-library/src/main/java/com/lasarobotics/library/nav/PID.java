@@ -7,13 +7,13 @@ import com.lasarobotics.library.util.Units;
  * PID Targeting
  */
 public class PID {
+    protected PIDCoefficients coefficients = new PIDCoefficients(0.005, 0, 0);  // PID constant multipliers
     protected double setpoint = 0;
     protected double processValue = 0;  // actual position (Process Value)
     protected double error = 0;   // how much SP and PV are diff (SP - PV)
     protected double integral = 0; // curIntegral + (error * Delta Time)
     protected double derivative = 0;  //(error - prev error) / Delta time
     protected double previousError = 0; // error from last time (previous Error)
-    protected double Kp = 0.2, Ki = 0.01, Kd = 1; // PID constant multipliers
     protected double dt = 100.0; // delta time
     protected double output = 0; // the drive amount that effects the PV.
     protected double outputFlattened = 0; // drive power flattened by the accel and decel
@@ -25,19 +25,21 @@ public class PID {
     protected double minPower = 0; // minimum power for anti-stall protection
 
     public PID() {
-        this.Kp = 0.005;
-        this.Ki = 0;
-        this.Kd = 0;
+        this.coefficients = new PIDCoefficients(0.05, 0, 0);
     }
 
     public PID(double p, double i, double d) {
-        setCoefficients(p, i, d);
+        this.coefficients = new PIDCoefficients(p, i, d);
+    }
+
+    public PID(PIDCoefficients coefficients) {
+        this.coefficients = coefficients;
     }
 
     public void setCoefficients(double p, double i, double d) {
-        this.Kp = p;
-        this.Ki = i;
-        this.Kd = d;
+        coefficients.p = p;
+        coefficients.i = i;
+        coefficients.d = d;
     }
 
     public void addMeasurement(double measuredValue, double timeDelta) {
@@ -96,16 +98,13 @@ public class PID {
         return previousError;
     }
 
-    public double getCoefficientProportional() {
-        return Kp;
+    public PIDCoefficients getCoefficients() {
+        return coefficients;
     }
 
-    public double getCoefficientIntegral() {
-        return Ki;
-    }
-
-    public double getCoefficientDerivative() {
-        return Kd;
+    public void setCoefficients(PIDCoefficients coefficients) {
+        coefficients.ff = 0.0;
+        this.coefficients = coefficients;
     }
 
     public double getLastTimeDelta() {
@@ -159,7 +158,7 @@ public class PID {
 
         // calculate how much drive the output in order to get to the
         // desired setpoint.
-        output = (Kp * error) + (Ki * integral) + (Kd * derivative);
+        output = (coefficients.p * error) + (coefficients.i * integral) + (coefficients.d * derivative);
 
         //Clamp output
         output = MathUtil.coerce(minOutput, maxOutput, output);
@@ -177,5 +176,42 @@ public class PID {
         // remember the error and output for the next time around.
         previousError = error;
         outputLast = outputFlattened;
+    }
+
+    public static class PIDCoefficients {
+        double p;
+        double i;
+        double d;
+        double ff;
+
+        public PIDCoefficients(double p, double i, double d) {
+            this.p = p;
+            this.i = i;
+            this.d = d;
+            this.ff = 0.0;
+        }
+
+        public PIDCoefficients(double p, double i, double d, double ff) {
+            this.p = p;
+            this.i = i;
+            this.d = d;
+            this.ff = ff;
+        }
+
+        public double p() {
+            return p;
+        }
+
+        public double i() {
+            return i;
+        }
+
+        public double d() {
+            return d;
+        }
+
+        public double ff() {
+            return ff;
+        }
     }
 }

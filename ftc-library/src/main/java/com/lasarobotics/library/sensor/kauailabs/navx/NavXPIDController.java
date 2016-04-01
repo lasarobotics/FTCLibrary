@@ -3,7 +3,10 @@ package com.lasarobotics.library.sensor.kauailabs.navx;
 import android.util.Log;
 
 import com.kauailabs.navx.ftc.navXPIDController;
+import com.lasarobotics.library.nav.PID;
 import com.lasarobotics.library.util.MathUtil;
+
+import java.util.Locale;
 
 /**
  * PID Controller designed for the navX MXP or micro
@@ -20,28 +23,24 @@ public class NavXPIDController extends navXPIDController {
         setOutputRange(-1.0, 1.0);
     }
 
-    public double getCoefficientPotential() {
-        return p;
+    public PID.PIDCoefficients getCoefficients() {
+        return new PID.PIDCoefficients(p, i, d, ff);
     }
 
-    public double getCoefficientIntegral() {
-        return i;
-    }
-
-    public double getCoefficientDerivative() {
-        return d;
-    }
-
-    public double getCoefficientFastForward() {
-        return ff;
+    public void setCoefficients(PID.PIDCoefficients c) {
+        this.p = c.p();
+        this.i = c.i();
+        this.d = c.d();
+        this.ff = c.ff();
     }
 
     public String getCoefficientString() {
         return "p: " + p + ", i: " + i + ", d: " + d + ", ff: " + ff;
     }
 
-    public String getCoefficientDebug() {
-        return "p: " + p * error_current + ", i: " + i * error_total + ", d: " + d * error_d;
+    public String getCoefficientDebugString() {
+        return String.format(Locale.US,
+                "p: %3.4f i: %3.4f d: %3.4f", p * error_current, i * error_total, d * error_d);
     }
 
     public void reset() {
@@ -84,6 +83,10 @@ public class NavXPIDController extends navXPIDController {
      */
     public double getOutputValue() {
         return enableAntistall ? MathUtil.deadband(antistallDeadband, super.get()) : super.get();
+    }
+
+    public double getError() {
+        return super.getError();
     }
 
     public double getAntistallDeadband() {

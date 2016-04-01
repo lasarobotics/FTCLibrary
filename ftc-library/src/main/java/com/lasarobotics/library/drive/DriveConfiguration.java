@@ -6,6 +6,7 @@ import com.lasarobotics.library.util.Vector2;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
+ * [NOT IMPLEMENTED]
  * Drivetrain configuration information - tells where motors are placed in addition to
  */
 public class DriveConfiguration {
