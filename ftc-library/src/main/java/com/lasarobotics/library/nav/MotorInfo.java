@@ -23,6 +23,24 @@ public class MotorInfo {
         this.mechanicalAdvantage = mechanicalAdvantage;
     }
 
+    public static MotorInfo mean(EncodedMotor[] motors) {
+        double effectiveRadius = 0.0;
+        for (EncodedMotor m : motors)
+            effectiveRadius += m.getMotorInfo().getEffectiveWheelRadius(Units.Distance.METERS);
+        effectiveRadius /= motors.length;
+        return new MotorInfo(effectiveRadius, Units.Distance.METERS);
+    }
+
+    public static MotorInfo mean(EncodedMotor[] motors1, EncodedMotor[] motors2) {
+        double effectiveRadius = 0.0;
+        for (EncodedMotor m : motors1)
+            effectiveRadius += m.getMotorInfo().getEffectiveWheelRadius(Units.Distance.METERS);
+        for (EncodedMotor m : motors2)
+            effectiveRadius += m.getMotorInfo().getEffectiveWheelRadius(Units.Distance.METERS);
+        effectiveRadius /= motors1.length + motors2.length;
+        return new MotorInfo(effectiveRadius, Units.Distance.METERS);
+    }
+
     public double getWheelRadius(Units.Distance unit) {
         return Units.Distance.METERS.convertTo(unit, wheelRadius);
     }

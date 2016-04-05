@@ -2,9 +2,12 @@ package com.lasarobotics.library.nav.navigator;
 
 import com.kauailabs.navx.ftc.navXPIDController;
 import com.lasarobotics.library.nav.EncodedMotor;
+import com.lasarobotics.library.nav.MotorInfo;
 import com.lasarobotics.library.nav.PID;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDevice;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXPIDController;
+import com.lasarobotics.library.util.MathUtil;
+import com.lasarobotics.library.util.Units;
 import com.qualcomm.robotcore.robocol.Telemetry;
 
 /**
@@ -19,17 +22,21 @@ public class TankNav extends Navigator {
     NavXPIDController.PIDState rotState;
     AsyncMotorResult lastResult;
     long lastTime = System.nanoTime();
+    Telemetry telemetry;
 
-    public TankNav(NavXDevice navx, EncodedMotor[] motorsLeft, EncodedMotor[] motorsRight) {
+    public TankNav(NavXDevice navx, EncodedMotor[] motorsLeft, EncodedMotor[] motorsRight, Telemetry telemetry) {
         super(navx);
         this.motorsLeft = motorsLeft;
         this.motorsRight = motorsRight;
+        this.telemetry = telemetry;
     }
 
-    public TankNav(NavXDevice navx, NavigationParams params, EncodedMotor[] motorsLeft, EncodedMotor[] motorsRight) {
+    public TankNav(NavXDevice navx, NavigationParams params, EncodedMotor[] motorsLeft, EncodedMotor[] motorsRight, Telemetry telemetry) {
         super(navx);
         this.motorsLeft = motorsLeft;
         this.motorsRight = motorsRight;
+        this.telemetry = telemetry;
+        this.params = params;
     }
 
     public void coast() {
@@ -51,6 +58,21 @@ public class TankNav extends Navigator {
         double dt = (time - lastTime) / 1000000000.0;
         lastTime = time;
         return dt;
+    }
+
+    private void updateMotors() {
+        for (EncodedMotor m : motorsLeft)
+            m.update();
+        for (EncodedMotor m : motorsRight)
+            m.update();
+    }
+
+    private double meanPos(EncodedMotor[] motors) {
+        double mean = 0.0;
+        for (EncodedMotor m : motors)
+            mean += m.getCurrentPosition();
+        mean /= motors.length;
+        return mean;
     }
 
     public void rotateInPlaceAsyncStart(double targetDegrees, double distTolernace) {
@@ -78,26 +100,119 @@ public class TankNav extends Navigator {
         updateTime();
     }
 
-    public AsyncMotorResult rotateInPlaceAsyncRun() {
+    public AsyncMotorResult rotateInPlaceAsyncRun(double powerFactor) {
         double dt = updateTime();
+        updateMotors();
 
         double power = 0.0;
         if (rotPID.isUpdateAvailable(rotState))
-            lastResult = new AsyncMotorResult(-power, power, rotState.isOnTarget());
+            power = rotPID.getOutputValue();
+        lastResult = new AsyncMotorResult(-power * powerFactor, power * powerFactor, rotState.isOnTarget());
+        navx.displayTelemetry(telemetry);
         return lastResult;
     }
 
-    public void rotateInPlace(double targetDegrees) throws InterruptedException {
-        rotateInPlace(targetDegrees, 0, 0);
+    public void rotateInPlace(double targetDegrees, double power) throws InterruptedException {
+        rotateInPlace(targetDegrees, power, 0, 0);
     }
 
-    public void rotateInPlace(double targetDegrees, double distTolerance, double secTimeout) throws InterruptedException {
+    public void rotateInPlace(double targetDegrees, double power, double distTolerance, double secTimeout) throws InterruptedException {
         AsyncMotorResult result = new AsyncMotorResult();
 
         rotateInPlaceAsyncStart(targetDegrees, distTolerance);
         long t = System.nanoTime();
         while (true) {
-            result = rotateInPlaceAsyncRun();
+            result = rotateInPlaceAsyncRun(power);
+            if (result.isAtTarget() ||
+                    ((secTimeout > 0 || (System.nanoTime() - t) / 1000000000.0 > secTimeout)))
+                break;
+            t = System.nanoTime();
+            for (EncodedMotor l : motorsLeft)
+                l.setPower(result.getLeftPower());
+            for (EncodedMotor r : motorsRight)
+                r.setPower(result.getRightPower());
+            Thread.sleep(5);
+        }
+    }
+
+    public void moveStabilizedAsyncStart(double distTarget, Units.Distance distUnit) {
+        navx.reset();
+
+        //Initialize the navX PID controller
+        //Using the yaw axis, we can find out how far we move forward
+        rotPID = new NavXPIDController(navx, NavXPIDController.DataSource.YAW);
+        //Set the target location
+        rotPID.setSetpoint(0.0);
+        //Allow crossing over the bounds (see setContinuous() documentation)
+        rotPID.setContinuous(true);
+        //Set P,I,D coefficients
+        rotPID.setCoefficients(params.kRotMoving);
+        //Disable antistall (more accurate, and since this is only used for compensation, we can ignore the stalls)
+        rotPID.disableAntistall();
+        //Making the tolerance very small makes the robot work hard to get to get to a very close estimate
+        rotPID.setTolerance(navXPIDController.ToleranceType.NONE, 0);
+        //Start data collection
+        rotPID.start();
+
+        //Initiate blank PID state
+        rotState = new NavXPIDController.PIDState();
+
+        //Get mean (average) motor info
+        MotorInfo mean = MotorInfo.mean(motorsLeft, motorsRight);
+
+        //Create translation PID
+        transPIDLeft = new PID();
+        transPIDLeft.setSetpointDistance(mean, distTarget, distUnit);
+        transPIDLeft.setCoefficients(params.kTrans);
+
+        transPIDRight = new PID();
+        transPIDRight.setSetpointDistance(mean, distTarget, distUnit);
+        transPIDRight.setCoefficients(params.kTrans);
+
+        updateTime();
+    }
+
+    public AsyncMotorResult moveStabilizedAsyncRun(double powerFactor, double distTolerance) {
+        double dt = updateTime();
+        updateMotors();
+
+        transPIDLeft.addMeasurement(meanPos(motorsLeft), dt);
+        transPIDRight.addMeasurement(meanPos(motorsRight), dt);
+
+        double power = 0.0;
+        double powerComp = 0.0;
+
+        power = (transPIDLeft.getOutputValue() + transPIDRight.getOutputValue()) / 2.0;
+        powerComp = rotPID.getOutputValue();
+
+        double left, right;
+        left = MathUtil.coerce(-1, 1, power) -
+                Math.sin(MathUtil.coerce(-1, 1, powerComp * params.kRotMovingFerocity) * Math.PI / 2);
+        right = MathUtil.coerce(-1, 1, power) +
+                Math.sin(MathUtil.coerce(-1, 1, powerComp * params.kRotMovingFerocity) * Math.PI / 2);
+
+        left = coerceMotorValue(left, params.kMinMotorPower);
+        right = coerceMotorValue(right, params.kMinMotorPower);
+
+        lastResult = new AsyncMotorResult(left * powerFactor, right * powerFactor,
+                rotState.isOnTarget()
+                        && ((distTolerance > 0) || (Math.abs(transPIDLeft.getError()) <= distTolerance)
+                        && (Math.abs(transPIDRight.getError()) <= distTolerance)));
+        navx.displayTelemetry(telemetry);
+        return lastResult;
+    }
+
+    public void moveStabilized(double distTarget, Units.Distance distUnit, double power) throws InterruptedException {
+        moveStabilized(distTarget, distUnit, power, 0, 0);
+    }
+
+    public void moveStabilized(double distTarget, Units.Distance distUnit, double power, double distTolerance, double secTimeout) throws InterruptedException {
+        AsyncMotorResult result = new AsyncMotorResult();
+
+        moveStabilizedAsyncStart(distTarget, distUnit);
+        long t = System.nanoTime();
+        while (true) {
+            result = moveStabilizedAsyncRun(power, distTolerance);
             if (result.isAtTarget() ||
                     ((secTimeout > 0 && (System.nanoTime() - t) / 1000000000.0 > secTimeout)))
                 break;
@@ -127,6 +242,7 @@ public class TankNav extends Navigator {
         double kRotMovingFerocity = 4;
         double kTransMaxAccel = 0.0;
         double kTransMaxDecel = 0.0;
+        double kMinMotorPower = 0.00;
 
         NavigationParams() {
 
@@ -151,6 +267,10 @@ public class TankNav extends Navigator {
         public void setTranslationMaxAccel(double maxAccel, double maxDecel) {
             kTransMaxAccel = maxAccel;
             kTransMaxDecel = maxDecel;
+        }
+
+        public void setMinimumMotorPower(double minPower) {
+            this.kMinMotorPower = minPower;
         }
     }
 

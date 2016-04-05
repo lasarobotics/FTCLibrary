@@ -2,6 +2,7 @@ package com.lasarobotics.library.nav.navigator;
 
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDataReceiver;
 import com.lasarobotics.library.sensor.kauailabs.navx.NavXDevice;
+import com.lasarobotics.library.util.MathUtil;
 
 /**
  * Smart navigation class that performs two operations:
@@ -32,5 +33,9 @@ abstract class Navigator implements NavXDataReceiver {
 
     protected Navigator(NavXDevice navx) {
         this.navx = navx;
+    }
+
+    public static double coerceMotorValue(double value, double minValue) {
+        return MathUtil.deadband(minValue, MathUtil.coerce(-1, 1, value));
     }
 }
