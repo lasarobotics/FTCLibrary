@@ -2,6 +2,7 @@ package com.lasarobotics.library.sensor.kauailabs.navx;
 
 import com.kauailabs.navx.ftc.AHRS;
 import com.kauailabs.navx.ftc.IDataArrivalSubscriber;
+import com.lasarobotics.library.util.MathUtil;
 import com.lasarobotics.library.util.Vector3;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.robocol.Telemetry;
@@ -81,6 +82,14 @@ public class NavXDevice implements IDataArrivalSubscriber {
 
     public void reset() {
         ahrs.zeroYaw();
+    }
+
+    public void waitForReset() throws InterruptedException {
+        //noinspection StatementWithEmptyBody
+        while (MathUtil.inBounds(-1, 1, this.getRotation().x)) {
+
+            Thread.sleep(20);
+        }
     }
 
     public void displayTelemetry(Telemetry telemetry) {

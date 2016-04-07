@@ -29,6 +29,7 @@ public class TankNav extends Navigator {
         this.motorsLeft = motorsLeft;
         this.motorsRight = motorsRight;
         this.telemetry = telemetry;
+        this.params = new NavigationParams();
     }
 
     public TankNav(NavXDevice navx, NavigationParams params, EncodedMotor[] motorsLeft, EncodedMotor[] motorsRight, Telemetry telemetry) {
@@ -75,8 +76,15 @@ public class TankNav extends Navigator {
         return mean;
     }
 
-    public void rotateInPlaceAsyncStart(double targetDegrees, double distTolernace) {
+    public void rotateInPlaceAsyncStart(double targetDegrees, double angleTolerance) {
+        lastResult = new AsyncMotorResult();
         navx.reset();
+        try {
+            navx.waitForReset();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return;
+        }
 
         //Initialize the navX PID controller
         //Using the yaw axis, we can find out how far we move forward
@@ -86,11 +94,14 @@ public class TankNav extends Navigator {
         //Allow crossing over the bounds (see setContinuous() documentation)
         rotPID.setContinuous(true);
         //Set P,I,D coefficients
-        rotPID.setCoefficients(params.kRotStatic);
+        rotPID.setCoefficients(params.kRotMoving);
         //Disable antistall (more accurate, and since this is only used for compensation, we can ignore the stalls)
         rotPID.disableAntistall();
         //Making the tolerance very small makes the robot work hard to get to get to a very close estimate
-        rotPID.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, distTolernace);
+        if (angleTolerance > 0)
+            rotPID.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, angleTolerance);
+        else
+            rotPID.setTolerance(navXPIDController.ToleranceType.NONE, 0);
         //Start data collection
         rotPID.start();
 
@@ -102,41 +113,53 @@ public class TankNav extends Navigator {
 
     public AsyncMotorResult rotateInPlaceAsyncRun(double powerFactor) {
         double dt = updateTime();
-        updateMotors();
+        //updateMotors();
 
         double power = 0.0;
-        if (rotPID.isUpdateAvailable(rotState))
-            power = rotPID.getOutputValue();
-        lastResult = new AsyncMotorResult(-power * powerFactor, power * powerFactor, rotState.isOnTarget());
-        navx.displayTelemetry(telemetry);
+        power = rotPID.getOutputValue();
+        lastResult = new AsyncMotorResult(-power * powerFactor, power * powerFactor, rotPID.isOnTarget());
+        displayDebug(telemetry);
+        telemetry.addData("Motor Power", power * powerFactor);
         return lastResult;
     }
 
-    public void rotateInPlace(double targetDegrees, double power) throws InterruptedException {
+    public void rotateInPlace(double targetDegrees, double power) {
         rotateInPlace(targetDegrees, power, 0, 0);
     }
 
-    public void rotateInPlace(double targetDegrees, double power, double distTolerance, double secTimeout) throws InterruptedException {
-        AsyncMotorResult result = new AsyncMotorResult();
+    public void rotateInPlace(double targetDegrees, double power, double distTolerance, double secTimeout) {
+        AsyncMotorResult result;
 
         rotateInPlaceAsyncStart(targetDegrees, distTolerance);
         long t = System.nanoTime();
         while (true) {
             result = rotateInPlaceAsyncRun(power);
             if (result.isAtTarget() ||
-                    ((secTimeout > 0 || (System.nanoTime() - t) / 1000000000.0 > secTimeout)))
-                break;
+                    ((secTimeout > 0 && ((System.nanoTime() - t) / 1000000000.0 > secTimeout))))
+                return;
             t = System.nanoTime();
             for (EncodedMotor l : motorsLeft)
                 l.setPower(result.getLeftPower());
             for (EncodedMotor r : motorsRight)
                 r.setPower(result.getRightPower());
-            Thread.sleep(5);
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return;
+            }
         }
     }
 
     public void moveStabilizedAsyncStart(double distTarget, Units.Distance distUnit) {
+        lastResult = new AsyncMotorResult();
         navx.reset();
+        try {
+            navx.waitForReset();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return;
+        }
 
         //Initialize the navX PID controller
         //Using the yaw axis, we can find out how far we move forward
@@ -214,7 +237,7 @@ public class TankNav extends Navigator {
         while (true) {
             result = moveStabilizedAsyncRun(power, distTolerance);
             if (result.isAtTarget() ||
-                    ((secTimeout > 0 && (System.nanoTime() - t) / 1000000000.0 > secTimeout)))
+                    ((secTimeout > 0 && ((System.nanoTime() - t) / 1000000000.0 > secTimeout))))
                 break;
             t = System.nanoTime();
             for (EncodedMotor l : motorsLeft)
