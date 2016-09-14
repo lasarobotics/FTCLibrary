@@ -20,10 +20,6 @@ repositories {
     }
 }
 dependencies {
-    compile files('libs/android-support-v4.jar')
-
-    compile 'com.google.code.gson:gson:2.4'
-
     compile (name:'Inspection-release', ext: 'aar')
     compile (name:'Blocks-release', ext: 'aar')
     compile (name:'RobotCore-release', ext: 'aar')
