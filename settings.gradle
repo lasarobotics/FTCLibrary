@@ -1,1 +1,1 @@
-include ':ftc-library','sample'
+include ':ftc-library'

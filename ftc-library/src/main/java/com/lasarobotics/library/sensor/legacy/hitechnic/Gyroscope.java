@@ -73,7 +73,7 @@ public class Gyroscope {
      * @return The offset gyroscope rotation in degrees per second
      */
     public double getRate() {
-        return gyroSensor.getRotation() - offset;
+        return gyroSensor.getHeading() - offset;
     }
 
     /**
