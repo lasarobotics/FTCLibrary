@@ -2,11 +2,12 @@ package com.lasarobotics.library.skynet;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorImpl;
 
 /**
  * Drive encoder support
  */
-public class EncodedMotor extends DcMotor {
+public class EncodedMotor extends DcMotorImpl {
     private boolean isEncoderEnabled = true;
     private boolean encodersResetting = false;
     private int encoderOffset = 0;
@@ -65,14 +66,14 @@ public class EncodedMotor extends DcMotor {
 
     public void enableEncoder() {
         //This command requires (at least ?) one execution loop to reset the encoders
-        super.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        super.setMode(RunMode.RUN_USING_ENCODERS);
 
         isEncoderEnabled = true;
     }
 
     public void disableEncoder() {
         //This command requires (at least ?) one execution loop to reset the encoders
-        super.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        super.setMode(RunMode.RUN_WITHOUT_ENCODERS);
 
         isEncoderEnabled = false;
     }
@@ -97,7 +98,7 @@ public class EncodedMotor extends DcMotor {
             return;
 
         //This command requires (at least ?) one execution loop to reset the encoders
-        super.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        super.setMode(RunMode.RESET_ENCODERS);
 
         encodersResetting = true;
         encoderOffset = -super.getCurrentPosition();
