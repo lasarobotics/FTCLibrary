@@ -30,4 +30,4 @@ proguard/
 *.iml
 gradlew
 gradlew.bat
-gradle/
+gradle/wrapper/*.jar
