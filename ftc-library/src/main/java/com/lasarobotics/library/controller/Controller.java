@@ -95,7 +95,24 @@ public class Controller {
      * Initialize a controller from a Gamepad (FIRST library underlayer)
      */
     public Controller(Gamepad g) {
-        update(g);
+        dpad_up = g.dpad_up ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        dpad_down = g.dpad_down ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        dpad_left = g.dpad_left ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        dpad_right = g.dpad_right ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        a = g.a ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        b = g.b ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        x = g.x ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        y = g.y ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        guide = g.guide ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        start = g.start ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        back = g.back ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        left_bumper = g.left_bumper ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        right_bumper = g.right_bumper ? ButtonState.HELD : ButtonState.NOT_PRESSED;
+        right_trigger = g.right_trigger;
+        left_stick_x = g.left_stick_x;
+        left_stick_y = g.left_stick_y;
+        right_stick_x = g.right_stick_x;
+        right_stick_y = g.right_stick_y;
     }
 
     public static Controller getZeroController() {
